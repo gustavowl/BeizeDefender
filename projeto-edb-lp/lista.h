@@ -16,17 +16,31 @@
 			type val;
 			node* next = NULL;
 		};
-		node* head = new node; //evita erro de apontar para 0x0 ou 0x1
+		node* head; //evita erro de apontar para 0x0 ou 0x1
 	//MÉTODOS
 		//construtores
 		Lista() {
 			bhvr = LISTASIMPLES;
+			head = new node;
 			head->next = NULL;
 		}
 
 		Lista(BEHAVIOR b) {
 			bhvr = b;
+			head = new node;
 			head->next = NULL;
+		}
+
+		Lista(const Lista &l) { //construtor de cópia (profunda)
+			bhvr = l.bhvr;
+			node* temp = l.head->next;
+			node* copy = head;
+			while (temp != NULL) {
+				copy->next = new node;
+				copy = copy->next;
+				copy->val = temp->val;
+				temp = temp->next;
+			}
 		}
 		//destructor
 		~Lista() {
@@ -34,7 +48,7 @@
 				while (Remove(0));
 			else
 				while (Remove());
-			//delete head;
+			delete head;
 		}
 		//todos os métodos de com "int pos" funcionam como vetor (elementos de 0 até tamanho - 1)
 		int Size() {return tam;};
