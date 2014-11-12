@@ -5,12 +5,10 @@
 
 class Projetil {
 
-private:
-
-	int velocidade;
-	int dano;
-	Movimentacao move;
-
+	private:
+		int velocidade;
+		int dano;
+		Movimentacao move;
 };
 
 #endif

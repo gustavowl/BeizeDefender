@@ -3,20 +3,17 @@
 
 class Movimentacao {
 
-private:
+	private:
+		int posicaoX;
+		int posicaoY;
+		int velocidade;
+		int destinoX;
+		int destinoY;
+		int maxX;
+		int maxY;
 
-	int posicaoX;
-	int posicaoY;
-	int velocidade;
-	int destinoX;
-	int destinoY;
-	int maxX;
-	int maxY;
-
-public:
-	
-	void Mover();
-
+	public:
+		void Mover();
 };
 
 #endif

@@ -5,15 +5,12 @@
 
 class Inimigo {
 
-private:
+	private:
+		int tipo;
+		Personagem inimigo;
 
-	int tipo;
-	Personagem player;
-
-public:
-
-	int Dropar();
-
+	public:
+		int Dropar();
 };
 
 #endif

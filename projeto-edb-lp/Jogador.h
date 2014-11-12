@@ -5,18 +5,15 @@
 
 class Jogador {
 
-private:
+	private:
+		std::string nome;
+		int kills;
+		int municao;
 
-	std::string nome;
-	int kills;
-	int municao;
 
-
-public:
-
-	void RecuperarVida();
-	void PegarRuppies();
-
+	public:
+		void RecuperarVida();
+		void PegarOuro();
 };
 
 #endif

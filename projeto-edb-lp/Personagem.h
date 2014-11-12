@@ -5,22 +5,17 @@
 #include "Projetil.h"
 #include "Movimentacao.h"
 
-class`Personagem {
+class Personagem {
 
-private:
+	private:
+		int ouro;
+		int vida;
+		Projetil ataque;
+		std::string imagem;
+		Movimentacao move;
 
-	int ruppies;
-	int vida;
-
-	Projetil ataque;
-	std::string imagem;
-	Movimentacao move;
-
-public:
-
-	void Atirar();
-	
-
+	public:
+		void Atirar();
 };
 
 #endif

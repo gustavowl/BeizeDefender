@@ -5,15 +5,13 @@
 
 class Horda {
 
-private:
+	private:
+		int quantInimigos;
+		int id;
+		Inimigo listaInimigoss;
 
-	int quantInimigos;
-	int id;
-	Inimigo listaInimigoss;
-
-private:
-
-	void LiberarInimigos().
+	private:
+		void LiberarInimigos();
 
 };
 

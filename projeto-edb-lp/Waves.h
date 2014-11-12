@@ -5,17 +5,12 @@
 
 class Waves {
 
+	private:
+		int quantInimigos;
+		Horda filaHorda;
 
-
-private:
-
-	int quantInimigos;
-	Horda filaHorda;
-
-public:
-
-	void ProximaHorda();
-
+	public:
+		void ProximaHorda();
 };
 
 #endif

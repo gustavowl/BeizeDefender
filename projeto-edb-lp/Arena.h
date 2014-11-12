@@ -6,18 +6,15 @@
 
 class Arena {
 
-private:
+	private:
+		//int altura;
+		//int largura;
+		Base tower; // achei melhor do que chamar de base
+		int dificuldade;
 
-	//int altura;
-	//int largura;
-
-	Base tower; // achei melhor do que chamar de base
-	int dificuldade;
-
-public:
-
-	void ProximaWave();
-	void RegenerarTodos();
+	public:
+		void ProximaWave();
+		void RegenerarTodos();
 };
 
 #endif
