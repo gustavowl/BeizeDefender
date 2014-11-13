@@ -52,8 +52,10 @@ int main(void)
 	al_register_event_source(event_queue, al_get_mouse_event_source());
 	
 	InitShip(ship);
-	int xx;
-	int yy;
+	int xx = ship.x;
+	int yy = ship.y;
+	int xd = ship.x;
+	int yd = ship.y;
 
 	while(!done)
 	{
@@ -62,7 +64,6 @@ int main(void)
 		al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
 
 	    al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
-
 
 
 		if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
@@ -82,53 +83,48 @@ int main(void)
 
 		//	ship.y = ev.mouse.y;
 		}
-		
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
 
 			al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
 
-			if(ev.mouse.button & 2)
+			if(ev.mouse.button & 2) {
 				
 
 				xx = ship.x;
 				yy = ship.y;
-
-				for (i = 0; i < N; i++)
-				{
-				 	v = (float)i / N;
-
-				 	v = ((v) * (v) * (3 - 2 * (v)));
-					X = round(((xx)*v) + (ev.mouse.x*(1 - v)));
-  					Y = round(((yy)*v) + (ev.mouse.y*(1 - v)));
-					std::cout << "X: " << X << " Y: " << Y << std::endl;
-					std::cout << "xx: " << xx << " yy: " << Y << std::endl;
-
-
-				 // X = (A * v) + (B * (1 - v));
-
-  				  	ship.x = X;
-					ship.y = Y;
-
-
-					//InitShip(ship);
-					
-
-
-
-				} 
-
-				
-
+				xd = ev.mouse.x;
+				yd = ev.mouse.y;
+				i = 0;
 				//DrawShip(ship);
-				
+			}
 		}
 		int j = 0;
 		//DrawShip(ship);
-		while (j < 99999) {
+		while (j < 999999) {
 			j++;
 			//std::cout << "j: " << j << std::endl;
 			//DrawShip(ship);
+		}
+		if (i < N)
+		{
+			//std::cout << "1";
+		 	v = (float)i / N;
+
+		 	v = ((v) * (v) * (3 - 2 * (v)));
+			X = round(((xd)*v) + (xx*(1 - v)));
+			Y = round(((yd)*v) + (yy*(1 - v)));
+			//std::cout << "X: " << X << " Y: " << Y << std::endl;
+			//std::cout << "xx: " << xx << " yy: " << Y << std::endl;
+
+
+		 // X = (A * v) + (B * (1 - v));
+
+		  	ship.x = X;
+			ship.y = Y;
+
+			i++;
+			//InitShip(ship);
 		}
 		
 
