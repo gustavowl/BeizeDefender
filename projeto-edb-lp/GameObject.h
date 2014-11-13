@@ -8,12 +8,16 @@ class GameObject {
 
 
 	protected:
-		unsigned int PosicaoX; //posição atual (ponto de origem)
-		unsigned int PosicaoY; //posição atual (ponto de origem)
+		unsigned int XOrigem; //posição de Origem //usado para calcular interpolação linear
+		unsigned int YOrigem; //posição de Origem //usado para calcular interpolação linear
+
+		unsigned int XAtual; //posição atual (Utilizado para detectar colisão)
+		unsigned int YAtual; //posição atual (Utilizado para detectar colisão)
+
 		unsigned int Raio; //para detectar colisões
 		unsigned int Velocidade; //velocidade em pixel/s
-		unsigned int DestinoX; //posição de destino
-		unsigned int DestinoY; //posição de destino
+		unsigned int XDestino; //posição de destino
+		unsigned int YDestino; //posição de destino
 
 		virtual void Mover(); //atualiza posição atual, leva em conta a velocidade
 		unsigned int GetMaxX();

@@ -12,9 +12,11 @@ class Arena {
 		Base tower; // achei melhor do que chamar de base
 		int dificuldade;
 
-	public:
 		void ProximaWave();
 		void RegenerarTodos();
+
+	public:
+		void LoopPrincipal();
 };
 
 #endif

@@ -12,7 +12,7 @@ unsigned int GetMaxY() {
 }
 
 GameObject::GameObject() { //cria "objeto vazio"
-	PositionX = PositionY = Velocidade = DestinoX = DestinoY = 0;
+	PositionX = PositionY = Velocidade = XDestino = YDestino = 0;
 	Raio = 1;
 }
 
@@ -22,7 +22,7 @@ GameObject::GameObject(unsigned int MaximoX, unsigned int MaximoY) { //gera posi
 		MaxX = MaximoX;
 		MaxY = MaximoY;
 
-		PositionX = PositionY = Velocidade = DestinoX = DestinoY = 0;
+		PositionX = PositionY = Velocidade = XDestino = YDestino = 0;
 		Raio = 1;
 	}
 }
@@ -33,26 +33,28 @@ GameObject(unsigned int Velocidade, unsigned int Raio) { //gera posição inicia
 		int r = rand() % 4;
 		switch (r) {
 			case 0:  //posição aleatória na borda superior
-				PosicaoY = 0;
-				PosicaoX = rand() % (MaxX + 1);
+				YOrigem = 0;
+				XOrigem = rand() % (MaxX + 1);
 				break;
 			case 1: //posição aleatória na borda da direita
 				PositionX = MaxX;
 				PositionY = rand() % (MaxY + 1);
 				break;
 			case 2: //posição aleatória na borda inferior
-				PosicaoX = rand() % (MaxX + 1);
-				PosicaoY = MaxY;
+				XOrigem = rand() % (MaxX + 1);
+				YOrigem = MaxY;
 				break;
 			case 3: //posição aleatória na borda da esquerda
-				PosicaoX = 0;
+				XOrigem = 0;
 				PositionY = rand() % (MaxY + 1);
 				break;
 		}
 
 		this->Velocidade = Velocidade;
-		DestinoX = PosicaoX;
-		DestinoY = PosicaoY;
+		XDestino = XOrigem;
+		YDestino = YOrigem;
+		XAtual = XOrigem;
+		YAtual = YOrigem;
 		this->Raio = Raio;
 
 	}
@@ -61,11 +63,13 @@ GameObject(unsigned int Velocidade, unsigned int Raio) { //gera posição inicia
 GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, unsigned int Raio) {
 	//verifica se valores de entrada são válidos
 	if (MaxX > 0 && MaxY > 0 && PositionX <= MaxX && PositionY <= MaxY && Raio > 0) {
-		PosicaoX = PositionX;
-		PosicaoY = PositionY;
+		XOrigem = PositionX;
+		YOrigem = PositionY;
 		this->Velocidade = Velocidade;
-		DestinoX = PosicaoX;
-		DestinoY = PosicaoY;
+		XDestino = XOrigem;
+		YDestino = YOrigem;
+		XAtual = XOrigem;
+		YAtual = YOrigem;
 		this->Raio = Raio;
 	}
 }
@@ -75,11 +79,13 @@ GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocida
 	//verifica se valores de entrada são válidos
 	if (MaxX > 0 && MaxY > 0 && PositionX <= MaxX && PositionY <= MaxY &&
 		DestinoX <= MaxX && DestinoY <= MaxY && Raio > 0) {
-		PosicaoX = PositionX;
-		PosicaoY = PositionY;
+		XOrigem = PositionX;
+		YOrigem = PositionY;
 		this->Velocidade = Velocidade;
-		this->DestinoX = DestinoX;
-		this->DestinoY = DestinoY;
+		XAtual = XOrigem;
+		YAtual = YOrigem;
+		XDestino = DestinoX;
+		YDestino = DestinoY;
 		this->Raio = Raio;
 	}
 }
