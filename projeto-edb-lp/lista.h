@@ -17,22 +17,40 @@
 			node* next = NULL;
 		};
 		node* head; //evita erro de apontar para 0x0 ou 0x1
+
+		Lista();
+		Lista(BEHAVIOR b);
+		Lista(const Lista &l);
+		~Lista();
+		Lista& operator=(const Lista &l);
+		int Size();
+		bool GetElem(int pos, type &get);
+		bool GetElem(type &get);
+		int Search(type val);
+		bool Insert(int pos, type val);
+		bool Insert(type val);
+		bool Remove(unsigned int pos);
+		bool Remove();
+		bool Remove(int pos, type &get);
+		bool Remove(type &get);
+		void Print(char separator = ' ');
 	//MÉTODOS
 		//construtores
-		Lista() {
+/*		Lista() {
 			bhvr = LISTASIMPLES;
-			head = new node;
+			//head = new node;
 			head->next = NULL;
 		}
 
 		Lista(BEHAVIOR b) {
 			bhvr = b;
-			head = new node;
+			//head = new node;
 			head->next = NULL;
 		}
 
 		Lista(const Lista &l) { //construtor de cópia (profunda)
 			bhvr = l.bhvr;
+			tam = l.tam;
 			node* temp = l.head->next;
 			node* copy = head;
 			while (temp != NULL) {
@@ -48,8 +66,23 @@
 				while (Remove(0));
 			else
 				while (Remove());
-			delete head;
+			//delete head;
 		}
+
+		//operator =
+		Lista& operator=(const Lista &l) {
+			bhvr = l.bhvr;
+			tam = l.tam;
+			node* temp = l.head->next;
+			node* copy = head;
+			while (temp != NULL) {
+				copy->next = new node;
+				copy = copy->next;
+				copy->val = temp->val;
+				temp = temp->next;
+			}
+		}
+
 		//todos os métodos de com "int pos" funcionam como vetor (elementos de 0 até tamanho - 1)
 		int Size() {return tam;};
 
@@ -228,6 +261,8 @@
 				temp = temp->next;
 			}
 			std::cout << std::endl;
-		}
+		}*/
 	};
+
+	#include "lista.inl"
 #endif
