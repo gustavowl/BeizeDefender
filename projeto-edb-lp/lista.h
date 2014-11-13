@@ -16,7 +16,7 @@
 			type val;
 			node* next = NULL;
 		};
-		node* head; //evita erro de apontar para 0x0 ou 0x1
+		node* head = new node; //evita erro de apontar para 0x0 ou 0x1
 
 		Lista();
 		Lista(BEHAVIOR b);

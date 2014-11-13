@@ -32,7 +32,7 @@ Lista<type>::~Lista() {
 		while (Remove(0));
 	else
 		while (Remove());
-	//delete head;
+	delete head;
 }
 
 //operator =
