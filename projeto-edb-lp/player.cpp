@@ -18,7 +18,7 @@ void DrawShip(SpaceShip &ship);
 
 void InitProjetil(Projetil bala[], int tam);
 void DrawProjetil(Projetil bala[], int tam);
-void FireProjetil(Projetil bala[], int tam, SpaceShip &ship);
+void FireProjetil(Projetil bala[], int tam, int vX, int vY);
 void UpdateProjetil(Projetil bala[], int tam);
 
 int main(void) 
@@ -72,6 +72,9 @@ int main(void)
 	int yy = ship.y;
 	int xd = ship.x;
 	int yd = ship.y;
+	int vX = 0;
+	int vY = 0;
+	int dist =0;
 
 	ALLEGRO_EVENT ev;
 
@@ -90,6 +93,7 @@ int main(void)
 			}
 			else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES)
 			{
+				
 			}
 			else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 			{
@@ -97,23 +101,28 @@ int main(void)
 				if(ev.mouse.button & 2) {
 					xx = ship.x;
 					yy = ship.y;
-					std::cout << "xx: " << xx << std::endl;
 					xd = ev.mouse.x;
 					yd = ev.mouse.y;
-					int dist = sqrt(pow(xx - xd, 2) + pow(yy - yd, 2)); //pitágoras
+					dist = sqrt(pow(xx - xd, 2) + pow(yy - yd, 2)); //pitágoras
 					qtd_ite = (float)dist / speed;
 					i = 0;
 
 				}
+				
 				else if(ev.mouse.button & 1)
 				{
+					vX = ship.x;
+					vY = ship.y;
 
-					FireProjetil(balas, NUM_BALAS, ship);
+					FireProjetil(balas, NUM_BALAS, vX, vY);
+
 					//DrawProjetil(balas, NUM_BALAS);
 				}
 			}
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) {
+				
+				
 				if (i <= qtd_ite && qtd_ite > 0)
 				{
 				 	v = (float)i / qtd_ite;
@@ -123,16 +132,22 @@ int main(void)
 
 					X = round(((xd)*v) + (xx*(1 - v)));
 					Y = round(((yd)*v) + (yy*(1 - v)));
+					vX = speed*(ev.mouse.x - ship.x)/dist;
+					vY = speed*(ev.mouse.y - ship.y)/dist;
+
+
+
 
 				  	ship.x = X;
 					ship.y = Y;
+
+
+					
 					//std::cout << "X " << ship.x << "  Y  " << ship.y << "\n";
 
 					i++;
 					//InitShip(ship);
 				}
-				
-				
 
 
 				al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
@@ -196,14 +211,14 @@ void DrawProjetil(Projetil bala[], int tam)
 	}
 
 }
-void FireProjetil(Projetil bala[], int tam, SpaceShip &ship)
+void FireProjetil(Projetil bala[], int tam, int vX, int vY)
 {
 	for(int i = 0; i < tam; ++i)
 	{
 		if(!bala[i].vida)
 		{
-			bala[i].x = ship.x + 17;
-			bala[i].y = ship.y;
+			bala[i].x = vX;
+			bala[i].y = vY;
 			bala[i].vida = true;
 			break;
 		}
