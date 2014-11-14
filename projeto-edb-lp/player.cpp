@@ -18,7 +18,7 @@ void DrawShip(SpaceShip &ship);
 
 int main(void) 
 {
-	int i, X, Y, N = 20;
+	int i, X, Y, N = 25;
 	float v;
 	bool done = false;
 
@@ -30,12 +30,19 @@ int main(void)
 
 	//int pos_x = LARGURA/2; // valor referente ao ponteiro do mouse
 	//int pos_y = ALTURA/2;	// idem
+	ALLEGRO_TIMER *timer = NULL;
+
 
 	ALLEGRO_DISPLAY *display = NULL;	// ponteiro para a estrutura ALLEGRO_DISPLAY
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 
 	if(!al_init())
 		return -1;
+
+	timer = al_create_timer(1.0 / N);
+	if (!timer) {
+		return -1;
+	}
 
 	display = al_create_display(LARGURA, ALTURA);
 
@@ -47,9 +54,11 @@ int main(void)
 
 	event_queue = al_create_event_queue();		//ainda não sei o que é
 
-
+	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_mouse_event_source());
+
+	al_start_timer(timer);
 	
 	InitShip(ship);
 	int xx = ship.x;
@@ -57,82 +66,71 @@ int main(void)
 	int xd = ship.x;
 	int yd = ship.y;
 
+	ALLEGRO_EVENT ev;
+
 	while(!done)
 	{
-		ALLEGRO_EVENT ev;
-		al_wait_for_event(event_queue, &ev);
-		al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
+		if ( al_get_next_event(event_queue, &ev) ) {
+		//if (al_wait_for_event_until(event_queue, &ev, &timeout)) {
+			//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
 
-	    al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
-
-
-		if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-		{	
-			al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
-
-			done = true;
-		}
-		else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES)
-		{
-			al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
-
-   			//std::cout << "X " << ev.mouse.x << "  Y  " << ev.mouse.y << "\n";
+		    //al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
 
 
-   		//	ship.x = ev.mouse.x;
+			if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+			{	
+				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
 
-		//	ship.y = ev.mouse.y;
-		}
-		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
-		{
+				done = true;
+			}
+			else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES)
+			{
+				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
 
-			al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
+	   			//std::cout << "X " << ev.mouse.x << "  Y  " << ev.mouse.y << "\n";
 
-			if(ev.mouse.button & 2) {
-				
 
-				xx = ship.x;
-				yy = ship.y;
-				xd = ev.mouse.x;
-				yd = ev.mouse.y;
-				i = 0;
-				//DrawShip(ship);
+	   		//	ship.x = ev.mouse.x;
+
+			//	ship.y = ev.mouse.y;
+			}
+			else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+			{
+
+				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
+
+				if(ev.mouse.button & 2) {
+					
+
+					xx = ship.x;
+					yy = ship.y;
+					xd = ev.mouse.x;
+					yd = ev.mouse.y;
+					i = 0;
+					//DrawShip(ship);
+				}
+			}
+
+			else if (ev.type == ALLEGRO_EVENT_TIMER) {
+				if (i <= N)
+				{
+				 	v = (float)i / N;
+
+					X = round(((xd)*v) + (xx*(1 - v)));
+					Y = round(((yd)*v) + (yy*(1 - v)));
+
+				  	ship.x = X;
+					ship.y = Y;
+
+					i++;
+					//InitShip(ship);
+				}
+				al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
+				DrawShip(ship);
+				al_flip_display();
+				al_clear_to_color(al_map_rgb(0,0,0));
 			}
 		}
-		int j = 0;
-		//DrawShip(ship);
-		while (j < 999999) {
-			j++;
-			//std::cout << "j: " << j << std::endl;
-			//DrawShip(ship);
-		}
-		if (i < N)
-		{
-			//std::cout << "1";
-		 	v = (float)i / N;
-
-		 	v = ((v) * (v) * (3 - 2 * (v)));
-			X = round(((xd)*v) + (xx*(1 - v)));
-			Y = round(((yd)*v) + (yy*(1 - v)));
-			//std::cout << "X: " << X << " Y: " << Y << std::endl;
-			//std::cout << "xx: " << xx << " yy: " << Y << std::endl;
-
-
-		 // X = (A * v) + (B * (1 - v));
-
-		  	ship.x = X;
-			ship.y = Y;
-
-			i++;
-			//InitShip(ship);
-		}
-		
-
-		DrawShip(ship);
-		//al_draw_filled_rectangle(pos_x,pos_y,pos_x+30,pos_y+30, al_map_rgb(255,255,255));
-
-		al_flip_display();
-		al_clear_to_color(al_map_rgb(0,0,0));
 	}
 
 	al_destroy_display(display);
