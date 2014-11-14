@@ -8,13 +8,18 @@
 
 
 //Globais
-const int LARGURA = 800;
-const int ALTURA = 400;
-
+const int LARGURA = 640;
+const int ALTURA = 480;
+const int NUM_BALAS = 5;
 //protótipos
 
 void InitShip(SpaceShip &ship);
 void DrawShip(SpaceShip &ship);
+
+void InitProjetil(Projetil bala[], int tam);
+void DrawProjetil(Projetil bala[], int tam);
+void FireProjetil(Projetil bala[], int tam, SpaceShip &ship);
+void UpdateProjetil(Projetil bala[], int tam);
 
 int main(void) 
 {
@@ -26,7 +31,7 @@ int main(void)
 	// variáveis de objetos
 
 	SpaceShip ship;
-
+	Projetil balas[5];
 	//variaveis do allegro
 
 	//int pos_x = LARGURA/2; // valor referente ao ponteiro do mouse
@@ -62,6 +67,7 @@ int main(void)
 	al_start_timer(timer);
 	
 	InitShip(ship);
+	InitProjetil(balas, NUM_BALAS);
 	int xx = ship.x;
 	int yy = ship.y;
 	int xd = ship.x;
@@ -80,25 +86,13 @@ int main(void)
 
 			if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 			{	
-				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
-
 				done = true;
 			}
 			else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES)
 			{
-				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
-
-	   			//std::cout << "X " << ev.mouse.x << "  Y  " << ev.mouse.y << "\n";
-
-
-	   		//	ship.x = ev.mouse.x;
-
-			//	ship.y = ev.mouse.y;
 			}
 			else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 			{
-
-				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
 
 				if(ev.mouse.button & 2) {
 					xx = ship.x;
@@ -109,7 +103,13 @@ int main(void)
 					int dist = sqrt(pow(xx - xd, 2) + pow(yy - yd, 2)); //pitágoras
 					qtd_ite = (float)dist / speed;
 					i = 0;
-					//DrawShip(ship);
+
+				}
+				else if(ev.mouse.button & 1)
+				{
+
+					FireProjetil(balas, NUM_BALAS, ship);
+					//DrawProjetil(balas, NUM_BALAS);
 				}
 			}
 
@@ -136,6 +136,8 @@ int main(void)
 
 
 				al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
+				DrawProjetil(balas, NUM_BALAS);
+				UpdateProjetil(balas, NUM_BALAS);
 				DrawShip(ship);
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));
@@ -175,5 +177,48 @@ void DrawShip(SpaceShip &ship)
 
 
 }
+
+void InitProjetil(Projetil bala[], int tam) 
+{
+	for(int i = 0; i < tam; ++i)
+	{
+		bala[i].ID = BULLET;
+		bala[i].velocidade = 10;
+		bala[i].vida = false;
+	}
+}
+void DrawProjetil(Projetil bala[], int tam)
+{
+	for(int i = 0; i < tam; ++i)
+	{
+		if(bala[i].vida)
+			al_draw_filled_circle(bala[i].x, bala[i].y, 2, al_map_rgb(255, 255, 255));
+	}
+
+}
+void FireProjetil(Projetil bala[], int tam, SpaceShip &ship)
+{
+	for(int i = 0; i < tam; ++i)
+	{
+		if(!bala[i].vida)
+		{
+			bala[i].x = ship.x + 17;
+			bala[i].y = ship.y;
+			bala[i].vida = true;
+			break;
+		}
+	}
+
+}
+void UpdateProjetil(Projetil bala[], int tam)
+{
+	for(int i = 0; i < tam; ++i)
+	{
+		bala[i].x += bala[i].velocidade;
+		if(bala[i].x > LARGURA)
+			bala[i].vida = false;
+	}
+}
+
 
 // T*pontofinal + (1-T)*pontoinicial
