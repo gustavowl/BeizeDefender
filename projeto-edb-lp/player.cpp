@@ -103,6 +103,7 @@ int main(void)
 				if(ev.mouse.button & 2) {
 					xx = ship.x;
 					yy = ship.y;
+					std::cout << "xx: " << xx << std::endl;
 					xd = ev.mouse.x;
 					yd = ev.mouse.y;
 					int dist = sqrt(pow(xx - xd, 2) + pow(yy - yd, 2)); //pitágoras
@@ -113,21 +114,28 @@ int main(void)
 			}
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) {
-				if (i <= qtd_ite)
+				if (i <= qtd_ite && qtd_ite > 0)
 				{
 				 	v = (float)i / qtd_ite;
 				 	v = v * v * (3 - 2 * v); //comente essa linha para tirar smoothstep
+
+				 //	std::cout << "V: " << v << "qtd_ite: " << qtd_ite << "i: " << i << std::endl;
 
 					X = round(((xd)*v) + (xx*(1 - v)));
 					Y = round(((yd)*v) + (yy*(1 - v)));
 
 				  	ship.x = X;
 					ship.y = Y;
+					//std::cout << "X " << ship.x << "  Y  " << ship.y << "\n";
 
 					i++;
 					//InitShip(ship);
 				}
-				al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
+				
+				
+
+
+				al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
 				DrawShip(ship);
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));
@@ -163,7 +171,7 @@ void DrawShip(SpaceShip &ship)
 	al_draw_filled_triangle(ship.x - 12, ship.y -17, ship.x +12, ship.y, ship.x -12, ship.y + 17, al_map_rgb(0,255,0));
 	al_draw_filled_rectangle(ship.x - 12, ship.y -2,ship.x +15, ship.y + 2, al_map_rgb(0, 0, 255));
 
-	//al_draw_filled_rectangle(pos_x,pos_y,pos_x+30,pos_y+30, al_map_rgb(255,255,255));
+	///al_draw_filled_rectangle(pos_x,pos_y,pos_x+30,pos_y+30, al_map_rgb(255,255,255));
 
 
 }
