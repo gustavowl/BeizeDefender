@@ -18,8 +18,9 @@ void DrawShip(SpaceShip &ship);
 
 int main(void) 
 {
-	int i, X, Y, N = 25;
-	float v;
+	int i, X, Y, fps = 25;
+	unsigned int speed = 10; //pixels por segundos
+	float v, qtd_ite = 0;
 	bool done = false;
 
 	// variáveis de objetos
@@ -39,7 +40,7 @@ int main(void)
 	if(!al_init())
 		return -1;
 
-	timer = al_create_timer(1.0 / N);
+	timer = al_create_timer(1.0 / fps);
 	if (!timer) {
 		return -1;
 	}
@@ -100,21 +101,22 @@ int main(void)
 				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 5);
 
 				if(ev.mouse.button & 2) {
-					
-
 					xx = ship.x;
 					yy = ship.y;
 					xd = ev.mouse.x;
 					yd = ev.mouse.y;
+					int dist = sqrt(pow(xx - xd, 2) + pow(yy - yd, 2)); //pitágoras
+					qtd_ite = (float)dist / speed;
 					i = 0;
 					//DrawShip(ship);
 				}
 			}
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) {
-				if (i <= N)
+				if (i <= qtd_ite)
 				{
-				 	v = (float)i / N;
+				 	v = (float)i / qtd_ite;
+				 	v = v * v * (3 - 2 * v); //comente essa linha para tirar smoothstep
 
 					X = round(((xd)*v) + (xx*(1 - v)));
 					Y = round(((yd)*v) + (yy*(1 - v)));
