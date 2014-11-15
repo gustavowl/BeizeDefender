@@ -4,20 +4,20 @@
 #include <math.h>
 #include "GameObject.h"
 #include "ListaEncadeada/lista.h"
-using namespace teste;
+
+using namespace go;
 
 void DrawProjetil(Lista<GameObject*> projeteis);
 void DrawPlayer(GameObject player);
 
-int main(void) 
-{
+int main() {
   int i, X, Y, fps = 25;
   unsigned int speed = 10; //pixels por segundos
   float v, qtd_ite = 0;
 	bool done = false;
   
-  GameObject arena(480, 640); 
-  GameObject player(240, 320, speed, 10, LINEAR);
+  GameObject arena(640, 480); 
+  GameObject player(240, 320, speed, 10, SMOOTH);
   Lista<GameObject*> projeteis;
   
   //em GameObject tem um enum: enum WalkType { STATIC, LINEAR, SMOOTH }; 
@@ -51,6 +51,7 @@ int main(void)
 	}
 
   //Pega dimensões da arena
+	//std::cout << "x: " << (int)arena.GetMaxX() << " y: " << (int)arena.GetMaxY() << std::endl;
 	display = al_create_display((int)arena.GetMaxX(), (int)arena.GetMaxY());
 
 	if(!display)
@@ -88,35 +89,35 @@ int main(void)
 			{
 
 				if(ev.mouse.button & 2) {
-          player.AtualizarDestino(ev.mouse.x, ev.mouse.y);
+          			player.AtualizarDestino(ev.mouse.x, ev.mouse.y);
 				}
 				
 				else if(ev.mouse.button & 1)
 				{
-          //TAREFA PENDENTE: realizar cálculo para ir até o fim da tela
-          //player->atirar();
-          
-          GameObject *projetil = new GameObject(player.GetXAtual(), player.GetYAtual(),
-           	15, ev.mouse.x, ev.mouse.y, 2, LINEAR);
-          
-          projeteis.Insert(projeteis.Size(), projetil);
-          
-				//	FireProjetil(projeteis, projeteis.Size());
+		          //TAREFA PENDENTE: realizar cálculo para ir até o fim da tela
+		          //player->atirar();
+		          
+		          GameObject *projetil = new GameObject(player.GetXAtual(), player.GetYAtual(),
+		           	30, ev.mouse.x, ev.mouse.y, 2, LINEAR);
+		          
+		          projeteis.Insert(projeteis.Size(), projetil);
+		          
+						//	FireProjetil(projeteis, projeteis.Size());
 
 				}
 			}
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) { 
 				player.Mover();
-        //move projéteis
-        int i = 0;
-        GameObject *temp;
-        while ( projeteis.GetElem(i, temp) ) {
-          temp->Mover();
-          i++;
-        }
+        		//move projéteis
+		        int i = 0;
+		        GameObject *temp;
+		        while ( projeteis.GetElem(i, temp) ) {
+		          temp->Mover();
+		          i++;
+		        }
 				al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
-        //implementar \/
+        		
 				DrawProjetil(projeteis);
         
 				//UpdateProjetil(projeteis, );
@@ -138,7 +139,8 @@ void DrawPlayer(GameObject player)
   int i = 0;
   unsigned int x, y;
   player.GetPosicaoAtual(x, y);
-  al_draw_filled_circle(x, y, 10, al_map_rgb(255, 0, 255));
+  //std::cout << x << ' ' << y << std::endl;
+  al_draw_filled_circle(x, y, 10, al_map_rgb(0, 255, 0));
 }
 
 void DrawProjetil(Lista<GameObject*> projeteis)
