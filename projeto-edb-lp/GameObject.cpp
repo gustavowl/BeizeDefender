@@ -1,33 +1,22 @@
 #include "GameObject.h"
-
-virtual void GameObject::Mover() {
-	//PUT THE DEFINITION HERE
-}
-
-unsigned int GetMaxX() {
-	return MaxX;
-}
-unsigned int GetMaxY() {
-	return MaxY;
-}
+#include <cstdlib>
 
 GameObject::GameObject() { //cria "objeto vazio"
-	PositionX = PositionY = Velocidade = XDestino = YDestino = 0;
+	XOrigem = YOrigem = XAtual = YAtual = Velocidade = XDestino = YDestino = 0;
 	Raio = 1;
 }
 
-GameObject::GameObject(unsigned int MaximoX, unsigned int MaximoY) { //gera posição inicial randômica
-//só permite alterar o tamanho da arena uma vez e ao criar um objeto tipo GameObject (não herdados)
-	if (MaxX == 0 && MaxY == 0 && MaximoX > 0 && MaximoY) { //só permite alterar os valores umas vez
+GameObject::GameObject(unsigned int MaximoX, unsigned int MaximoY) { //inicializa tamanho da arena
+	if (MaxX == 0 && MaxY == 0 && MaximoX > 0 && MaximoY > 0) { //verifica se adiciona e valores de entrada válidos
 		MaxX = MaximoX;
 		MaxY = MaximoY;
 
-		PositionX = PositionY = Velocidade = XDestino = YDestino = 0;
+		XOrigem = YOrigem = XAtual = YAtual = Velocidade = XDestino = YDestino = 0;
 		Raio = 1;
 	}
 }
 
-GameObject(unsigned int Velocidade, unsigned int Raio) { //gera posição inicial randômica
+GameObject::GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov) { //pode gerar posição inicial randômica
 	if (MaxX > 0 && MaxY > 0 && Raio > 0) {
 		//0: borda sup | 1: borda dir | 2: borda inf | 3: borda esq
 		int r = rand() % 4;
@@ -37,8 +26,8 @@ GameObject(unsigned int Velocidade, unsigned int Raio) { //gera posição inicia
 				XOrigem = rand() % (MaxX + 1);
 				break;
 			case 1: //posição aleatória na borda da direita
-				PositionX = MaxX;
-				PositionY = rand() % (MaxY + 1);
+				XOrigem = MaxX;
+				YOrigem = rand() % (MaxY + 1);
 				break;
 			case 2: //posição aleatória na borda inferior
 				XOrigem = rand() % (MaxX + 1);
@@ -46,21 +35,22 @@ GameObject(unsigned int Velocidade, unsigned int Raio) { //gera posição inicia
 				break;
 			case 3: //posição aleatória na borda da esquerda
 				XOrigem = 0;
-				PositionY = rand() % (MaxY + 1);
+				YOrigem = rand() % (MaxY + 1);
 				break;
 		}
-
+		//atualiza restante dos dados
 		this->Velocidade = Velocidade;
 		XDestino = XOrigem;
 		YDestino = YOrigem;
 		XAtual = XOrigem;
 		YAtual = YOrigem;
 		this->Raio = Raio;
-
+		TipoMovimento = TipoMov;
 	}
 }
 
-GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, unsigned int Raio) {
+GameObject::GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade,
+	unsigned int Raio, WalkType TipoMov) {
 	//verifica se valores de entrada são válidos
 	if (MaxX > 0 && MaxY > 0 && PositionX <= MaxX && PositionY <= MaxY && Raio > 0) {
 		XOrigem = PositionX;
@@ -71,10 +61,11 @@ GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocida
 		XAtual = XOrigem;
 		YAtual = YOrigem;
 		this->Raio = Raio;
+		TipoMovimento = TipoMov;
 	}
 }
-GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, 
-	unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio) {
+GameObject::GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, 
+	unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, WalkType TipoMov) {
 
 	//verifica se valores de entrada são válidos
 	if (MaxX > 0 && MaxY > 0 && PositionX <= MaxX && PositionY <= MaxY &&
@@ -87,9 +78,21 @@ GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocida
 		XDestino = DestinoX;
 		YDestino = DestinoY;
 		this->Raio = Raio;
+		TipoMovimento = TipoMov;
 	}
 }
-
-~GameObject() {
+	
+GameObject::~GameObject() {
 	//what goes inside?
+}
+
+void GameObject::Mover() {
+	//PUT THE DEFINITION HERE
+}
+
+unsigned int GameObject::GetMaxX() {
+	return MaxX;
+}
+unsigned int GameObject::GetMaxY() {
+	return MaxY;
 }
