@@ -2,8 +2,8 @@
 #define _GAMEOBJECT_H_
 
 enum WalkType { STATIC, LINEAR, SMOOTH };
-
-namespace teste{
+/**/
+namespace go {
 
 class GameObject {
 	private:
@@ -46,8 +46,9 @@ class GameObject {
 		~GameObject();
 };
 
-unsigned int GameObject::MaxY = 0;
-unsigned int GameObject::MaxX = 0;
+//unsigned int GameObject::MaxY = 0;
+//unsigned int GameObject::MaxX = 0;
+
 }
 
 #endif

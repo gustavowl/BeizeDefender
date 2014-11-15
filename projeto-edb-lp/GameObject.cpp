@@ -2,14 +2,19 @@
 #include <cstdlib>
 #include <math.h>
 
-teste::GameObject::GameObject() { //cria "objeto vazio"
+using namespace go;
+
+unsigned int GameObject::MaxY = 0;
+unsigned int GameObject::MaxX = 0;
+
+GameObject::GameObject() { //cria "objeto vazio"
 	XOrigem = YOrigem = XAtual = YAtual = Velocidade = XDestino = YDestino = 0;
 	Raio = 1;
 	TipoMovimento = STATIC;
 	FrameAtual = TotalFrames = 0;
 }
 
-teste::GameObject::GameObject(unsigned int MaximoX, unsigned int MaximoY) { //inicializa tamanho da arena
+GameObject::GameObject(unsigned int MaximoX, unsigned int MaximoY) { //inicializa tamanho da arena
 	if (MaxX == 0 && MaxY == 0 && MaximoX > 0 && MaximoY > 0) { //verifica se adiciona e valores de entrada válidos
 		MaxX = MaximoX;
 		MaxY = MaximoY;
@@ -21,7 +26,7 @@ teste::GameObject::GameObject(unsigned int MaximoX, unsigned int MaximoY) { //in
 	}
 }
 
-teste::GameObject::GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov) { //pode gerar posição inicial randômica
+GameObject::GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov) { //pode gerar posição inicial randômica
 	if (MaxX > 0 && MaxY > 0 && Raio > 0) {
 		//0: borda sup | 1: borda dir | 2: borda inf | 3: borda esq
 		int r = rand() % 4;
@@ -55,7 +60,7 @@ teste::GameObject::GameObject(unsigned int Velocidade, unsigned int Raio, WalkTy
 	}
 }
 
-teste::GameObject::GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade,
+GameObject::GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade,
 	unsigned int Raio, WalkType TipoMov) {
 	//verifica se valores de entrada são válidos
 	if (MaxX > 0 && MaxY > 0 && PositionX <= MaxX && PositionY <= MaxY && Raio > 0) {
@@ -71,7 +76,7 @@ teste::GameObject::GameObject(unsigned int PositionX, unsigned int PositionY, un
 		FrameAtual = TotalFrames = 0;
 	}
 }
-teste::GameObject::GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, 
+GameObject::GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, 
 	unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, WalkType TipoMov) {
 
 	//verifica se valores de entrada são válidos
@@ -99,11 +104,11 @@ teste::GameObject::GameObject(unsigned int PositionX, unsigned int PositionY, un
 	}
 }
 	
-teste::GameObject::~GameObject() {
+GameObject::~GameObject() {
 	//what goes inside?
 }
 
-void teste::GameObject::Mover() {
+void GameObject::Mover() {
 	if ( TipoMovimento != STATIC ) {
 		if ( FrameAtual <= TotalFrames && TotalFrames > 0 ) {
 			float t = (float)FrameAtual / TotalFrames; //variável utilizada para calcular interpolação
@@ -116,7 +121,7 @@ void teste::GameObject::Mover() {
 	}
 }
 
-void teste::GameObject::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY) {
+void GameObject::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY) {
 	XOrigem = XAtual;
 	YOrigem = YAtual;
 	XDestino = DestinoX;
@@ -132,22 +137,22 @@ void teste::GameObject::AtualizarDestino(unsigned int DestinoX, unsigned int Des
 	FrameAtual = 0;
 }
 
-unsigned int teste::GameObject::GetMaxX() {
+unsigned int GameObject::GetMaxX() {
 	return MaxX;
 }
-unsigned int teste::GameObject::GetMaxY() {
+unsigned int GameObject::GetMaxY() {
 	return MaxY;
 }
 
-void teste::GameObject::GetPosicaoAtual(unsigned int &x, unsigned int &y) {
+void GameObject::GetPosicaoAtual(unsigned int &x, unsigned int &y) {
 	x = XAtual;
 	y = YAtual;
 }
 
-unsigned int teste::GameObject::GetXAtual() {
+unsigned int GameObject::GetXAtual() {
 	return XAtual;
 }
 
-unsigned int teste::GameObject::GetYAtual() {
+unsigned int GameObject::GetYAtual() {
 	return YAtual;
 }

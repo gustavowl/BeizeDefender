@@ -4,13 +4,13 @@
 #include <math.h>
 #include "GameObject.h"
 #include "ListaEncadeada/lista.h"
-using namespace teste;
+
+using namespace go;
 
 void DrawProjetil(Lista<GameObject*> projeteis);
 void DrawPlayer(GameObject player);
 
-int main(void) 
-{
+int main() {
   int i, X, Y, fps = 25;
   unsigned int speed = 10; //pixels por segundos
   float v, qtd_ite = 0;
