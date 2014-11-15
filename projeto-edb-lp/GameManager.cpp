@@ -17,11 +17,7 @@ int main() {
 	bool done = false;
   
   GameObject arena(640, 480); 
-<<<<<<< Updated upstream
-  GameObject player(240, 320, speed, 10, LINEAR);
-=======
   GameObject player(240, 320, speed, 10, SMOOTH);
->>>>>>> Stashed changes
   Lista<GameObject*> projeteis;
   
   //em GameObject tem um enum: enum WalkType { STATIC, LINEAR, SMOOTH }; 
@@ -55,11 +51,7 @@ int main() {
 	}
 
   //Pega dimensões da arena
-<<<<<<< Updated upstream
-	std::cout << "x: " << (int)arena.GetMaxX() << " y: " << (int)arena.GetMaxY() << std::endl;
-=======
 	//std::cout << "x: " << (int)arena.GetMaxX() << " y: " << (int)arena.GetMaxY() << std::endl;
->>>>>>> Stashed changes
 	display = al_create_display((int)arena.GetMaxX(), (int)arena.GetMaxY());
 
 	if(!display)
@@ -147,11 +139,7 @@ void DrawPlayer(GameObject player)
   int i = 0;
   unsigned int x, y;
   player.GetPosicaoAtual(x, y);
-<<<<<<< Updated upstream
-  std::cout << x << ' ' << y << std::endl;
-=======
   //std::cout << x << ' ' << y << std::endl;
->>>>>>> Stashed changes
   al_draw_filled_circle(x, y, 10, al_map_rgb(0, 255, 0));
 }
 
