@@ -93,7 +93,15 @@ GameObject::GameObject(unsigned int PositionX, unsigned int PositionY, unsigned 
 		TipoMovimento = TipoMov;
 		//calculando quantidade de frames para mover
 		//calcula a distância por pitágoras
+<<<<<<< Updated upstream
 		float dist = sqrt( pow( (int)XOrigem - (int)XDestino, 2) + pow( (int)YOrigem - (int)YDestino, 2) );
+=======
+		int xo, xd, yo, yd;
+		xo = XOrigem; xd = XDestino; yo = YOrigem; yd = YDestino;
+		//unsigned int a conta pode dar errada (130 - 150), por exemplo
+		//variáveis int criadas pois com conversão direta não estava funcionando
+		float dist = sqrt( pow(xo - xd, 2) + pow(yo - yd, 2) );
+>>>>>>> Stashed changes
 		//usa a distância e a velocidade para saber a quantidade de frames
 		if (Velocidade > 0)
 			TotalFrames = (unsigned int)(dist / Velocidade);
@@ -130,6 +138,11 @@ void GameObject::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY) 
 	//calcula a distância por pitágoras
 	int xo, xd, yo, yd;
 	xo = XOrigem; xd = XDestino; yo = YOrigem; yd = YDestino;
+<<<<<<< Updated upstream
+=======
+	//unsigned int a conta pode dar errada (130 - 150), por exemplo
+	//variáveis int criadas pois com conversão direta não estava funcionando
+>>>>>>> Stashed changes
 	float dist = sqrt( pow(xo - xd, 2) + pow(yo - yd, 2) );
 	//usa a distância e a velocidade para saber a quantidade de frames
 	if (Velocidade > 0)
