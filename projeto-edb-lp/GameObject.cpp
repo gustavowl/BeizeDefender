@@ -143,3 +143,11 @@ void GameObject::GetPosicaoAtual(unsigned int &x, unsigned int &y) {
 	x = XAtual;
 	y = YAtual;
 }
+
+unsigned int GameObject::GetXAtual() {
+	return XAtual;
+}
+
+unsigned int GameObject::GetYAtual() {
+	return YAtual;
+}

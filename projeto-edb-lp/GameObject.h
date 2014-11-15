@@ -3,7 +3,7 @@
 
 enum WalkType { STATIC, LINEAR, SMOOTH };
 
-namespace {
+namespace teste{
 
 class GameObject {
 	private:
@@ -28,13 +28,15 @@ class GameObject {
 
 		WalkType TipoMovimento;
 
+	public:
 		virtual void Mover(); //atualiza posição atual, leva em conta a velocidade. Deve ser chamada a cada frame
 		virtual void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);
 		unsigned int GetMaxX();
 		unsigned int GetMaxY();
 		void GetPosicaoAtual(unsigned int &x, unsigned int &y);
+		unsigned int GetXAtual();
+		unsigned int GetYAtual();
 
-	public:
 		GameObject(); //cria "objeto vazio"
 		GameObject(unsigned int MaximoX, unsigned int MaximoY); //inicializa tamanho da arena, só permite alterar o tamanho uma vez
 		GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov); //pode gerar posição inicial randômica
