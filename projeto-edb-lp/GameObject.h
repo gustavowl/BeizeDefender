@@ -32,6 +32,7 @@ class GameObject {
 		virtual void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);
 		unsigned int GetMaxX();
 		unsigned int GetMaxY();
+		void GetPosicaoAtual(unsigned int &x, unsigned int &y);
 
 	public:
 		GameObject(); //cria "objeto vazio"

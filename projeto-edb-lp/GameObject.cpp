@@ -138,3 +138,8 @@ unsigned int GameObject::GetMaxX() {
 unsigned int GameObject::GetMaxY() {
 	return MaxY;
 }
+
+void GameObject::GetPosicaoAtual(unsigned int &x, unsigned int &y) {
+	x = XAtual;
+	y = YAtual;
+}
