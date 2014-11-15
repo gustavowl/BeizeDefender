@@ -1,14 +1,16 @@
 #ifndef _GAMEOBJECT_H_
 #define _GAMEOBJECT_H_
 
-namespace {
-
 enum WalkType { STATIC, LINEAR, SMOOTH };
+
+namespace {
 
 class GameObject {
 	private:
 		static unsigned int MaxX; //define tamanho da arena
 		static unsigned int MaxY; //define tamanho da arena
+		unsigned int FrameAtual = 0; //Frame atual da interpolação
+		unsigned int TotalFrames = 0; //quantidade de frames necessários para atingir o destino
 
 	protected:
 
@@ -26,7 +28,8 @@ class GameObject {
 
 		WalkType TipoMovimento;
 
-		virtual void Mover(); //atualiza posição atual, leva em conta a velocidade
+		virtual void Mover(); //atualiza posição atual, leva em conta a velocidade. Deve ser chamada a cada frame
+		virtual void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);
 		unsigned int GetMaxX();
 		unsigned int GetMaxY();
 
