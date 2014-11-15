@@ -93,7 +93,7 @@ GameObject::GameObject(unsigned int PositionX, unsigned int PositionY, unsigned 
 		TipoMovimento = TipoMov;
 		//calculando quantidade de frames para mover
 		//calcula a distância por pitágoras
-		float dist = sqrt( pow(XOrigem - XDestino, 2) + pow(YOrigem - YDestino, 2) );
+		float dist = sqrt( pow( (int)XOrigem - (int)XDestino, 2) + pow( (int)YOrigem - (int)YDestino, 2) );
 		//usa a distância e a velocidade para saber a quantidade de frames
 		if (Velocidade > 0)
 			TotalFrames = (unsigned int)(dist / Velocidade);
@@ -117,6 +117,7 @@ void GameObject::Mover() {
 			//atualiza posição atual, leva em conta posição de origem e destino
 			XAtual = round( XDestino * t + XOrigem * (1 - t) );
 			YAtual = round( YDestino * t + YOrigem * (1 - t) );
+			FrameAtual++;
 		}
 	}
 }
@@ -127,7 +128,9 @@ void GameObject::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY) 
 	XDestino = DestinoX;
 	YDestino = DestinoY;
 	//calcula a distância por pitágoras
-	float dist = sqrt( pow(XOrigem - XDestino, 2) + pow(YOrigem - YDestino, 2) );
+	int xo, xd, yo, yd;
+	xo = XOrigem; xd = XDestino; yo = YOrigem; yd = YDestino;
+	float dist = sqrt( pow(xo - xd, 2) + pow(yo - yd, 2) );
 	//usa a distância e a velocidade para saber a quantidade de frames
 	if (Velocidade > 0)
 		TotalFrames = (unsigned int)(dist / Velocidade);
