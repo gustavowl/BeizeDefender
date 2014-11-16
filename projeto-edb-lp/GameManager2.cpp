@@ -100,8 +100,7 @@ int main() {
 		          //TAREFA PENDENTE: realizar cálculo para ir até o fim da tela
 		          //player->atirar();
 		          
-		          Projetil *projetil = new Projetil(player.GetXAtual(), player.GetYAtual(),
-		           	ev.mouse.x, ev.mouse.y);
+		          Projetil *projetil = new Projetil(player.GetXAtual(), player.GetYAtual(), ev.mouse.x, ev.mouse.y);
 		          
 		          projeteis.Insert(projeteis.Size(), projetil);
 		          
