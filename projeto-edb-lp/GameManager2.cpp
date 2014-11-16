@@ -10,7 +10,9 @@ using namespace go;
 
 void DrawProjetil(Lista<GameObject*> projeteis);
 void DrawPlayer(GameObject player);
+void DrawInimigo(GameObject inimigo);
 void CollideProjetil(GameObject player, Lista<GameObject*> projeteis, unsigned int raio_j, unsigned int raio_p);
+GameObject Distancia(GameObject a, GameObject b);
 
 
 int main() {
@@ -20,7 +22,8 @@ int main() {
 	bool done = false;
   
   GameObject arena(640, 480); 
-  GameObject player(240, 320, speed, 10, SMOOTH);
+  GameObject player(640/2, 480/2, speed, 10, SMOOTH);
+  GameObject inimigo(10, 320, 1, 10, LINEAR);
   Lista<GameObject*> projeteis;
   
   //em GameObject tem um enum: enum WalkType { STATIC, LINEAR, SMOOTH }; 
@@ -111,6 +114,9 @@ int main() {
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) { 
 				player.Mover();
+				inimigo = Distancia(inimigo, player);
+				inimigo.Mover();
+
         		//move projéteis
 		        int i = 0;
 		        GameObject *temp;
@@ -205,6 +211,32 @@ void DrawProjetil(Lista<GameObject*> projeteis)
     i++;
   }
 
+}
+
+void DrawInimigo(GameObject inimigo)
+{
+  int i = 0;
+  unsigned int x, y;
+  inimigo.GetPosicaoAtual(x, y);
+  //std::cout << x << ' ' << y << std::endl;
+  al_draw_filled_circle(x, y, 10, al_map_rgb(100, 100, 100));
+}
+
+GameObject Distancia(GameObject a, GameObject b){
+	float distJogador = sqrt( pow(a.GetXAtual() - b.GetXAtual(), 2) + pow(a.GetYAtual() - b.GetYAtual(), 2) );
+
+	float distbase = sqrt( pow(a.GetXAtual() - (640/2), 2) + pow(a.GetYAtual() - (480/2), 2) );
+
+	if(distJogador >= distbase){
+		a.AtualizarDestino(b.GetXAtual(), b.GetYAtual());
+		a.Mover();
+		return a;
+	}
+	else{
+		a.AtualizarDestino((640/2), (480/2));
+		a.Mover();
+		return a;
+	}
 }
 
 /*
