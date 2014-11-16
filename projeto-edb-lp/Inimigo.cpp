@@ -13,44 +13,37 @@ Inimigo::Inimigo( int PositionX,  int PositionY)
 		GameObject temp = GameObject(PositionX, PositionY, velocidade, raio, LINEAR);
 		*this =  temp; //copia os valores de pai para filho (tava dando erro ao fazer direto)
 		destruido = false;
-		ouro = 10; // valor temp
+		municao = 10; // valor temp
 	//}
 }
 
-int Inimigo::Dropar(){
-	return ouro;
+int Inimigo::Dropar()
+{
+	return municao;
 }
 
-void Inimigo::Distancia(GameObject b){
+void Inimigo::Distancia(Player b)
+{
 	float distJogador = sqrt( pow(this->GetXAtual() - b.GetXAtual(), 2) + pow(this->GetYAtual() - b.GetYAtual(), 2) );
-
-	float distbase = sqrt( pow(this->GetXAtual() - (640/2), 2) + pow(this->GetYAtual() - (480/2), 2) );
+	float distbase = sqrt( pow(this->GetXAtual() - (MaxX/2), 2) + pow(this->GetYAtual() - (MaxY/2), 2) );
 
 	if(distJogador >= distbase){
 		this->AtualizarDestino(b.GetXAtual(), b.GetYAtual());
-		//std::cout<<"entrei"<<std::endl;
-		this->Mover();
-		//return a;
+	} else{
+		this->AtualizarDestino((MaxX/2), (MaxY/2));
 	}
-	else{
-		this->AtualizarDestino((640/2), (480/2));
-		//std::cout<<"entrei 2"<<std::endl;
-		this->Mover();
-		//return a;
-	}
+
+	this->Mover();
 }
 
-void Inimigo::Mover(){
-	if ( TipoMovimento != STATIC ) {
-		if ( FrameAtual <= TotalFrames && TotalFrames > 0 ) {
-			float t = (float)FrameAtual / TotalFrames; //variável utilizada para calcular interpolação
-			if ( TipoMovimento == SMOOTH )
-				t = pow(t, 2) * ( 3 - 2 * t ); //faz com que passo seja smooth
-			//atualiza posição atual, leva em conta posição de origem e destino
-			XAtual = round( XDestino * t + XOrigem * (1 - t) );
-			YAtual = round( YDestino * t + YOrigem * (1 - t) );
-			FrameAtual++;
-		}
+void Inimigo::Mover()
+{
+	GameObject::Mover(); //chama mover original
+
+	Projetil *temp; int i = 0;
+	while ( Projeteis.GetElem( i, temp ) ) {
+		temp->Mover();
+		i++;
 	}
 
 }
@@ -60,7 +53,6 @@ void Inimigo::Draw()
   int i = 0;
   unsigned int x, y;
   this->GetPosicaoAtual(x, y);
-  //std::cout << x << ' ' << y << std::endl;
   al_draw_filled_circle(x, y, 10, al_map_rgb(100, 100, 100));
 }
 
@@ -78,10 +70,31 @@ void Inimigo::operator=(const GameObject &GameObj) {
 	TipoMovimento = LINEAR;
 }
 
-void Inimigo::Atirar(){
-
+void Inimigo::Atirar() 
+{
+	Projetil *novo_projetil = new Projetil(this->XAtual, this->YAtual, this->XDestino, this->YDestino);
+	Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
 }
 
-void Inimigo::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY){
-	GameObject::AtualizarDestino( DestinoX, DestinoY);
+void Inimigo::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY)
+{
+	GameObject::AtualizarDestino(DestinoX, DestinoY);
+}
+
+Lista<Projetil*> Inimigo::GetProjeteisToDraw() 
+{ 	//retorna uma lista com posição de todos os projéteis para desenhar
+	Lista<Projetil*> to_return; //lista para retornar
+	Projetil *temp; //ponteiro para pegar valores da lista
+	int i = 0;
+	while ( Projeteis.GetElem(i, temp) ) {
+		//verifica se projétil em questão não foi destruído
+		if ( temp->GetDesruido() )
+			Projeteis.Remove(i);//remove bala da lista
+			//não incrementa o i pois agora o próximo elemento está na posução atual
+		else {
+			to_return.Insert( 0, temp );//adiciona ao retorno
+			i++;
+		}
+	}
+	return to_return;
 }

@@ -14,11 +14,11 @@ using namespace go;
 void DrawProjetil(Lista<Projetil*> projeteis);
 void DrawPlayer(GameObject player);
 void CollideProjetil(GameObject player, Lista<GameObject*> projeteis, unsigned int raio_j, unsigned int raio_p);
-void *minha_thread(ALLEGRO_THREAD *thr, void *dados);
+void *threadTiro(ALLEGRO_THREAD *thr, void *dados);
 
 /* Globais */
-GameObject arena(640, 480); 
-Player player(640/2, 480/2);
+GameObject arena(1024, 640); 
+Player player(arena.GetMaxX()/2, arena.GetMaxY()/2);
 //GameObject inimigo(10, 320, 1, 10, LINEAR);
 Inimigo ini(50, 50);
 Lista<GameObject*> projeteis;
@@ -78,7 +78,7 @@ int main() {
 	al_start_timer(timer);
 	
 	// Cria a thread e a dispara
-    thread = al_create_thread(minha_thread, NULL);
+    thread = al_create_thread(threadTiro, NULL);
     al_start_thread(thread);
 
 	ALLEGRO_EVENT ev;
@@ -101,6 +101,7 @@ int main() {
 
 				if(ev.mouse.button & 2) {
           			player.AtualizarDestino(ev.mouse.x, ev.mouse.y);
+
 				}
 				
 				else if(ev.mouse.button & 1)
@@ -108,14 +109,9 @@ int main() {
 					player.Atirar(ev.mouse.x, ev.mouse.y);
 		          //TAREFA PENDENTE: realizar cálculo para ir até o fim da tela
 		          //player->atirar();
-
-
-		          
 		          //Projetil *projetil = new Projetil(player.GetXAtual(), player.GetYAtual(), ev.mouse.x, ev.mouse.y);
-		          
 		          //projeteis.Insert(projeteis.Size(), projetil);
-		          
-						//	FireProjetil(projeteis, projeteis.Size());
+				  //FireProjetil(projeteis, projeteis.Size());
 
 				}
 			}
@@ -124,11 +120,13 @@ int main() {
 				player.Mover();
 				ini.Distancia(player);
 				ini.Mover();
-				player.VerificarColisao(ini);
+
+				//player.VerificarColisao(ini);
 
         		//move projéteis
 		        int i = 0;
 		        Lista<Projetil*> projeteis_from_player = player.GetProjeteisToDraw();
+		        Lista<Projetil*> projeteis_from_Inimigos = ini.GetProjeteisToDraw();
 		        GameObject *temp;
 		        while ( projeteis.GetElem(i, temp) ) {
 		          temp->Mover();
@@ -137,6 +135,7 @@ int main() {
 				al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
     
 				DrawProjetil(projeteis_from_player);
+				DrawProjetil(projeteis_from_Inimigos);
 				DrawPlayer(player);
 				ini.Draw();
 				CollideProjetil(player, projeteis, 10, 2);
@@ -224,13 +223,12 @@ void DrawProjetil(Lista<Projetil*> projeteis)
 
 }
 
-void *minha_thread(ALLEGRO_THREAD *thr, void *dados )
+void *threadTiro(ALLEGRO_THREAD *thr, void *dados )
 {
     while(true)
     {
-        Projetil *projetil = new Projetil(ini.GetXAtual(), ini.GetYAtual(), ini.GetXDestino(), ini.GetYDestino());
-		projeteis.Insert(projeteis.Size(), projetil);
-        al_rest(1);
+    	ini.Atirar();
+        al_rest(1); // Atira a cada 1s
     }
  
     //return NULL;

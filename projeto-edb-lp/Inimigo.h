@@ -2,6 +2,9 @@
 #define _INIMIGO_H_
 
 #include "GameObject.h"
+#include "ListaEncadeada/lista.h"
+#include "Projetil.h"
+#include "Player.h"
 
 class Inimigo : public go::GameObject{
 	//velocidade padrão da bala: 1
@@ -10,19 +13,20 @@ class Inimigo : public go::GameObject{
 
 	private:
 		int tipo; // se sera normal, boss ou outra coisa
-		int ouro; // quantidade de ouro que ele vai dropar
+		int municao; // quantidade de municao que ele vai dropar
 		bool destruido;
-
+		Lista<Projetil*> Projeteis;
 	public:
 		//Inimigo();
 		Inimigo( int PositionX,  int PositionY);
-		void Distancia(GameObject b);
+		void Distancia(Player b);
 		int Dropar();
 		void Mover();
 		void Draw();
 		void operator=(const GameObject &GameObj);
-		void Atirar();
 		void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);
+		void Atirar();
+		Lista<Projetil*> GetProjeteisToDraw();
 };
 
 #endif
