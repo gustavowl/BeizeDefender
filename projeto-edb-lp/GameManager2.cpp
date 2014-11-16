@@ -5,10 +5,11 @@
 #include "GameObject.h"
 #include "ListaEncadeada/lista.h"
 #include "Projetil.h"
+#include "Player.h"
 
 using namespace go;
 
-void DrawProjetil(Lista<GameObject*> projeteis);
+void DrawProjetil(Lista<Projetil*> projeteis);
 void DrawPlayer(GameObject player);
 void DrawInimigo(GameObject inimigo);
 void CollideProjetil(GameObject player, Lista<GameObject*> projeteis, unsigned int raio_j, unsigned int raio_p);
@@ -22,7 +23,7 @@ int main() {
 	bool done = false;
   
   GameObject arena(640, 480); 
-  GameObject player(640/2, 480/2, speed, 10, SMOOTH);
+  Player player(640/2, 480/2);
   GameObject inimigo(10, 320, 1, 10, LINEAR);
   Lista<GameObject*> projeteis;
   
@@ -100,12 +101,15 @@ int main() {
 				
 				else if(ev.mouse.button & 1)
 				{
+					player.Atirar(ev.mouse.x, ev.mouse.y);
 		          //TAREFA PENDENTE: realizar cálculo para ir até o fim da tela
 		          //player->atirar();
+
+
 		          
-		          Projetil *projetil = new Projetil(player.GetXAtual(), player.GetYAtual(), ev.mouse.x, ev.mouse.y);
+		          //Projetil *projetil = new Projetil(player.GetXAtual(), player.GetYAtual(), ev.mouse.x, ev.mouse.y);
 		          
-		          projeteis.Insert(projeteis.Size(), projetil);
+		          //projeteis.Insert(projeteis.Size(), projetil);
 		          
 						//	FireProjetil(projeteis, projeteis.Size());
 
@@ -116,9 +120,11 @@ int main() {
 				player.Mover();
 				inimigo = Distancia(inimigo, player);
 				inimigo.Mover();
+				player.VerificarColisao(inimigo);
 
         		//move projéteis
 		        int i = 0;
+		        Lista<Projetil*> projeteis_from_player = player.GetProjeteisToDraw();
 		        GameObject *temp;
 		        while ( projeteis.GetElem(i, temp) ) {
 		          temp->Mover();
@@ -126,7 +132,7 @@ int main() {
 		        }
 				al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
     
-				DrawProjetil(projeteis);
+				DrawProjetil(projeteis_from_player);
 				DrawPlayer(player);
 				DrawInimigo(inimigo);
 				CollideProjetil(player, projeteis, 10, 2);
@@ -201,11 +207,11 @@ void DrawPlayer(GameObject player)
   al_draw_filled_circle(x, y, 10, al_map_rgb(0, 255, 0));
 }
 
-void DrawProjetil(Lista<GameObject*> projeteis)
+void DrawProjetil(Lista<Projetil*> projeteis)
 {
   int i = 0;
   unsigned int x, y;
-  GameObject *temp;
+  Projetil *temp;
   while ( projeteis.GetElem(i, temp) ) {
     temp->GetPosicaoAtual(x, y);
     al_draw_filled_circle(x, y, 2, al_map_rgb(255, 255, 255));
