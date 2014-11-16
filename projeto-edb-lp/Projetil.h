@@ -20,6 +20,7 @@ class Projetil : public go::GameObject {
 	
 	void operator=(const GameObject &GameObj);
 	void Mover();
+	void Destruir();
 };
 
 #endif
