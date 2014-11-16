@@ -22,19 +22,19 @@ int Inimigo::Dropar(){
 }
 
 void Inimigo::Distancia(GameObject b){
-	float distJogador = sqrt( pow(this->GetXAtual() - b.GetXAtual(), 2) + pow(this->GetYAtual() - this->GetYAtual(), 2) );
+	float distJogador = sqrt( pow(this->GetXAtual() - b.GetXAtual(), 2) + pow(this->GetYAtual() - b.GetYAtual(), 2) );
 
 	float distbase = sqrt( pow(this->GetXAtual() - (640/2), 2) + pow(this->GetYAtual() - (480/2), 2) );
 
 	if(distJogador >= distbase){
 		this->AtualizarDestino(b.GetXAtual(), b.GetYAtual());
-		std::cout<<"entrei"<<std::endl;
+		//std::cout<<"entrei"<<std::endl;
 		this->Mover();
 		//return a;
 	}
 	else{
 		this->AtualizarDestino((640/2), (480/2));
-		std::cout<<"entrei 2"<<std::endl;
+		//std::cout<<"entrei 2"<<std::endl;
 		this->Mover();
 		//return a;
 	}

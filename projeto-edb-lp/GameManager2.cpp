@@ -6,27 +6,28 @@
 #include "ListaEncadeada/lista.h"
 #include "Projetil.h"
 #include "Player.h"
+#include "Inimigo.h"
 
+#define speed 10 //pixels por segundos
 using namespace go;
 
 void DrawProjetil(Lista<Projetil*> projeteis);
 void DrawPlayer(GameObject player);
-void DrawInimigo(GameObject inimigo);
 void CollideProjetil(GameObject player, Lista<GameObject*> projeteis, unsigned int raio_j, unsigned int raio_p);
-GameObject Distancia(GameObject a, GameObject b);
+void *minha_thread(ALLEGRO_THREAD *thr, void *dados);
 
+/* Globais */
+GameObject arena(640, 480); 
+Player player(640/2, 480/2);
+//GameObject inimigo(10, 320, 1, 10, LINEAR);
+Inimigo ini(50, 50);
+Lista<GameObject*> projeteis;
 
 int main() {
   int i, X, Y, fps = 30;
-  unsigned int speed = 10; //pixels por segundos
   float v, qtd_ite = 0;
-	bool done = false;
-  
-  GameObject arena(640, 480); 
-  Player player(640/2, 480/2);
-  GameObject inimigo(10, 320, 1, 10, LINEAR);
-  Lista<GameObject*> projeteis;
-  
+  bool done = false;
+
   //em GameObject tem um enum: enum WalkType { STATIC, LINEAR, SMOOTH }; 
 
   
@@ -48,6 +49,7 @@ int main() {
 	ALLEGRO_TIMER *timer = NULL;
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
+	ALLEGRO_THREAD *thread = NULL;
 
 	if(!al_init())
 		return -1;
@@ -75,7 +77,9 @@ int main() {
 
 	al_start_timer(timer);
 	
-
+	// Cria a thread e a dispara
+    thread = al_create_thread(minha_thread, NULL);
+    al_start_thread(thread);
 
 	ALLEGRO_EVENT ev;
 
@@ -118,9 +122,9 @@ int main() {
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) { 
 				player.Mover();
-				inimigo = Distancia(inimigo, player);
-				inimigo.Mover();
-				player.VerificarColisao(inimigo);
+				ini.Distancia(player);
+				ini.Mover();
+				player.VerificarColisao(ini);
 
         		//move projéteis
 		        int i = 0;
@@ -134,7 +138,7 @@ int main() {
     
 				DrawProjetil(projeteis_from_player);
 				DrawPlayer(player);
-				DrawInimigo(inimigo);
+				ini.Draw();
 				CollideProjetil(player, projeteis, 10, 2);
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));
@@ -220,30 +224,16 @@ void DrawProjetil(Lista<Projetil*> projeteis)
 
 }
 
-void DrawInimigo(GameObject inimigo)
+void *minha_thread(ALLEGRO_THREAD *thr, void *dados )
 {
-  int i = 0;
-  unsigned int x, y;
-  inimigo.GetPosicaoAtual(x, y);
-  //std::cout << x << ' ' << y << std::endl;
-  al_draw_filled_circle(x, y, 10, al_map_rgb(100, 100, 100));
-}
-
-GameObject Distancia(GameObject a, GameObject b){
-	float distJogador = sqrt( pow(a.GetXAtual() - b.GetXAtual(), 2) + pow(a.GetYAtual() - b.GetYAtual(), 2) );
-
-	float distbase = sqrt( pow(a.GetXAtual() - (640/2), 2) + pow(a.GetYAtual() - (480/2), 2) );
-
-	if(distJogador >= distbase){
-		a.AtualizarDestino(b.GetXAtual(), b.GetYAtual());
-		a.Mover();
-		return a;
-	}
-	else{
-		a.AtualizarDestino((640/2), (480/2));
-		a.Mover();
-		return a;
-	}
+    while(true)
+    {
+        Projetil *projetil = new Projetil(ini.GetXAtual(), ini.GetYAtual(), ini.GetXDestino(), ini.GetYDestino());
+		projeteis.Insert(projeteis.Size(), projetil);
+        al_rest(1);
+    }
+ 
+    //return NULL;
 }
 
 /*
