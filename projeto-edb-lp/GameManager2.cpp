@@ -165,17 +165,23 @@ void CollideProjetil(GameObject player, Lista<GameObject*> projeteis, unsigned i
 
 		dist = sqrt(( pow(dx, 2) + pow(dy, 2)));
 
-	    if(dist <= soma_raios) 
-	    {	 
-	    		std::cout << "dist" << dist << std::endl;
-    			std::cout << "dx: " << dx << " dy: " << dy << std::endl;
-    			std::cout << "xptemp: " << xptemp << " xjtemp: " << xjtemp << std::endl;
+		if (xjtemp + raio_j + raio_p > xptemp 
+		&& xjtemp < xptemp + raio_p + raio_j 
+		&& yjtemp + raio_j + raio_p > yptemp
+		&& yjtemp < yptemp + raio_p + raio_j)
+		{ 
+		    if(dist <= soma_raios) 
+		    {	 
+		    		std::cout << "dist" << dist << std::endl;
+	    			std::cout << "dx: " << dx << " dy: " << dy << std::endl;
+	    			std::cout << "xptemp: " << xptemp << " xjtemp: " << xjtemp << std::endl;
 
 
-	      		//delete projeteis;
-	      		//std::cout << "ptojetil deletado" << std::endl;
-	    }
-	}
+		      		//delete projeteis;
+		      		std::cout << "ptojetil deletado" << std::endl;
+		    }
+		}
+	}	
 } 
 
 
