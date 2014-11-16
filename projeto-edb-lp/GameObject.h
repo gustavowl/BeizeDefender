@@ -29,19 +29,19 @@ class GameObject {
 	public:
 		virtual void Mover(); //atualiza posição atual, leva em conta a velocidade. Deve ser chamada a cada frame
 		virtual void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);
-		unsigned int GetMaxX();
-		unsigned int GetMaxY();
-		void GetPosicaoAtual(unsigned int &x, unsigned int &y);
-		unsigned int GetXAtual();
-		unsigned int GetYAtual();
-		unsigned int GetFrameAtual();
-		unsigned int GetTotalFrames();
-		unsigned int GetXOrigem();
-		unsigned int GetYOrigem();
-		unsigned int GetXDestino();
-		unsigned int GetYDestino();
-		unsigned int GetRaio();
-		unsigned int GetVelocidade();
+		unsigned int GetMaxX() const;
+		unsigned int GetMaxY() const;
+		void GetPosicaoAtual(unsigned int &x, unsigned int &y) const;
+		unsigned int GetXAtual() const;
+		unsigned int GetYAtual() const;
+		unsigned int GetFrameAtual() const;
+		unsigned int GetTotalFrames() const;
+		unsigned int GetXOrigem() const;
+		unsigned int GetYOrigem() const;
+		unsigned int GetXDestino() const;
+		unsigned int GetYDestino() const;
+		unsigned int GetRaio() const;
+		unsigned int GetVelocidade() const;
 
 		GameObject(); //cria "objeto vazio"
 		GameObject(unsigned int MaximoX, unsigned int MaximoY); //inicializa tamanho da arena, só permite alterar o tamanho uma vez
