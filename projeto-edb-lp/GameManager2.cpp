@@ -128,6 +128,7 @@ int main() {
     
 				DrawProjetil(projeteis);
 				DrawPlayer(player);
+				DrawInimigo(inimigo);
 				CollideProjetil(player, projeteis, 10, 2);
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));
