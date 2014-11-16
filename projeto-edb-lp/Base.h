@@ -68,9 +68,9 @@ bool Base::PerderVida(Lista <GameObject*> projeteis, Projetil * projetil)
 
     unsigned int xp, yp;
     unsigned int x1 = 384;
-    unsigned int x2 = 240;
-    unsigned int y1 = 400;
-    unsigned int y2 = 640;
+    unsigned int x2 = 640;
+    unsigned int y1 = 240;
+    unsigned int y2 = 400;
 
     int i = 0;
     int raio = 2;
@@ -82,7 +82,7 @@ bool Base::PerderVida(Lista <GameObject*> projeteis, Projetil * projetil)
         int xptemp = xp;
         int yptemp = yp;
 
-        if ((xptemp >= x2 && xptemp <= x1) || (yptemp >= y1 && yptemp <= y2))
+        if ((xptemp >= x1 && xptemp <= x2) || (yptemp >= y1 && yptemp <= y2))
         {
             if(vida <= 0) {
                 std::cout << "You Die " << std::endl;
