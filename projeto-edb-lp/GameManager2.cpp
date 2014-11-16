@@ -4,14 +4,12 @@
 #include <math.h>
 #include "GameObject.h"
 #include "ListaEncadeada/lista.h"
+#include "Projetil.h"
 
 using namespace go;
 
 void DrawProjetil(Lista<GameObject*> projeteis);
 void DrawPlayer(GameObject player);
-void DrawInimigo(GameObject inimigo);
-
-GameObject Distancia(GameObject a, GameObject b);
 
 int main() {
   int i, X, Y, fps = 25;
@@ -20,8 +18,7 @@ int main() {
 	bool done = false;
   
   GameObject arena(640, 480); 
-  GameObject player(640/2, 480/2, speed, 10, SMOOTH);
-  GameObject inimigo(10, 320, 1, 10, LINEAR);
+  GameObject player(240, 320, speed, 10, SMOOTH);
   Lista<GameObject*> projeteis;
   
   //em GameObject tem um enum: enum WalkType { STATIC, LINEAR, SMOOTH }; 
@@ -94,7 +91,6 @@ int main() {
 
 				if(ev.mouse.button & 2) {
           			player.AtualizarDestino(ev.mouse.x, ev.mouse.y);
-          			//inimigo.AtualizarDestino(ev.mouse.x, ev.mouse.y);
 				}
 				
 				else if(ev.mouse.button & 1)
@@ -102,8 +98,8 @@ int main() {
 		          //TAREFA PENDENTE: realizar cálculo para ir até o fim da tela
 		          //player->atirar();
 		          
-		          GameObject *projetil = new GameObject(player.GetXAtual(), player.GetYAtual(),
-		           	30, ev.mouse.x, ev.mouse.y, 2, LINEAR);
+		          Projetil *projetil = new Projetil(player.GetXAtual(), player.GetYAtual(),
+		           	ev.mouse.x, ev.mouse.y);
 		          
 		          projeteis.Insert(projeteis.Size(), projetil);
 		          
@@ -114,10 +110,6 @@ int main() {
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) { 
 				player.Mover();
-				
-				inimigo = Distancia(inimigo, player);
-				inimigo.Mover();
-
         		//move projéteis
 		        int i = 0;
 		        GameObject *temp;
@@ -131,7 +123,6 @@ int main() {
         
 				//UpdateProjetil(projeteis, );
 				DrawPlayer(player);
-				DrawInimigo(inimigo);
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));
 			}
@@ -164,34 +155,6 @@ void DrawProjetil(Lista<GameObject*> projeteis)
     i++;
   }
 
-}
-
-void DrawInimigo(GameObject inimigo)
-{
-  int i = 0;
-  unsigned int x, y;
-  inimigo.GetPosicaoAtual(x, y);
-  //std::cout << x << ' ' << y << std::endl;
-  al_draw_filled_circle(x, y, 10, al_map_rgb(100, 100, 100));
-}
-
-GameObject Distancia(GameObject a, GameObject b){
-	float distJogador = sqrt( pow(a.GetXAtual() - b.GetXAtual(), 2) + pow(a.GetYAtual() - b.GetYAtual(), 2) );
-
-	float distbase = sqrt( pow(a.GetXAtual() - (640/2), 2) + pow(a.GetYAtual() - (480/2), 2) );
-
-	if(distJogador >= distbase){
-		a.AtualizarDestino(b.GetXAtual(), b.GetYAtual());
-		a.Mover();
-		std::cout << "entrei 1"<<std::endl;
-		return a;
-	}
-	else{
-		a.AtualizarDestino((640/2), (480/2));
-		std::cout << "entrei 2"<<std::endl;
-		a.Mover();
-		return a;
-	}
 }
 
 /*

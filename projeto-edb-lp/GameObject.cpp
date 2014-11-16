@@ -146,22 +146,54 @@ void GameObject::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY) 
 	FrameAtual = 0;
 }
 
-unsigned int GameObject::GetMaxX() {
+unsigned int GameObject::GetMaxX() const {
 	return MaxX;
 }
-unsigned int GameObject::GetMaxY() {
+unsigned int GameObject::GetMaxY() const {
 	return MaxY;
 }
 
-void GameObject::GetPosicaoAtual(unsigned int &x, unsigned int &y) {
+void GameObject::GetPosicaoAtual(unsigned int &x, unsigned int &y) const {
 	x = XAtual;
 	y = YAtual;
 }
 
-unsigned int GameObject::GetXAtual() {
+unsigned int GameObject::GetXAtual() const {
 	return XAtual;
 }
 
-unsigned int GameObject::GetYAtual() {
+unsigned int GameObject::GetYAtual() const {
 	return YAtual;
+}
+
+unsigned int GameObject::GetFrameAtual() const {
+	return FrameAtual;
+}
+
+unsigned int GameObject::GetTotalFrames() const {
+	return TotalFrames;
+}
+
+unsigned int GameObject::GetXOrigem() const {
+	return XOrigem;
+}
+
+unsigned int GameObject::GetYOrigem() const {
+	return YOrigem;
+}
+
+unsigned int GameObject::GetXDestino() const {
+	return XDestino;
+}
+
+unsigned int GameObject::GetYDestino() const {
+	return YDestino;
+}
+
+unsigned int GameObject::GetRaio() const {
+	return Raio;
+}
+
+unsigned int GameObject::GetVelocidade() const {
+	return Velocidade;
 }
