@@ -26,6 +26,7 @@ class Projetil : public go::GameObject {
 	void Mover();
 	void Destruir();
 	bool GetDesruido();
+	unsigned int GetDano();
 };
 
 #endif

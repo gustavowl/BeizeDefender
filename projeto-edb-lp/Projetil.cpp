@@ -55,6 +55,14 @@ void Projetil::Destruir() {
 	Destruido = true;
 }
 
+bool Projetil::GetDesruido() {
+	return Destruido;
+}
+
+unsigned int Projetil::GetDano() {
+	return Dano;
+}
+
 void Projetil::CalcularCoordenadasFinais(unsigned int OrigemX, unsigned int OrigemY,
 	unsigned int &DestinoX,	unsigned int &DestinoY) {
 	//basea-se na equação da reta para saber a direção do movimento
