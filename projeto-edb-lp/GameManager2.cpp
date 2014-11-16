@@ -10,6 +10,8 @@ using namespace go;
 
 void DrawProjetil(Lista<GameObject*> projeteis);
 void DrawPlayer(GameObject player);
+void CollideProjetil(GameObject player, Lista<GameObject*> projeteis, unsigned int raio_j, unsigned int raio_p);
+
 
 int main() {
   int i, X, Y, fps = 25;
@@ -118,11 +120,10 @@ int main() {
 		          i++;
 		        }
 				al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
-        		
+    
 				DrawProjetil(projeteis);
-        
-				//UpdateProjetil(projeteis, );
 				DrawPlayer(player);
+				CollideProjetil(player, projeteis, 10, 2);
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));
 			}
@@ -133,6 +134,50 @@ int main() {
 
 	return 0;
 }
+
+void CollideProjetil(GameObject player, Lista<GameObject*> projeteis, unsigned int raio_j, unsigned int raio_p)
+{
+	unsigned int xj, xp, yj, yp;
+	int dx, dy; 
+	int soma_raios = 0; 
+	int i = 0;
+	float dist = 0;
+
+	soma_raios = (raio_p + raio_j);		
+
+    GameObject *temp;
+
+	player.GetPosicaoAtual(xj, yj);
+
+	while ( projeteis.GetElem(i, temp) ) {
+		temp->GetPosicaoAtual(xp, yp);
+		i++;
+
+		int xptemp = xp;
+		int xjtemp = xj;
+
+		int yptemp = yp;
+		int yjtemp = yj;
+
+		dx = xptemp - xjtemp;
+		dy = yptemp - yjtemp;
+		//dx = (int)xp - (int)xj;
+		//dy = (int)yp - (int)yj;    
+
+		dist = sqrt(( pow(dx, 2) + pow(dy, 2)));
+
+	    if(dist <= soma_raios) 
+	    {	 
+	    		std::cout << "dist" << dist << std::endl;
+    			std::cout << "dx: " << dx << " dy: " << dy << std::endl;
+    			std::cout << "xptemp: " << xptemp << " xjtemp: " << xjtemp << std::endl;
+
+
+	      		//delete projeteis;
+	      		//std::cout << "ptojetil deletado" << std::endl;
+	    }
+	}
+} 
 
 
 void DrawPlayer(GameObject player)
