@@ -166,34 +166,34 @@ unsigned int GameObject::GetYAtual() {
 	return YAtual;
 }
 
-unsigned int GetFrameAtual() {
+unsigned int GameObject::GetFrameAtual() {
 	return FrameAtual;
 }
 
-unsigned int GetTotalFrames() {
+unsigned int GameObject::GetTotalFrames() {
 	return TotalFrames;
 }
 
-unsigned int GetXOrigem() {
+unsigned int GameObject::GetXOrigem() {
 	return XOrigem;
 }
 
-unsigned int GetYOrigem() {
+unsigned int GameObject::GetYOrigem() {
 	return YOrigem;
 }
 
-unsigned int GetXDestino() {
+unsigned int GameObject::GetXDestino() {
 	return XDestino;
 }
 
-unsigned int GetYDestino() {
+unsigned int GameObject::GetYDestino() {
 	return YDestino;
 }
 
-unsigned int GetRaio() {
+unsigned int GameObject::GetRaio() {
 	return Raio;
 }
 
-unsigned int GetVelocidade() {
+unsigned int GameObject::GetVelocidade() {
 	return Velocidade;
 }
