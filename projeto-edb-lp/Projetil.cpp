@@ -11,6 +11,8 @@ unsigned int DestinoY) {
 		//chama o construtor da classe pai
 		GameObject temp = GameObject(PositionX, PositionY, 30, DestinoX, DestinoY, 2, LINEAR);
 		*this =  temp; //copia os valores de pai para filho (tava dando erro ao fazer direto)
+		Dano = 2;
+		Destruido = false;
 	}
 }
 
@@ -23,7 +25,8 @@ unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, unsigned int Da
 		//chama o construtor da classe pai
 		GameObject temp = GameObject(PositionX, PositionY, 30, DestinoX, DestinoX, 2, LINEAR);
 		*this =  temp; //copia os valores de pai para filho (tava dando erro ao fazer direto)
-		dano = Dano; //atualiza dano com valor de entrada
+		this->Dano = Dano; //atualiza dano com valor de entrada
+		Destruido = false;
 	}
 }
 
@@ -43,17 +46,13 @@ void Projetil::operator=(const GameObject &GameObj) {
 
 void Projetil::Mover() {
 	GameObject::Mover();
-	if ( FrameAtual >= TotalFrames ) {
+	if ( FrameAtual >= TotalFrames )
 		Destruir();
-	}
 }
 
 //destroi se chegar no destino
 void Projetil::Destruir() {
-	
-		XAtual = 0;
-		YAtual = 0;
-		//destroy
+	Destruido = true;
 }
 
 void Projetil::CalcularCoordenadasFinais(unsigned int OrigemX, unsigned int OrigemY,
