@@ -4,40 +4,43 @@
 #include <math.h>
 #include "GameObject.h"
 #include "ListaEncadeada/lista.h"
-
+#include "Projetil.h"
+#define speed 10
 using namespace go;
 
 void DrawProjetil(Lista<GameObject*> projeteis);
 void DrawPlayer(GameObject player);
 void DrawInimigo(GameObject inimigo);
-
+void CollideProjetil(GameObject player, Lista<GameObject*> projeteis, unsigned int raio_j, unsigned int raio_p);
 GameObject Distancia(GameObject a, GameObject b);
 
-int main() {
-  int i, X, Y, fps = 25;
-  unsigned int speed = 10; //pixels por segundos
-  float v, qtd_ite = 0;
-	bool done = false;
-  
-  GameObject arena(640, 480); 
-  GameObject player(640/2, 480/2, speed, 10, SMOOTH);
-  GameObject inimigo(10, 320, 1, 10, LINEAR);
-  Lista<GameObject*> projeteis;
-  
-  //em GameObject tem um enum: enum WalkType { STATIC, LINEAR, SMOOTH }; 
+void *minha_thread(ALLEGRO_THREAD *thr, void *dados);
 
-  
-  //Lista<GameObject*> NomeDaLista //inicializa lista encadeada
-  //NomedaLista.Size(); //retorna o tamanho
-  //NomeDaLista.GetElem(1, go); (retorna elemento da posição 1 para go)
-  //        método retorna bool /\ (se go tem elemento válido)
-  //NomeDaLista.Search(go); //procura pelo objeto "go" na lista e retorna posição
-  //NomeDaLista.Insert(2, go); //insere objeto go na posição 2 da lista, retorna
-                              // se inseriu ou n
-  //NomeDaLista.Remove(3); remove objeto da posição 3, retorna se removeu
-  //NomeDaLista.Remove(4, go); objeto da posição 4, salva em go e retorna se removeu
-  //NomeDaLista.Print(); //imprime tds os objetos da lista, separando com espaço
-  //NomeDaLista.Print('\n'); //imprime tds os objetos da lista, separando com "enter"
+/* Globais */
+GameObject arena(640, 480); 
+GameObject player(640/2, 480/2, speed, 10, SMOOTH);
+GameObject inimigo(10, 320, 1, 10, LINEAR);
+Lista<GameObject*> projeteis;
+
+int main() {
+	int i, X, Y, fps = 30;
+	//unsigned int speed = 10; //pixels por segundos
+	float v, qtd_ite = 0;
+	bool done = false;
+
+	//em GameObject tem um enum: enum WalkType { STATIC, LINEAR, SMOOTH }; 
+
+	//Lista<GameObject*> NomeDaLista //inicializa lista encadeada
+	//NomedaLista.Size(); //retorna o tamanho
+	//NomeDaLista.GetElem(1, go); (retorna elemento da posição 1 para go)
+	//        método retorna bool /\ (se go tem elemento válido)
+	//NomeDaLista.Search(go); //procura pelo objeto "go" na lista e retorna posição
+	//NomeDaLista.Insert(2, go); //insere objeto go na posição 2 da lista, retorna
+	                          // se inseriu ou n
+	//NomeDaLista.Remove(3); remove objeto da posição 3, retorna se removeu
+	//NomeDaLista.Remove(4, go); objeto da posição 4, salva em go e retorna se removeu
+	//NomeDaLista.Print(); //imprime tds os objetos da lista, separando com espaço
+	//NomeDaLista.Print('\n'); //imprime tds os objetos da lista, separando com "enter"
 
   
 	//variaveis do allegro
@@ -45,6 +48,7 @@ int main() {
 	ALLEGRO_TIMER *timer = NULL;
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
+	ALLEGRO_THREAD *thread = NULL;
 
 	if(!al_init())
 		return -1;
@@ -54,7 +58,7 @@ int main() {
 		return -1;
 	}
 
-  //Pega dimensões da arena
+  	//Pega dimensões da arena
 	//std::cout << "x: " << (int)arena.GetMaxX() << " y: " << (int)arena.GetMaxY() << std::endl;
 	display = al_create_display((int)arena.GetMaxX(), (int)arena.GetMaxY());
 
@@ -72,7 +76,9 @@ int main() {
 
 	al_start_timer(timer);
 	
-
+	// Cria a thread e a dispara
+    thread = al_create_thread(minha_thread, NULL);
+    al_start_thread(thread);
 
 	ALLEGRO_EVENT ev;
 
@@ -94,7 +100,6 @@ int main() {
 
 				if(ev.mouse.button & 2) {
           			player.AtualizarDestino(ev.mouse.x, ev.mouse.y);
-          			//inimigo.AtualizarDestino(ev.mouse.x, ev.mouse.y);
 				}
 				
 				else if(ev.mouse.button & 1)
@@ -102,8 +107,7 @@ int main() {
 		          //TAREFA PENDENTE: realizar cálculo para ir até o fim da tela
 		          //player->atirar();
 		          
-		          GameObject *projetil = new GameObject(player.GetXAtual(), player.GetYAtual(),
-		           	30, ev.mouse.x, ev.mouse.y, 2, LINEAR);
+		          Projetil *projetil = new Projetil(player.GetXAtual(), player.GetYAtual(), ev.mouse.x, ev.mouse.y);
 		          
 		          projeteis.Insert(projeteis.Size(), projetil);
 		          
@@ -114,7 +118,6 @@ int main() {
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) { 
 				player.Mover();
-				
 				inimigo = Distancia(inimigo, player);
 				inimigo.Mover();
 
@@ -126,12 +129,11 @@ int main() {
 		          i++;
 		        }
 				al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
-        		
+    
 				DrawProjetil(projeteis);
-        
-				//UpdateProjetil(projeteis, );
 				DrawPlayer(player);
 				DrawInimigo(inimigo);
+				CollideProjetil(player, projeteis, 10, 2);
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));
 			}
@@ -142,6 +144,56 @@ int main() {
 
 	return 0;
 }
+
+void CollideProjetil(GameObject player, Lista<GameObject*> projeteis, unsigned int raio_j, unsigned int raio_p)
+{
+	unsigned int xj, xp, yj, yp;
+	int dx, dy; 
+	int soma_raios = 0; 
+	int i = 0;
+	float dist = 0;
+
+	soma_raios = (raio_p + raio_j);		
+
+    GameObject *temp;
+
+	player.GetPosicaoAtual(xj, yj);
+
+	while ( projeteis.GetElem(i, temp) ) {
+		temp->GetPosicaoAtual(xp, yp);
+		i++;
+
+		int xptemp = xp;
+		int xjtemp = xj;
+
+		int yptemp = yp;
+		int yjtemp = yj;
+
+		dx = xptemp - xjtemp;
+		dy = yptemp - yjtemp;
+		//dx = (int)xp - (int)xj;
+		//dy = (int)yp - (int)yj;    
+
+		dist = sqrt(( pow(dx, 2) + pow(dy, 2)));
+
+		if (xjtemp + raio_j + raio_p > xptemp 
+		&& xjtemp < xptemp + raio_p + raio_j 
+		&& yjtemp + raio_j + raio_p > yptemp
+		&& yjtemp < yptemp + raio_p + raio_j)
+		{ 
+		    if(dist <= soma_raios) 
+		    {	 
+		    		std::cout << "dist" << dist << std::endl;
+	    			std::cout << "dx: " << dx << " dy: " << dy << std::endl;
+	    			std::cout << "xptemp: " << xptemp << " xjtemp: " << xjtemp << std::endl;
+
+
+		      		//delete projeteis;
+		      		std::cout << "ptojetil deletado" << std::endl;
+		    }
+		}
+	}	
+} 
 
 
 void DrawPlayer(GameObject player)
@@ -183,15 +235,25 @@ GameObject Distancia(GameObject a, GameObject b){
 	if(distJogador >= distbase){
 		a.AtualizarDestino(b.GetXAtual(), b.GetYAtual());
 		a.Mover();
-		std::cout << "entrei 1"<<std::endl;
 		return a;
 	}
 	else{
 		a.AtualizarDestino((640/2), (480/2));
-		std::cout << "entrei 2"<<std::endl;
 		a.Mover();
 		return a;
 	}
+}
+
+void *minha_thread(ALLEGRO_THREAD *thr, void *dados )
+{
+    while(true)
+    {
+        Projetil *projetil = new Projetil(inimigo.GetXAtual(), inimigo.GetYAtual(), inimigo.GetXDestino(), inimigo.GetYDestino());
+		projeteis.Insert(projeteis.Size(), projetil);
+        al_rest(1);
+    }
+ 
+    return NULL;
 }
 
 /*
