@@ -9,6 +9,8 @@ class Projetil : public go::GameObject {
 	//walktype: linear
 	private:
 		unsigned int dano = 2;
+		void CalcularCoordenadasFinais(unsigned int OrigemX, unsigned int OrigemY, unsigned int &DestinoX,
+			unsigned int &DestinoY); //calcula coordenada de destino em que sairá da arena
 
 	public:
 	Projetil(unsigned int PositionX, unsigned int PositionY, unsigned int DestinoX, unsigned int DestinoY);

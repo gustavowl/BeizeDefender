@@ -14,7 +14,7 @@ void CollideProjetil(GameObject player, Lista<GameObject*> projeteis, unsigned i
 
 
 int main() {
-  int i, X, Y, fps = 25;
+  int i, X, Y, fps = 30;
   unsigned int speed = 10; //pixels por segundos
   float v, qtd_ite = 0;
 	bool done = false;
