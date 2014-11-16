@@ -6,13 +6,11 @@ enum WalkType { STATIC, LINEAR, SMOOTH };
 namespace go {
 
 class GameObject {
-	private:
+	protected:
 		static unsigned int MaxX; //define tamanho da arena
 		static unsigned int MaxY; //define tamanho da arena
 		unsigned int FrameAtual = 0; //Frame atual da interpolação
 		unsigned int TotalFrames = 0; //quantidade de frames necessários para atingir o destino
-
-	protected:
 
 		unsigned int XOrigem; //posição de Origem //usado para calcular interpolação linear
 		unsigned int YOrigem; //posição de Origem //usado para calcular interpolação linear
@@ -36,6 +34,14 @@ class GameObject {
 		void GetPosicaoAtual(unsigned int &x, unsigned int &y);
 		unsigned int GetXAtual();
 		unsigned int GetYAtual();
+		unsigned int GetFrameAtual();
+		unsigned int GetTotalFrames();
+		unsigned int GetXOrigem();
+		unsigned int GetYOrigem();
+		unsigned int GetXDestino();
+		unsigned int GetYDestino();
+		unsigned int GetRaio();
+		unsigned int GetVelocidade();
 
 		GameObject(); //cria "objeto vazio"
 		GameObject(unsigned int MaximoX, unsigned int MaximoY); //inicializa tamanho da arena, só permite alterar o tamanho uma vez
