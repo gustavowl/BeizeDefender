@@ -104,7 +104,7 @@ int main() {
 				
 				else if(ev.mouse.button & 1)
 				{
-          player.Atirar(ev.mouse.x, ev.mouse.y); //oks
+          			player.Atirar(ev.mouse.x, ev.mouse.y); //oks
               /*player.Mover();
   			      inimigo = Distancia(inimigo, player);
 				      inimigo.Mover();
@@ -134,7 +134,7 @@ int main() {
         }*/
         
 				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
-        base.DrawBase();
+        		base.DrawBase();
 				DrawProjetil(projeteis_from_player);
 				DrawPlayer(player);
 				DrawInimigo(inimigo);
@@ -142,7 +142,7 @@ int main() {
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));
 				player.VerificarColisao(inimigo);
-        base.LevarDano( player.VerificarColisao(base) );
+        		base.LevarDano( player.VerificarColisao(base) );
 
 			}
 		}

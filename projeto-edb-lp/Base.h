@@ -20,32 +20,32 @@ class Base: public go::GameObject{
     private:
         int vida;
         int regem;
-        unsigned int altura_inferior;
-        unsigned int largura_inferior;
-        unsigned int altura_superior;
-        unsigned int largura_superior;
+        unsigned int y_superior; //canto superior esquerdo da tela
+        unsigned int x_esquerda; //canto superior esquerdo da tela
+        unsigned int y_inferior; //canto inferior direito da tela
+        unsigned int x_direita; //canto inferior direito da tela
 };
-
-
-Base::Base(unsigned int alt_inf, unsigned int larg_inf, unsigned int alt_sup, unsigned int larg_sup)
+//acho q só y_super basta
+//é melhor da um replace pera, vou replacear
+Base::Base(unsigned int x_esq, unsigned int y_sup, unsigned int x_dir, unsigned int y_inf)
 {
     vida = 10; //aumentaar pra quanto?
-    altura_superior = alt_sup;
-    altura_inferior = alt_inf;
-    largura_superior = larg_sup;
-    largura_inferior = larg_inf;
+    y_superior = y_sup;
+    x_esquerda = x_esq;
+    y_inferior = y_inf;
+    x_direita = x_dir;
     regem = 0; //0 enquanto não define =D =D
     
     FrameAtual = 0;
     TotalFrames = 0;
-    XOrigem = (larg_sup + larg_inf) / 2; //calcula ponto central
-    YOrigem = (alt_sup + alt_inf) / 2; //calcula ponto central
+    XOrigem = (x_esq + x_dir) / 2; //calcula ponto central
+    YOrigem = (y_sup + y_inf) / 2; //calcula ponto central
     XAtual = XOrigem; //garantir q fica estático
     YAtual = YOrigem; //garantir q fica estático
     XDestino = XOrigem; //garantir q fica estático
     YDestino = YOrigem; //garantir q fica estático
-    int ls = larg_sup, li = larg_inf; //evita erro de subtração
-    Raio = (ls - li) / 2; //calcular
+    int xe = x_esq, xd = x_dir; //evita erro de subtração
+    Raio = (xd - xe) / 2; //calcular
     Velocidade = 0;
     TipoMovimento = STATIC;
 }
@@ -57,7 +57,7 @@ Base::~Base()
 void Base::DrawBase()
 {
    // al_init_primitives_addon();
-    al_draw_rectangle(altura_inferior, largura_inferior, altura_superior, largura_superior, al_map_rgb(255, 0, 255), 10);
+    al_draw_rectangle(x_esquerda, y_superior, x_direita, y_inferior, al_map_rgb(255, 0, 255), 10);
 
 }
 
