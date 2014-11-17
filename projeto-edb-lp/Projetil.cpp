@@ -65,12 +65,20 @@ unsigned int Projetil::GetDano() {
 
 int Projetil::VerificarColisao(const GameObject obj) { //retorna dano causado pela bala ao obj, e destrói
 //projétil que causou dano. Função exterior tem q tirar vida do obj e remover projétil da memória
-	if (FrameAtual > 0) { // && !Destruido ?
+	
+	int x_atual = XAtual, y_atual = YAtual; //evita erro de subtração
+	//coordenadas de obj
+	int objx = obj.GetXAtual(), objy = obj.GetYAtual();
+	float dist = sqrt( pow( objx - x_atual, 2 ) + pow( objy - y_atual, 2 ) );
+	//primeiramente calcula se não está colidindo diretamente
+	if ( dist <= Raio + obj.GetRaio() ) {
+		Destruir();
+		return Dano;
+	}
+	else if (FrameAtual > 0) { //cálculo de "leap" ("bug noturno")
 		//calcula t da equação vetorial das retas para a variação das coordenadas
 		float ta = (float)(FrameAtual - 1) / TotalFrames;
 		float tb = (float) FrameAtual / TotalFrames;
-		//coordenadas de obj:
-		int objx = obj.GetXAtual(), objy = obj.GetYAtual();
 		//acha o t de objeto na reta tal que X do objeto pertença à reta
 		int x_origem = XOrigem, x_destino = XDestino; //evitar erro na subtração
 		int y_origem = YOrigem, y_destino = YDestino; //evitar erro na subtração
@@ -91,7 +99,7 @@ int Projetil::VerificarColisao(const GameObject obj) { //retorna dano causado pe
 			//acha ponto y da intersecção entre as duas retas
 			float inters_y = coef_ang_proj * inters_x + coef_lin_proj;
 			//calcula distância entre intersecção e origem do objeto
-			float dist = sqrt( pow( inters_x - objx, 2 ) + pow( inters_y - objy, 2 ) );
+			dist = sqrt( pow( inters_x - objx, 2 ) + pow( inters_y - objy, 2 ) );
 			//verifica se distância é menor do que a soma dos raios (colisão)
 			//se for == tangencia, não colide
 			if ( dist < Raio + obj.GetRaio() ) {
