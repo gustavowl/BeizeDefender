@@ -6,29 +6,28 @@
 #include "ListaEncadeada/lista.h"
 #include "Projetil.h"
 #include "Base.h"
+#include "Player.h" //fix
+
 
 using namespace go;
 
-void DrawProjetil(Lista<GameObject*> projeteis);
+void DrawProjetil(Lista<Projetil*> projeteis); //=D
 void DrawPlayer(GameObject player);
 void DrawInimigo(GameObject inimigo);
 void CollideProjetil(GameObject player, Lista<GameObject*> projeteis, unsigned int raio_j, unsigned int raio_p);
-GameObject Distancia(GameObject a, GameObject b);
+GameObject Distancia(GameObject a, GameObject b);//remover
 
 
 int main() {
   int i, X, Y, fps = 30;
   unsigned int speed = 10; //pixels por segundos
   float v, qtd_ite = 0;
-	bool done = false;
+  bool done = false;
   
   GameObject arena(1024, 640); 
-  GameObject player(640/2, 480/2, speed, 10, SMOOTH);
+  Player player(1024/2, 640/2);//atualizado
   GameObject inimigo(10, 320, 1, 10, LINEAR);
-  Lista<GameObject*> projeteis;
-  Base base(380,200,620,440 , "player");
-
-  Projetil * teste = NULL;
+  Base base(380,200,620,440);//atualizado
 
   
   //em GameObject tem um enum: enum WalkType { STATIC, LINEAR, SMOOTH }; 
@@ -105,6 +104,10 @@ int main() {
 				
 				else if(ev.mouse.button & 1)
 				{
+          player.Atirar(ev.mouse.x, ev.mouse.y); //oks
+              /*player.Mover();
+  			      inimigo = Distancia(inimigo, player);
+				      inimigo.Mover();
 		          //TAREFA PENDENTE: realizar cálculo para ir até o fim da tela
 		          //player->atirar();
 		          
@@ -113,91 +116,39 @@ int main() {
 		          
 		          projeteis.Insert(projeteis.Size(), projetil);
 		          
-						//	FireProjetil(projeteis, projeteis.Size());
+						//	FireProjetil(projeteis, projeteis.Size());*/
 
 				}
 			}
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) { 
-				player.Mover();
+				player.Mover(); //já move os projéteis do player
 				inimigo = Distancia(inimigo, player);
 				inimigo.Mover();
-
-        		//move projéteis
-		        int i = 0;
-		        GameObject *temp;
-		        while ( projeteis.GetElem(i, temp) ) {
-		          temp->Mover();
-		          i++;
-		        }
+        int i = 0;
+        Lista<Projetil*> projeteis_from_player = player.GetProjeteisToDraw();
+        /*GameObject *temp;
+        while ( projeteis.GetElem(i, temp) ) {
+          temp->Mover();
+          i++;
+        }*/
+        
 				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
-                base.DrawBase();
-
-    
-				DrawProjetil(projeteis);
+        base.DrawBase();
+				DrawProjetil(projeteis_from_player);
 				DrawPlayer(player);
 				DrawInimigo(inimigo);
-				CollideProjetil(player, projeteis, 10, 2);
-                if(base.PerderVida(projeteis, teste))
-                	break;
-
-
+				//CollideProjetil(player, projeteis, 10, 2);
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));
+				player.VerificarColisao(inimigo);
+        base.LevarDano( player.VerificarColisao(base) );
+
 			}
 		}
 	}
-
-	al_destroy_display(display);
-
-	return 0;
 }
 
-void CollideProjetil(GameObject player, Lista<GameObject*> projeteis, unsigned int raio_j, unsigned int raio_p)
-{
-	unsigned int xj, xp, yj, yp;
-	int dx, dy; 
-	int soma_raios = 0; 
-	int i = 0;
-	float dist = 0;
-
-	soma_raios = (raio_p + raio_j);		
-
-    GameObject *temp;
-
-	player.GetPosicaoAtual(xj, yj);
-
-	while ( projeteis.GetElem(i, temp) ) {
-		temp->GetPosicaoAtual(xp, yp);
-		i++;
-
-		int xptemp = xp;
-		int xjtemp = xj;
-
-		int yptemp = yp;
-		int yjtemp = yj;
-
-		dx = xptemp - xjtemp;
-		dy = yptemp - yjtemp;
-		//dx = (int)xp - (int)xj;
-		//dy = (int)yp - (int)yj;    
-
-		dist = sqrt(( pow(dx, 2) + pow(dy, 2)));
-
-		if (xjtemp + raio_j + raio_p > xptemp 
-		&& xjtemp < xptemp + raio_p + raio_j 
-		&& yjtemp + raio_j + raio_p > yptemp
-		&& yjtemp < yptemp + raio_p + raio_j)
-		{ 
-		    if(dist <= soma_raios) 
-		    {	 
-
-		      		//delete projeteis;
-		      		std::cout << "ptojetil deletado" << std::endl;
-		    }
-		}
-	}	
-} 
 
 
 void DrawPlayer(GameObject player)
@@ -209,11 +160,11 @@ void DrawPlayer(GameObject player)
   al_draw_filled_circle(x, y, 10, al_map_rgb(0, 255, 0));
 }
 
-void DrawProjetil(Lista<GameObject*> projeteis)
+void DrawProjetil(Lista<Projetil*> projeteis)
 {
   int i = 0;
   unsigned int x, y;
-  GameObject *temp;
+  Projetil *temp;
   while ( projeteis.GetElem(i, temp) ) {
     temp->GetPosicaoAtual(x, y);
     al_draw_filled_circle(x, y, 2, al_map_rgb(255, 255, 255));
@@ -248,30 +199,4 @@ GameObject Distancia(GameObject a, GameObject b){
 	}
 }
 
-/*
-//posição da bala é atualizada
-void FireProjetil(Lista <GameObject*> projeteis)
-{
-	for(int i = 0; i < tam; ++i)
-	{
-		if(!bala[i].vida)
-		{
-			bala[i].x = vX;
-			bala[i].y = vY;
-			bala[i].vida = true;
-			break;
-		}
-	}
 
-}
-
-// verifica se essa posição ultrapasso os limites
-void UpdateProjetil(Lista <GameObject*> projeteis, int tam)
-{
-	for(int i = 0; i < tam; ++i)
-	{
-		bala[i].x += bala[i].velocidade;
-		if(bala[i].x > LARGURA)
-			bala[i].vida = false;
-	}
-}*/
