@@ -21,7 +21,7 @@ class Inimigo : public Personagem{
 		//Inimigo( unsigned int PositionX,  unsigned int PositionY);
 		Inimigo(int velocidade, int vida); //gera posição inicial randômicamente (nas bordas)
 		Inimigo(int velocidade, int vida, int municao); //gera posição inicial randômicamente (nas bordas)
-		void Distancia(const Personagem &p);
+		void Distancia(const Personagem &p, int base_raio);
 		int Dropar();
 		//void Mover(); //Personagem.h
 		void Draw();

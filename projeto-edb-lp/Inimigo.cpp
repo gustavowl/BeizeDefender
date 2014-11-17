@@ -38,7 +38,7 @@ int Inimigo::Dropar()
 	return Municao;
 }
 
-void Inimigo::Distancia(const Personagem &p)
+void Inimigo::Distancia(const Personagem &p, int base_raio)
 {
 	int x_atual = GetXAtual(), y_atual = GetYAtual(); //evitar erros de subtração
 	int px_atual = p.GetXAtual(), py_atual = p.GetYAtual(); //evitar erros de subtração
@@ -49,7 +49,22 @@ void Inimigo::Distancia(const Personagem &p)
 	float dist_base = sqrt( pow(x_atual - max_x / 2, 2) + pow(y_atual - max_y / 2, 2) );
 
 	if (dist_jogador >= dist_base) {
-		this->AtualizarDestino((MaxX/2) - 100, (MaxY/2) - 100);
+		int novo_x, novo_y;
+		if (x_atual < (MaxX / 2) - base_raio)
+			novo_x = (MaxX/2) - base_raio;
+		else if (x_atual > (MaxX/2) + base_raio)
+			novo_x = (MaxX/2) + base_raio;
+		else
+			novo_x = x_atual;
+
+		if (y_atual < (MaxY / 2) - base_raio)
+			novo_y = (MaxY/2) - base_raio;
+		else if (y_atual > (MaxY/2) + base_raio)
+			novo_y = (MaxY/2) + base_raio;
+		else
+			novo_y = y_atual;
+
+		this->AtualizarDestino( novo_x, novo_y );
 		CalcularProxDest = true;
 	}
 	else {

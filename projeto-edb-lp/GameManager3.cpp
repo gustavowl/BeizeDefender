@@ -124,7 +124,7 @@ int main() {
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) { 
 				player.Mover(); //já move os projéteis do player
-				inimigo.Distancia(player); //se tirar referência dá falha de segmentação
+				inimigo.Distancia( player, base.GetRaio() ); //se tirar referência dá falha de segmentação
 				//RESOLVER PROBLEMA NO CONSTRUTOR DE CÓPIA
 				inimigo.Mover();
 				//int i = 0;
