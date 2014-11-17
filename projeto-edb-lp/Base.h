@@ -81,7 +81,6 @@ bool Base::PerderVida(Lista <GameObject*> projeteis, Projetil * projetil)
         temp->GetPosicaoAtual(xp, yp);
         int xptemp = xp;
         int yptemp = yp;
-        int dist = sqrt(pow(xp - temp->GetXAtual(),2) + pow);
 
         if ((xptemp >= x1 + raio && xptemp <= x2 + raio && yptemp >= y1 + raio && yptemp <= y2 + raio) 
             || (xptemp >= x1 - raio && xptemp <= x2 - raio && yptemp >= y1 - raio && yptemp <= y2 - raio)) 
