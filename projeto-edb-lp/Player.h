@@ -34,7 +34,7 @@ public:
 
 	Player(unsigned int posicao_x, unsigned int posicao_y);
 	Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, int municao_atual, int vida);
-	void operator=(const Personagem &personagem);
+	void operator=(const Personagem &persona);
 };
 
 #endif

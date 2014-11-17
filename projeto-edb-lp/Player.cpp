@@ -99,18 +99,26 @@ Player::Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, 
 	}
 }
 
-void Player::operator=(const Personagem &personagem) {
-	FrameAtual = personagem.GetFrameAtual();
-	TotalFrames = personagem.GetTotalFrames();
-	XOrigem = personagem.GetXOrigem();
-	YOrigem = personagem.GetYOrigem();
-	XAtual = personagem.GetXAtual();
-	YAtual = personagem.GetYAtual();
-	XDestino = personagem.GetXDestino();
-	YDestino = personagem.GetYDestino();
-	Raio = personagem.GetRaio();
-	Velocidade = personagem.GetVelocidade();
-	TipoMovimento = SMOOTH;
-	Vida = personagem.GetVida();
-	//Lista<Projetil*> fica vazia
+void Player::operator=(const Personagem &persona){
+	this->FrameAtual = persona.GetFrameAtual();
+	this->TotalFrames = persona.GetTotalFrames();
+	this->XOrigem = persona.GetXOrigem();
+	this->YOrigem = persona.GetYOrigem();
+	this->XAtual = persona.GetXAtual();
+	this->YAtual = persona.GetYAtual();
+	this->XDestino = persona.GetXDestino();
+	this->YDestino = persona.GetYDestino();
+	this->Raio = persona.GetRaio();
+	this->Velocidade = persona.GetVelocidade();
+	this->TipoMovimento = persona.GetTipoMovimento();
+	this->Vida = persona.GetVida();
+
+	Lista<Projetil*> proj_persona = persona.GetProjeteis();
+	Projetil *temp; int i = 0;
+	while ( proj_persona.GetElem( i, temp ) ) {
+		Projetil* to_add = new Projetil();
+		*to_add = *temp;
+		this->Projeteis.Insert(i, to_add);//insere na última posição para preservar a ordem (apesar de não alterar nada)
+		i++;
+	}
 }

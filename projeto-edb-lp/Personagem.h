@@ -21,6 +21,7 @@ public:
 	void Mover(); //sobrescreve operação de mover. Move tanto o player quanto suas balas
 	Lista<Projetil*> GetProjeteisToDraw(); //retorna uma lista com posição de todos os projéteis
 	//para desenhar
+	Lista<Projetil*> GetProjeteis() const; //retorna lista e projéteis (usado nos operator= de classe filha)
 	int GetVida() const; //serve para saber se verifica colisão com ele, já que algumas balas provavelmente ainda estarão
 	//na arena, mesmo com o personagem já destruído
 
@@ -28,6 +29,7 @@ public:
 	Personagem(unsigned int posicao_x, unsigned int posicao_y, WalkType walk_type);
 	Personagem(int velocidade, int vida, WalkType walk_type); //gera posição inicial randômicamente (nas bordas)
 	Personagem(unsigned int posicao_x, unsigned int posicao_y, int velocidade, int vida, WalkType walk_type);
+	Personagem(const Personagem &persona); //construtor de cópia
 	void operator=(const GameObject &game_obj);
 	void operator=(const Personagem &persona); //faz cópia profunda
 	~Personagem();

@@ -21,12 +21,12 @@ class Inimigo : public Personagem{
 		//Inimigo( unsigned int PositionX,  unsigned int PositionY);
 		Inimigo(int velocidade, int vida); //gera posição inicial randômicamente (nas bordas)
 		Inimigo(int velocidade, int vida, int municao); //gera posição inicial randômicamente (nas bordas)
-		void Distancia(const Personagem &p, int base_raio);
+		void Distancia(Personagem p, int base_raio);
 		int Dropar();
 		void Draw();
-		void operator=(const Personagem &personagem);
+		void operator=(const Personagem &persona);
 		void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);
-		void Atirar();
+		void Atirar(const Personagem &p);
 		Lista<Projetil*> GetProjeteisToDraw();
 };
 

@@ -19,6 +19,7 @@ int Personagem::VerificarColisao(const GameObject obj) { //retorna dano causado 
 		dano_total += temp->VerificarColisao(obj);
 		i++;
     }
+    return dano_total;
 }
 
 int Personagem::VerificarColisaoQuadrada(const GameObject obj) {
@@ -67,6 +68,17 @@ Lista<Projetil*> Personagem::GetProjeteisToDraw() { //retorna uma lista com posi
 	return to_return;
 }
 
+Lista<Projetil*> Personagem::GetProjeteis() const { //retorna uma lista com posição de todos os projéteis para desenhar
+	Lista<Projetil*> to_return; //lista para retornar
+	Projetil *temp; //ponteiro para pegar valores da lista
+	int i = 0;
+	while ( Projeteis.GetElem(i, temp) ) {
+			to_return.Insert( i, temp );//adiciona ao retorno
+			i++;
+	}
+	return to_return;
+}
+
 int Personagem::GetVida() const {
 	return Vida;
 }
@@ -104,6 +116,10 @@ Personagem::Personagem(unsigned int posicao_x, unsigned int posicao_y, int veloc
 	}
 }
 
+Personagem::Personagem(const Personagem &persona) { //construtor de cópia
+	*this = persona;
+}
+
 void Personagem::operator=(const GameObject &game_obj) {
 	FrameAtual = game_obj.GetFrameAtual();
 	TotalFrames = game_obj.GetTotalFrames();
@@ -115,15 +131,7 @@ void Personagem::operator=(const GameObject &game_obj) {
 	YDestino = game_obj.GetYDestino();
 	Raio = game_obj.GetRaio();
 	Velocidade = game_obj.GetVelocidade();
-	TipoMovimento = SMOOTH;
-}
-
-Personagem::~Personagem() { //deleta lista de projéteis dinamicamente alocados
-	Projetil *temp; //ponteiro para pegar valores da lista
-	while ( Projeteis.GetElem(0, temp) ) { //deleta todos os projéteis dinamicamente alocados
-		delete temp; //deleta projétil dinamicamente alocado
-		Projeteis.Remove(0);//remove bala da lista
-	}
+	TipoMovimento = game_obj.GetTipoMovimento();
 }
 
 void Personagem::operator=(const Personagem &persona) {//faz cópia profunda
@@ -137,7 +145,7 @@ void Personagem::operator=(const Personagem &persona) {//faz cópia profunda
 	this->YDestino = persona.YDestino;
 	this->Raio = persona.Raio;
 	this->Velocidade = persona.Velocidade;
-	this->TipoMovimento = SMOOTH;
+	this->TipoMovimento = persona.GetTipoMovimento();
 	this->Vida = persona.Vida;
 	Projetil *temp; int i = 0;
 	while ( persona.Projeteis.GetElem( i, temp ) ) {
@@ -145,5 +153,13 @@ void Personagem::operator=(const Personagem &persona) {//faz cópia profunda
 		*to_add = *temp;
 		this->Projeteis.Insert(i, to_add);//insere na última posição para preservar a ordem (apesar de não alterar nada)
 		i++;
+	}
+}
+
+Personagem::~Personagem() { //deleta lista de projéteis dinamicamente alocados
+	Projetil *temp; //ponteiro para pegar valores da lista
+	while ( Projeteis.GetElem(0, temp) ) { //deleta todos os projéteis dinamicamente alocados
+		delete temp; //deleta projétil dinamicamente alocado
+		Projeteis.Remove(0);//remove bala da lista
 	}
 }

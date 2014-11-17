@@ -125,6 +125,7 @@ int main() {
 			}
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) { 
+				inimigo.Atirar(player);
 				player.Mover(); //já move os projéteis do player
 				horda.Mover(player, base.GetRaio());
 				//inimigo.Distancia( player, base.GetRaio() ); //se tirar referência dá falha de segmentação
@@ -132,8 +133,9 @@ int main() {
 				//inimigo.Mover();
 				//int i = 0;
 				Lista<Projetil*> projeteis_from_player = player.GetProjeteisToDraw();
+				Lista<Projetil*> projeteis_from_inimig = inimigo.GetProjeteisToDraw();
 				//dano colocado antes do desenho para dar a ilusão de maior tamanho da base
-				base.LevarDano( player.VerificarColisaoQuadrada(base) );
+				base.LevarDano( inimigo.VerificarColisaoQuadrada(base) );
 		        /*GameObject *temp;
 		        while ( projeteis.GetElem(i, temp) ) {
 		          temp->Mover();
@@ -143,6 +145,7 @@ int main() {
 				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
 				base.DrawBase();
 				DrawProjetil(projeteis_from_player);
+				DrawProjetil(projeteis_from_inimig);
 				player.Draw();
 				//DrawPlayer(player);
 				horda.LiberarInimigos();
@@ -151,6 +154,7 @@ int main() {
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));
 				//player.VerificarColisao(inimigo);
+				player.LevarDano( inimigo.VerificarColisao(player) );
 				inimigo.LevarDano( player.VerificarColisao(inimigo) );
 
 

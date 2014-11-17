@@ -42,6 +42,7 @@ class GameObject {
 		unsigned int GetYDestino() const;
 		unsigned int GetRaio() const;
 		unsigned int GetVelocidade() const;
+		WalkType GetTipoMovimento() const;
 
 		GameObject(); //cria "objeto vazio"
 		GameObject(unsigned int MaximoX, unsigned int MaximoY); //inicializa tamanho da arena, só permite alterar o tamanho uma vez

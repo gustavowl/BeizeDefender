@@ -38,7 +38,7 @@ int Inimigo::Dropar()
 	return Municao;
 }
 
-void Inimigo::Distancia(const Personagem &p, int base_raio)
+void Inimigo::Distancia(Personagem p, int base_raio)
 {
 	int x_atual = GetXAtual(), y_atual = GetYAtual(); //evitar erros de subtração
 	int px_atual = p.GetXAtual(), py_atual = p.GetYAtual(); //evitar erros de subtração
@@ -150,26 +150,47 @@ void Inimigo::Draw()
 	Personagem::Draw(255, 0, 0);
 }
 
-void Inimigo::operator=(const Personagem &personagem) {
-	FrameAtual = personagem.GetFrameAtual();
-	TotalFrames = personagem.GetTotalFrames();
-	XOrigem = personagem.GetXOrigem();
-	YOrigem = personagem.GetYOrigem();
-	XAtual = personagem.GetXAtual();
-	YAtual = personagem.GetYAtual();
-	XDestino = personagem.GetXDestino();
-	YDestino = personagem.GetYDestino();
-	Raio = personagem.GetRaio();
-	Velocidade = personagem.GetVelocidade();
-	TipoMovimento = LINEAR;
-	Vida = personagem.GetVida();
-	//Lista<Projetil*> fica vazia
+void Inimigo::operator=(const Personagem &persona) {
+	this->FrameAtual = persona.GetFrameAtual();
+	this->TotalFrames = persona.GetTotalFrames();
+	this->XOrigem = persona.GetXOrigem();
+	this->YOrigem = persona.GetYOrigem();
+	this->XAtual = persona.GetXAtual();
+	this->YAtual = persona.GetYAtual();
+	this->XDestino = persona.GetXDestino();
+	this->YDestino = persona.GetYDestino();
+	this->Raio = persona.GetRaio();
+	this->Velocidade = persona.GetVelocidade();
+	this->TipoMovimento = persona.GetTipoMovimento();
+	this->Vida = persona.GetVida();
+
+	Lista<Projetil*> proj_persona = persona.GetProjeteis();
+	Projetil *temp; int i = 0;
+	while ( proj_persona.GetElem( i, temp ) ) {
+		Projetil* to_add = new Projetil();
+		*to_add = *temp;
+		this->Projeteis.Insert(i, to_add);//insere na última posição para preservar a ordem (apesar de não alterar nada)
+		i++;
+	}
 }
 
-void Inimigo::Atirar() 
+void Inimigo::Atirar(const Personagem &p) 
 {
-	Projetil *novo_projetil = new Projetil(this->XAtual, this->YAtual, this->XDestino, this->YDestino);
-	Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
+	if (Vida > 0) {
+		int x_atual = GetXAtual(), y_atual = GetYAtual(); //evitar erros de subtração
+		int px_atual = p.GetXAtual(), py_atual = p.GetYAtual(); //evitar erros de subtração
+		int px_orig = p.GetXOrigem(), py_orig = p.GetYOrigem(); //evitar erros de subtração
+		int max_x = MaxX, max_y = MaxY; //evitar erros de subtração
+		float dist_jogador = sqrt( pow(x_atual - px_atual, 2) + pow(y_atual - py_atual, 2) );
+		float dist_base = sqrt( pow(x_atual - max_x / 2, 2) + pow(y_atual - max_y / 2, 2) );
+		
+		Projetil *novo_projetil;
+		if (dist_jogador > dist_base)
+			novo_projetil = new Projetil(this->XAtual, this->YAtual, max_x / 2, max_y / 2);
+		else
+			novo_projetil = new Projetil(this->XAtual, this->YAtual, px_atual, py_atual);
+		Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
+	}
 }
 
 void Inimigo::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY)

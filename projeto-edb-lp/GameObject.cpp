@@ -200,3 +200,7 @@ unsigned int GameObject::GetRaio() const {
 unsigned int GameObject::GetVelocidade() const {
 	return Velocidade;
 }
+
+WalkType GameObject::GetTipoMovimento() const {
+	return TipoMovimento;
+}
