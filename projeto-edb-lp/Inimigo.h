@@ -23,7 +23,6 @@ class Inimigo : public Personagem{
 		Inimigo(int velocidade, int vida, int municao); //gera posição inicial randômicamente (nas bordas)
 		void Distancia(const Personagem &p, int base_raio);
 		int Dropar();
-		//void Mover(); //Personagem.h
 		void Draw();
 		void operator=(const Personagem &personagem);
 		void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);

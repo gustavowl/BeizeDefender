@@ -8,6 +8,7 @@
 #include "Base.h"
 #include "Player.h" //fix
 #include "Inimigo.h"
+#include "Horda.h"
 
 
 using namespace go;
@@ -27,8 +28,9 @@ int main() {
   
   GameObject arena(1024, 640); 
   Player player(1024/2, 640/2);//atualizado
-  Inimigo inimigo(15, 5);
+  Inimigo inimigo(2, 5);
   Base base(380,200,620,440);//atualizado
+  Horda horda(5, 1);
 
   
   //em GameObject tem um enum: enum WalkType { STATIC, LINEAR, SMOOTH }; 
@@ -124,9 +126,10 @@ int main() {
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) { 
 				player.Mover(); //já move os projéteis do player
-				inimigo.Distancia( player, base.GetRaio() ); //se tirar referência dá falha de segmentação
+				horda.Mover(player, base.GetRaio());
+				//inimigo.Distancia( player, base.GetRaio() ); //se tirar referência dá falha de segmentação
 				//RESOLVER PROBLEMA NO CONSTRUTOR DE CÓPIA
-				inimigo.Mover();
+				//inimigo.Mover();
 				//int i = 0;
 				Lista<Projetil*> projeteis_from_player = player.GetProjeteisToDraw();
 				//dano colocado antes do desenho para dar a ilusão de maior tamanho da base
@@ -142,7 +145,8 @@ int main() {
 				DrawProjetil(projeteis_from_player);
 				player.Draw();
 				//DrawPlayer(player);
-				inimigo.Draw();
+				horda.LiberarInimigos();
+				//inimigo.Draw();
 				//CollideProjetil(player, projeteis, 10, 2);
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));

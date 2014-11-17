@@ -145,18 +145,6 @@ void Inimigo::Distancia(const Personagem &p, int base_raio)
 	//this->Mover(); //para não mover as balas
 }
 
-/*void Inimigo::Mover()
-{
-	GameObject::Mover(); //chama mover original
-
-	Projetil *temp; int i = 0;
-	while ( Projeteis.GetElem( i, temp ) ) {
-		temp->Mover();
-		i++;
-	}
-
-}*/
-
 void Inimigo::Draw()
 {
 	Personagem::Draw(255, 0, 0);
