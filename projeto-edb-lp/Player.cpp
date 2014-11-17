@@ -19,6 +19,16 @@ int Player::VerificarColisao(const GameObject obj) { //retorna dano causado pela
     }
 }
 
+int Player::VerificarColisaoQuadrada(const GameObject obj) {
+	Projetil *temp; int i = 0, dano_total = 0;
+	//pega informações para calcular colisão de objeto
+    while ( Projeteis.GetElem(i, temp) ) {
+    	//verifica colisão de uma bala com obj e atualiza dano causado
+		dano_total += temp->VerificarColisaoQuadrada(obj);
+		i++;
+    }	
+}
+
 void Player::AdicionarMunicao(unsigned int qtd) { //adiciona munição ao Projétil de tipo 1
 	MunicaoAtual += qtd;
 	if (MunicaoAtual > MaxMunicao)

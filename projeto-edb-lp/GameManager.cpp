@@ -125,13 +125,15 @@ int main() {
 				player.Mover(); //já move os projéteis do player
 				inimigo = Distancia(inimigo, player);
 				inimigo.Mover();
-        int i = 0;
-        Lista<Projetil*> projeteis_from_player = player.GetProjeteisToDraw();
-        /*GameObject *temp;
-        while ( projeteis.GetElem(i, temp) ) {
-          temp->Mover();
-          i++;
-        }*/
+				int i = 0;
+				Lista<Projetil*> projeteis_from_player = player.GetProjeteisToDraw();
+				//dano colocado antes do desenho para dar a ilusão de maior tamanho da base
+				base.LevarDano( player.VerificarColisaoQuadrada(base) );
+		        /*GameObject *temp;
+		        while ( projeteis.GetElem(i, temp) ) {
+		          temp->Mover();
+		          i++;
+		        }*/
         
 				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
         		base.DrawBase();
@@ -142,7 +144,7 @@ int main() {
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));
 				player.VerificarColisao(inimigo);
-        		base.LevarDano( player.VerificarColisao(base) );
+
 
 			}
 		}

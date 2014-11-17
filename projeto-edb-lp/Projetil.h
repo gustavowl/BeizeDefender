@@ -29,6 +29,9 @@ class Projetil : public go::GameObject {
 	unsigned int GetDano();
 	int VerificarColisao(const GameObject obj); //retorna dano causado pela bala ao obj, e destrói
 	//projétil que causou dano. Função exterior tem q tirar vida do obj e remover projétil da memória
+	int VerificarColisaoQuadrada(const GameObject obj); //retorna dano causado pelas balas ao obj, e destrói (mas n remove)
+	//projéteis que causaram dano. Função exterior tem q tirar vida do obj
+	//verifica colisão com a base, considera raio como metade da largura
 };
 
 #endif

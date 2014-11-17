@@ -45,7 +45,7 @@ Base::Base(unsigned int x_esq, unsigned int y_sup, unsigned int x_dir, unsigned 
     XDestino = XOrigem; //garantir q fica estático
     YDestino = YOrigem; //garantir q fica estático
     int xe = x_esq, xd = x_dir; //evita erro de subtração
-    Raio = (xd - xe + 10) / 2; //+ 10 por causa da espessua
+    Raio = (xd - xe) / 2 + 10; //+ 10 por causa da espessura
     Velocidade = 0;
     TipoMovimento = STATIC;
 }

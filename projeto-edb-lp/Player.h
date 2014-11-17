@@ -20,6 +20,9 @@ public:
 	bool LevarDano(unsigned int dano); //retorna se morreu
 	int VerificarColisao(const GameObject obj); //retorna dano causado pelas balas ao obj, e destrói (mas n remove)
 	//projéteis que causaram dano. Função exterior tem q tirar vida do obj
+	int VerificarColisaoQuadrada(const GameObject obj); //retorna dano causado pelas balas ao obj, e destrói (mas n remove)
+	//projéteis que causaram dano. Função exterior tem q tirar vida do obj
+	//verifica colisão com a base (projeto final player não vai precisar dessa função, só inimigo)
 	void AdicionarMunicao(unsigned int qtd); //adiciona munição ao Projétil de tipo 1
 	void Atirar(unsigned int destino_x, unsigned int destino_y); //atira projétil de tipo 1
 	void Mover(); //sobrescreve operação de mover. Move tanto o player quanto suas balas
