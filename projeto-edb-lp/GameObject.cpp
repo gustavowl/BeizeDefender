@@ -26,7 +26,8 @@ GameObject::GameObject(unsigned int MaximoX, unsigned int MaximoY) { //inicializ
 	}
 }
 
-GameObject::GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov) { //pode gerar posição inicial randômica
+//gera posição inicial randômica nas bordas
+GameObject::GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov) {
 	if (MaxX > 0 && MaxY > 0 && Raio > 0) {
 		//0: borda sup | 1: borda dir | 2: borda inf | 3: borda esq
 		int r = rand() % 4;
@@ -127,23 +128,25 @@ void GameObject::Mover() {
 }
 
 void GameObject::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY) {
-	XOrigem = XAtual;
-	YOrigem = YAtual;
-	XDestino = DestinoX;
-	YDestino = DestinoY;
-	//calcula a distância por pitágoras
-	int xo, xd, yo, yd;
-	xo = XOrigem; xd = XDestino; yo = YOrigem; yd = YDestino;
-	//unsigned int a conta pode dar errada (130 - 150), por exemplo
-	//variáveis int criadas pois com conversão direta não estava funcionando
-	float dist = sqrt( pow(xo - xd, 2) + pow(yo - yd, 2) );
-	//usa a distância e a velocidade para saber a quantidade de frames
-	if (Velocidade > 0)
-		TotalFrames = (unsigned int)(dist / Velocidade);
-	else
-		TotalFrames = 0;
-	//zera frame atual
-	FrameAtual = 0;
+	if (DestinoX != XDestino && DestinoY != YDestino) {
+		XOrigem = XAtual;
+		YOrigem = YAtual;
+		XDestino = DestinoX;
+		YDestino = DestinoY;
+		//calcula a distância por pitágoras
+		int xo, xd, yo, yd;
+		xo = XOrigem; xd = XDestino; yo = YOrigem; yd = YDestino;
+		//unsigned int a conta pode dar errada (130 - 150), por exemplo
+		//variáveis int criadas pois com conversão direta não estava funcionando
+		float dist = sqrt( pow(xo - xd, 2) + pow(yo - yd, 2) );
+		//usa a distância e a velocidade para saber a quantidade de frames
+		if (Velocidade > 0)
+			TotalFrames = (unsigned int)(dist / Velocidade);
+		else
+			TotalFrames = 0;
+		//zera frame atual
+		FrameAtual = 0;
+	}
 }
 
 unsigned int GameObject::GetMaxX() const {

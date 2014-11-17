@@ -1,29 +1,31 @@
 #ifndef _INIMIGO_H_
 #define _INIMIGO_H_
 
-#include "GameObject.h"
 #include "ListaEncadeada/lista.h"
 #include "Projetil.h"
-#include "Player.h"
+#include "Personagem.h"
 
-class Inimigo : public go::GameObject{
+class Inimigo : public Personagem{
 	//velocidade padrão da bala: 1
 	//raio padrão do inimigo: 10
 	//walktype: linear
 
 	private:
-		int tipo; // se sera normal, boss ou outra coisa
-		int municao; // quantidade de municao que ele vai dropar
-		bool destruido;
-		Lista<Projetil*> Projeteis;
+		int Tipo; // se sera normal, boss ou outra coisa //por enquanto armazena lixo
+		int Municao; // quantidade de municao que ele vai dropar
+		bool CalcularProxDest;
+		//bool destruido; //tem vida
+		//Lista<Projetil*> Projeteis; //tem em personagem
 	public:
 		//Inimigo();
-		Inimigo( int PositionX,  int PositionY);
-		void Distancia(Player b);
+		//Inimigo( unsigned int PositionX,  unsigned int PositionY);
+		Inimigo(int velocidade, int vida); //gera posição inicial randômicamente (nas bordas)
+		Inimigo(int velocidade, int vida, int municao); //gera posição inicial randômicamente (nas bordas)
+		void Distancia(const Personagem &p);
 		int Dropar();
-		void Mover();
+		//void Mover(); //Personagem.h
 		void Draw();
-		void operator=(const GameObject &GameObj);
+		void operator=(const Personagem &personagem);
 		void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);
 		void Atirar();
 		Lista<Projetil*> GetProjeteisToDraw();

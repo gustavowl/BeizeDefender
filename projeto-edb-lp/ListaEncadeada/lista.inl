@@ -55,7 +55,7 @@ template <class type>
 int Lista<type>::Size() {return tam;};
 
 template <class type>
-bool Lista<type>::GetElem(int pos, type &get) { //retorna se posição é válida. &get armazenará valor
+bool Lista<type>::GetElem(int pos, type &get) const { //retorna se posição é válida. &get armazenará valor
 	if (bhvr == LISTASIMPLES && pos >= 0 && pos < tam) {
 		node *temp = head;
 		for (int i = 0; i <= pos; i++) {
@@ -68,7 +68,7 @@ bool Lista<type>::GetElem(int pos, type &get) { //retorna se posição é válid
 };
 
 template <class type>
-bool Lista<type>::GetElem(type &get) { //retorna se lista ou pilha possui elemento top. &get armazenará valor
+bool Lista<type>::GetElem(type &get) const { //retorna se lista ou pilha possui elemento top. &get armazenará valor
 	if (tam > 0) {
 		if (bhvr == PILHA) {
 			get = head->next->val;

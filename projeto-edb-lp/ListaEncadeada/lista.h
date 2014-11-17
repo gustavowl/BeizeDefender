@@ -24,8 +24,8 @@
 		~Lista();
 		Lista& operator=(const Lista &l);
 		int Size();
-		bool GetElem(int pos, type &get);
-		bool GetElem(type &get);
+		bool GetElem(int pos, type &get) const;
+		bool GetElem(type &get) const;
 		int Search(type val);
 		bool Insert(int pos, type val);
 		bool Insert(type val);

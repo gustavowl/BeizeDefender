@@ -7,15 +7,16 @@
 #include "Projetil.h"
 #include "Base.h"
 #include "Player.h" //fix
+#include "Inimigo.h"
 
 
 using namespace go;
 
 void DrawProjetil(Lista<Projetil*> projeteis); //=D
-void DrawPlayer(GameObject player);
-void DrawInimigo(GameObject inimigo);
-void CollideProjetil(GameObject player, Lista<GameObject*> projeteis, unsigned int raio_j, unsigned int raio_p);
-GameObject Distancia(GameObject a, GameObject b);//remover
+//void DrawPlayer(GameObject player);
+//void DrawInimigo(GameObject inimigo);
+//void CollideProjetil(GameObject player, Lista<GameObject*> projeteis, unsigned int raio_j, unsigned int raio_p);
+//GameObject Distancia(GameObject a, GameObject b);//remover
 
 
 int main() {
@@ -26,7 +27,7 @@ int main() {
   
   GameObject arena(1024, 640); 
   Player player(1024/2, 640/2);//atualizado
-  GameObject inimigo(10, 320, 1, 10, LINEAR);
+  Inimigo inimigo(15, 5);
   Base base(380,200,620,440);//atualizado
 
   
@@ -104,7 +105,7 @@ int main() {
 				
 				else if(ev.mouse.button & 1)
 				{
-          player.Atirar(ev.mouse.x, ev.mouse.y); //oks
+          			player.Atirar(ev.mouse.x, ev.mouse.y); //oks
               /*player.Mover();
   			      inimigo = Distancia(inimigo, player);
 				      inimigo.Mover();
@@ -123,26 +124,31 @@ int main() {
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) { 
 				player.Mover(); //já move os projéteis do player
-				inimigo = Distancia(inimigo, player);
+				inimigo.Distancia(player); //se tirar referência dá falha de segmentação
+				//RESOLVER PROBLEMA NO CONSTRUTOR DE CÓPIA
 				inimigo.Mover();
-        int i = 0;
-        Lista<Projetil*> projeteis_from_player = player.GetProjeteisToDraw();
-        /*GameObject *temp;
-        while ( projeteis.GetElem(i, temp) ) {
-          temp->Mover();
-          i++;
-        }*/
+				//int i = 0;
+				Lista<Projetil*> projeteis_from_player = player.GetProjeteisToDraw();
+				//dano colocado antes do desenho para dar a ilusão de maior tamanho da base
+				base.LevarDano( player.VerificarColisaoQuadrada(base) );
+		        /*GameObject *temp;
+		        while ( projeteis.GetElem(i, temp) ) {
+		          temp->Mover();
+		          i++;
+		        }*/
         
 				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
-        base.DrawBase();
+				base.DrawBase();
 				DrawProjetil(projeteis_from_player);
-				DrawPlayer(player);
-				DrawInimigo(inimigo);
+				player.Draw();
+				//DrawPlayer(player);
+				inimigo.Draw();
 				//CollideProjetil(player, projeteis, 10, 2);
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));
-				player.VerificarColisao(inimigo);
-        base.LevarDano( player.VerificarColisao(base) );
+				//player.VerificarColisao(inimigo);
+				inimigo.LevarDano( player.VerificarColisao(inimigo) );
+
 
 			}
 		}
@@ -151,14 +157,14 @@ int main() {
 
 
 
-void DrawPlayer(GameObject player)
+/*void DrawPlayer(GameObject player)
 {
   int i = 0;
   unsigned int x, y;
   player.GetPosicaoAtual(x, y);
   //std::cout << x << ' ' << y << std::endl;
   al_draw_filled_circle(x, y, 10, al_map_rgb(0, 255, 0));
-}
+}*/
 
 void DrawProjetil(Lista<Projetil*> projeteis)
 {
@@ -173,16 +179,16 @@ void DrawProjetil(Lista<Projetil*> projeteis)
 
 }
 
-void DrawInimigo(GameObject inimigo)
+/*void DrawInimigo(GameObject inimigo)
 {
   int i = 0;
   unsigned int x, y;
   inimigo.GetPosicaoAtual(x, y);
   //std::cout << x << ' ' << y << std::endl;
   al_draw_filled_circle(x, y, 10, al_map_rgb(100, 100, 100));
-}
+}*/
 
-GameObject Distancia(GameObject a, GameObject b){
+/*GameObject Distancia(GameObject a, GameObject b){
 	float distJogador = sqrt( pow(a.GetXAtual() - b.GetXAtual(), 2) + pow(a.GetYAtual() - b.GetYAtual(), 2) );
 
 	float distbase = sqrt( pow(a.GetXAtual() - (640/2), 2) + pow(a.GetYAtual() - (480/2), 2) );
@@ -198,5 +204,5 @@ GameObject Distancia(GameObject a, GameObject b){
 		return a;
 	}
 }
-
+*/
 

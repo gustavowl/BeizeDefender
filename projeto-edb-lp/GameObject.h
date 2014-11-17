@@ -45,7 +45,7 @@ class GameObject {
 
 		GameObject(); //cria "objeto vazio"
 		GameObject(unsigned int MaximoX, unsigned int MaximoY); //inicializa tamanho da arena, só permite alterar o tamanho uma vez
-		GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov); //pode gerar posição inicial randômica
+		GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov); //gera posição inicial randômica nas bordas
 		GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, unsigned int Raio, WalkType TipoMov);
 		GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, 
 			unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, WalkType TipoMov);

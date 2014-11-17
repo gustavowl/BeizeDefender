@@ -4,7 +4,7 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 
-Inimigo::Inimigo( int PositionX,  int PositionY)
+/*Inimigo::Inimigo( unsigned int PositionX, unsigned int PositionY)
 {
 	//if (MaxX > 0 && MaxY > 0 && PositionX <= MaxX && PositionY <= MaxY) { //verifica se valor é válido
 		int velocidade = 1;
@@ -13,30 +13,124 @@ Inimigo::Inimigo( int PositionX,  int PositionY)
 		GameObject temp = GameObject(PositionX, PositionY, velocidade, raio, LINEAR);
 		*this =  temp; //copia os valores de pai para filho (tava dando erro ao fazer direto)
 		destruido = false;
-		municao = 10; // valor temp
+		Municao = 10; // valor temp
+		IsPlayerAlvo = false;
 	//}
+}*/
+
+Inimigo::Inimigo(int velocidade, int vida) { //gera posição inicial randômicamente (nas bordas)
+	*this = Personagem(velocidade, vida, LINEAR);
+	Municao = 10;
+	CalcularProxDest =  false;
+}
+
+Inimigo::Inimigo(int velocidade, int vida, int municao) { //gera posição inicial randômicamente (nas bordas)
+	*this = Personagem(velocidade, vida, LINEAR);
+	if (municao >= 0)
+		Municao = municao;
+	else
+		Municao = 0;
+	CalcularProxDest =  false;
 }
 
 int Inimigo::Dropar()
 {
-	return municao;
+	return Municao;
 }
 
-void Inimigo::Distancia(Player b)
+void Inimigo::Distancia(const Personagem &p)
 {
-	float distJogador = sqrt( pow(this->GetXAtual() - b.GetXAtual(), 2) + pow(this->GetYAtual() - b.GetYAtual(), 2) );
-	float distbase = sqrt( pow(this->GetXAtual() - (MaxX/2), 2) + pow(this->GetYAtual() - (MaxY/2), 2) );
+	int x_atual = GetXAtual(), y_atual = GetYAtual(); //evitar erros de subtração
+	int px_atual = p.GetXAtual(), py_atual = p.GetYAtual(); //evitar erros de subtração
+	int px_orig = p.GetXOrigem(), py_orig = p.GetYOrigem(); //evitar erros de subtração
+	int max_x = MaxX, max_y = MaxY; //evitar erros de subtração
 
-	if(distJogador >= distbase){
-		this->AtualizarDestino(b.GetXAtual(), b.GetYAtual());
-	} else{
-		this->AtualizarDestino((MaxX/2), (MaxY/2));
+	float dist_jogador = sqrt( pow(x_atual - px_atual, 2) + pow(y_atual - py_atual, 2) );
+	float dist_base = sqrt( pow(x_atual - max_x / 2, 2) + pow(y_atual - max_y / 2, 2) );
+
+	if (dist_jogador >= dist_base) {
+		this->AtualizarDestino((MaxX/2) - 100, (MaxY/2) - 100);
+		CalcularProxDest = true;
+	}
+	else {
+		if ((px_orig == px_atual && py_orig == py_atual) || /*personagem mudou de rota, recalcula*/
+		(x_atual == XDestino && y_atual == YDestino) || /*Inimigo atingiu destino, recalcula*/
+		(px_atual == p.GetXDestino() && py_atual == p.GetYDestino()) /*Personagem atingiu destino, recalcula*/
+		|| p.GetFrameAtual() <= 1) //saiu da inércia
+			CalcularProxDest = true;
+
+		if (CalcularProxDest) {
+			if (px_orig != px_atual && px_atual != p.GetXDestino() &&
+			py_atual != py_orig && py_atual != p.GetYDestino()) { //está se movimentando
+				//vai para metade do caminho
+				/*this->AtualizarDestino( (px_atual + p.GetXDestino()) / 2,
+				(py_atual + p.GetYDestino()) / 2);*/
+				this->AtualizarDestino( (px_orig + p.GetXDestino()) / 2,
+				(py_orig + p.GetYDestino()) / 2);
+				CalcularProxDest = false;
+			}
+			else { //está parado
+				//vai para posição atual
+				this->AtualizarDestino(px_atual, py_atual);
+				CalcularProxDest = false;
+			}
+		}
+			//vai para a metade do caminho
+		/*if (px_orig != px_atual && px_atual != p.GetXDestino() &&
+			py_atual != py_orig && py_atual != p.GetYDestino()) { //está se movimentando
+			//vai para a metade do caminho
+			if (CalcularProxDest) {
+				this->AtualizarDestino( (px_atual + p.GetXDestino()) / 2,
+					(py_atual + p.GetYDestino()) / 2);
+			}
+			else if (XAtual == XDestino && YAtual == YDestino) {
+				//chegou no destino, calcula na próxima iteração
+				CalcularProxDest = true;				
+			}
+		}
+		else { //está parado
+			if (CalcularProxDest) {
+				this->AtualizarDestino(px_atual, py_atual);
+				CalcularProxDest = false;
+			}
+			else if (XAtual == XDestino && YAtual == YDestino)
+				//chegou no destino, calcula na próxima iteração
+				CalcularProxDest = true;
+		}*/
 	}
 
-	this->Mover();
+	/*if(dist_jogador > dist_base) {//ataca base
+		//atualiza destino se tiver mudado alvo ou seja ao ponto de destino
+	//	if ( IsPlayerAlvo ) {
+		if (XDestino != MaxX/2 - 100 && YDestino != MaxY/2 - 100) {
+			this->AtualizarDestino((MaxX/2) - 100, (MaxY/2) - 100);
+		}
+		IsPlayerAlvo = false;
+	//	}
+	}
+	else {//ataca jogador
+		//atualiza destino se tiver mudado alvo ou seja ao ponto de destino
+	//	if ( !IsPlayerAlvo ) {
+		if (XDestino != px_orig && YDestino != py_orig &&
+			p.GetXDestino() != px_atual && p.GetYDestino() != py_atual) { //está se movimentando e não parado
+			this->AtualizarDestino(px_orig, py_orig); //atualiza 1x
+			IsPlayerAlvo = false;
+		}
+		else if (p.GetXDestino() == px_atual && p.GetYDestino() == py_atual && !IsPlayerAlvo) { //parado
+			this->AtualizarDestino(px_atual, py_atual);
+			IsPlayerAlvo = true;
+		}
+		/*else if (px_orig == XDestino && py_orig == YDestino) {
+			this->AtualizarDestino(0, 0);
+		}* /
+
+
+	//	}
+	}*/
+	//this->Mover(); //para não mover as balas
 }
 
-void Inimigo::Mover()
+/*void Inimigo::Mover()
 {
 	GameObject::Mover(); //chama mover original
 
@@ -46,28 +140,27 @@ void Inimigo::Mover()
 		i++;
 	}
 
-}
+}*/
 
 void Inimigo::Draw()
 {
-  int i = 0;
-  unsigned int x, y;
-  this->GetPosicaoAtual(x, y);
-  al_draw_filled_circle(x, y, 10, al_map_rgb(100, 100, 100));
+	Personagem::Draw(255, 0, 0);
 }
 
-void Inimigo::operator=(const GameObject &GameObj) {
-	FrameAtual = GameObj.GetFrameAtual();
-	TotalFrames = GameObj.GetTotalFrames();
-	XOrigem = GameObj.GetXOrigem();
-	YOrigem = GameObj.GetYOrigem();
-	XAtual = GameObj.GetXAtual();
-	YAtual = GameObj.GetYAtual();
-	XDestino = GameObj.GetXDestino();
-	YDestino = GameObj.GetYDestino();
-	Raio = GameObj.GetRaio();
-	Velocidade = GameObj.GetVelocidade();
+void Inimigo::operator=(const Personagem &personagem) {
+	FrameAtual = personagem.GetFrameAtual();
+	TotalFrames = personagem.GetTotalFrames();
+	XOrigem = personagem.GetXOrigem();
+	YOrigem = personagem.GetYOrigem();
+	XAtual = personagem.GetXAtual();
+	YAtual = personagem.GetYAtual();
+	XDestino = personagem.GetXDestino();
+	YDestino = personagem.GetYDestino();
+	Raio = personagem.GetRaio();
+	Velocidade = personagem.GetVelocidade();
 	TipoMovimento = LINEAR;
+	Vida = personagem.GetVida();
+	//Lista<Projetil*> fica vazia
 }
 
 void Inimigo::Atirar() 

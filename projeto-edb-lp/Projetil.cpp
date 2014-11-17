@@ -2,6 +2,12 @@
 #include <iostream>
 #include <math.h>
 
+Projetil::Projetil() {
+	*this = GameObject(0, 0, 30, 0, 0, 2, LINEAR);
+	Dano = 2;
+	Destruido = true;
+}
+
 Projetil::Projetil(unsigned int PositionX, unsigned int PositionY, unsigned int DestinoX,
 unsigned int DestinoY) {
 	if (MaxX > 0 && MaxY > 0 && PositionX <= MaxX && PositionY <= MaxY &&
@@ -42,6 +48,22 @@ void Projetil::operator=(const GameObject &GameObj) {
 	Raio = GameObj.GetRaio();
 	Velocidade = GameObj.GetVelocidade();
 	TipoMovimento = LINEAR;
+}
+
+void Projetil::operator=(const Projetil &proj) { //faz cópia profunda
+	this->FrameAtual = proj.FrameAtual;
+	this->TotalFrames = proj.TotalFrames;
+	this->XOrigem = proj.XOrigem;
+	this->YOrigem = proj.YOrigem;
+	this->XAtual = proj.XAtual;
+	this->YAtual = proj.YAtual;
+	this->XDestino = proj.XDestino;
+	this->YDestino = proj.YDestino;
+	this->Raio = proj.Raio;
+	this->Velocidade = proj.Velocidade;
+	this->TipoMovimento = proj.TipoMovimento;
+	this->Dano = proj.Dano;
+	this->Destruido = proj.Destruido;
 }
 
 void Projetil::Mover() {

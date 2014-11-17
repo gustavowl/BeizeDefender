@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <math.h>
 
-bool Player::LevarDano(unsigned int dano) { //retorna se morreu
+/*bool Player::LevarDano(unsigned int dano) { //retorna se morreu
 	Vida -= dano;
 	if (Vida <= 0)
 		return true;
@@ -27,7 +27,7 @@ int Player::VerificarColisaoQuadrada(const GameObject obj) {
 		dano_total += temp->VerificarColisaoQuadrada(obj);
 		i++;
     }	
-}
+}*/
 
 void Player::AdicionarMunicao(unsigned int qtd) { //adiciona munição ao Projétil de tipo 1
 	MunicaoAtual += qtd;
@@ -43,7 +43,7 @@ void Player::Atirar(unsigned int destino_x, unsigned int destino_y) { //atira pr
 	}
 }
 
-void Player::Mover() { //sobrescreve operação de mover. Move tanto o player quanto suas balas
+/*void Player::Mover() { //sobrescreve operação de mover. Move tanto o player quanto suas balas
 	GameObject::Mover(); //chama mover original
 	//chama mover para os projéteis
 	Projetil *temp; int i = 0;
@@ -68,28 +68,29 @@ Lista<Projetil*> Player::GetProjeteisToDraw() { //retorna uma lista com posiçã
 		}
 	}
 	return to_return;
-}
+}*/
 
 int Player::GetMunicaoAtual() {
 	return MunicaoAtual;
 }
 
-int Player::GetVida() {
-	return Vida;
+void Player::Draw() {
+	Personagem::Draw(0, 255, 0);
 }
 
+/*int Player::GetVida() {
+	return Vida;
+}*/
+
 Player::Player(unsigned int posicao_x, unsigned int posicao_y) {
-	*this = GameObject(posicao_x, posicao_y, 15, 10, SMOOTH);
+	*this = Personagem(posicao_x, posicao_y, 15, 100, SMOOTH);
 	MaxMunicao = 50;
 	MunicaoAtual = 10;
-	Vida = 100;
-
 }
 
 Player::Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, int municao_atual, int vida) {
 	if (max_municao > 0 && municao_atual > 0 && vida > 0) {
-		*this = GameObject(posicao_x, posicao_y, 15, 10, SMOOTH);
-		Vida = vida;
+		*this = Personagem(posicao_x, posicao_y, 15, vida, SMOOTH);
 		MaxMunicao = max_municao;
 		if (municao_atual > max_municao)
 			MunicaoAtual = max_municao;
@@ -98,16 +99,18 @@ Player::Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, 
 	}
 }
 
-void Player::operator=(const GameObject &game_obj) {
-	FrameAtual = game_obj.GetFrameAtual();
-	TotalFrames = game_obj.GetTotalFrames();
-	XOrigem = game_obj.GetXOrigem();
-	YOrigem = game_obj.GetYOrigem();
-	XAtual = game_obj.GetXAtual();
-	YAtual = game_obj.GetYAtual();
-	XDestino = game_obj.GetXDestino();
-	YDestino = game_obj.GetYDestino();
-	Raio = game_obj.GetRaio();
-	Velocidade = game_obj.GetVelocidade();
+void Player::operator=(const Personagem &personagem) {
+	FrameAtual = personagem.GetFrameAtual();
+	TotalFrames = personagem.GetTotalFrames();
+	XOrigem = personagem.GetXOrigem();
+	YOrigem = personagem.GetYOrigem();
+	XAtual = personagem.GetXAtual();
+	YAtual = personagem.GetYAtual();
+	XDestino = personagem.GetXDestino();
+	YDestino = personagem.GetYDestino();
+	Raio = personagem.GetRaio();
+	Velocidade = personagem.GetVelocidade();
 	TipoMovimento = SMOOTH;
+	Vida = personagem.GetVida();
+	//Lista<Projetil*> fica vazia
 }

@@ -15,23 +15,26 @@ class Projetil : public go::GameObject {
 			unsigned int &DestinoY); //calcula coordenada de destino em que sairá da arena
 
 	public:
-	Projetil(unsigned int PositionX, unsigned int PositionY, unsigned int DestinoX, unsigned int DestinoY);
+		Projetil(); //criar projetil vazio	
+		Projetil(unsigned int PositionX, unsigned int PositionY, unsigned int DestinoX, unsigned int DestinoY);
 
-			/*GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, 
-			unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, WalkType TipoMov);*/
-	Projetil(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, unsigned int DestinoX,
-		unsigned int DestinoY, unsigned int Raio, unsigned int Dano);
-	
-	void operator=(const GameObject &GameObj);
-	void Mover();
-	void Destruir();
-	bool GetDesruido();
-	unsigned int GetDano();
-	int VerificarColisao(const GameObject obj); //retorna dano causado pela bala ao obj, e destrói
-	//projétil que causou dano. Função exterior tem q tirar vida do obj e remover projétil da memória
-	int VerificarColisaoQuadrada(const GameObject obj); //retorna dano causado pelas balas ao obj, e destrói (mas n remove)
-	//projéteis que causaram dano. Função exterior tem q tirar vida do obj
-	//verifica colisão com a base, considera raio como metade da largura
+				/*GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, 
+				unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, WalkType TipoMov);*/
+		Projetil(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, unsigned int DestinoX,
+			unsigned int DestinoY, unsigned int Raio, unsigned int Dano);
+		
+		void operator=(const GameObject &GameObj);
+		void operator=(const Projetil &proj); //faz cópia profunda
+		void Mover();
+		void Destruir();
+		bool GetDesruido();
+		unsigned int GetDano();
+		int VerificarColisao(const GameObject obj); //retorna dano causado pela bala ao obj, e destrói
+		//projétil que causou dano. Função exterior tem q tirar vida do obj e remover projétil da memória
+		int VerificarColisaoQuadrada(const GameObject obj); //retorna dano causado pelas balas ao obj, e destrói (mas n remove)
+		//projéteis que causaram dano. Função exterior tem q tirar vida do obj
+		//verifica colisão com a base, considera raio como metade da largura
+
 };
 
 #endif
