@@ -6,6 +6,7 @@
 #include <allegro5/allegro_primitives.h>
 #include "ListaEncadeada/lista.h"
 #include "Projetil.h"
+#include "Player.h"
 #include <string>
 
 class Base: public go::GameObject{
@@ -73,23 +74,27 @@ bool Base::PerderVida(Lista <GameObject*> projeteis, Projetil * projetil)
     unsigned int y2 = 400;
 
     int i = 0;
-    int raio = 2;
-  //  int life = GetVida();
+    int raio = 10;
 
 
     while ( projeteis.GetElem(i, temp) ) {
         temp->GetPosicaoAtual(xp, yp);
         int xptemp = xp;
         int yptemp = yp;
+        int dist = sqrt(pow(xp - temp->GetXAtual(),2) + pow);
 
-        if ((xptemp >= x1 && xptemp <= x2) || (yptemp >= y1 && yptemp <= y2))
+        if ((xptemp >= x1 + raio && xptemp <= x2 + raio && yptemp >= y1 + raio && yptemp <= y2 + raio) 
+            || (xptemp >= x1 - raio && xptemp <= x2 - raio && yptemp >= y1 - raio && yptemp <= y2 - raio)) 
+            //|| (xptemp >= x1 && xptemp <= x2 && yptemp == y2)
+            //|| (yptemp >= y1 && yptemp <= y2 && xptemp == x1)
+            //|| (yptemp >= y1 && yptemp <= y2 && xptemp == x2))
         {
             if(vida <= 0) {
                 std::cout << "You Die " << std::endl;
                 return true;
                 break;
             }
-            projetil->Destruir();
+            projeteis.Remove(i);
             SetVida();
             std::cout << "Vida: " << GetVida() << std::endl;
         }

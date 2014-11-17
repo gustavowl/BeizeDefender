@@ -26,7 +26,7 @@ int main() {
   GameObject player(640/2, 480/2, speed, 10, SMOOTH);
   GameObject inimigo(10, 320, 1, 10, LINEAR);
   Lista<GameObject*> projeteis;
-  Base base(384, 240, 640, 400, "player");
+  Base base(380,200,620,440 , "player");
 
   Projetil * teste = NULL;
 
