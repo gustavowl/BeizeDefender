@@ -12,19 +12,10 @@ int Player::VerificarColisao(const GameObject obj) { //retorna dano causado pela
 //projéteis que causaram dano. Função exterior tem q tirar vida do obj
 	Projetil *temp; int i = 0, dano_total = 0;
 	//pega informações para calcular colisão de objeto
-	int obj_raio = obj.GetRaio(), obj_x = obj.GetXAtual(), obj_y = obj.GetYAtual();
-	float dist;
     while ( Projeteis.GetElem(i, temp) ) {
-    	//calcula distância entre objeto e projétil
-    	dist = sqrt( pow( obj_x - temp->GetXAtual(), 2 ) + pow( obj_y - temp->GetYAtual(), 2 ) );
-    	//verifica a colisão
-    	if ( dist <= obj_raio + temp->GetRaio() ) {
-    		dano_total += temp->GetDano(); //atualiza dano causado
-    		Projeteis.Remove(i);//remove bala em questão
-    		//não incrementa o i pois agora o próximo elemento está na posução atual
-    	}
-    	else //não colidiu e verifica o próximo
-    		i++;
+    	//verifica colisão de uma bala com obj e atualiza dano causado
+		dano_total += temp->VerificarColisao(obj);
+		i++;
     }
 }
 

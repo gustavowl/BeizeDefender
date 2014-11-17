@@ -18,7 +18,7 @@ private:
 	//Municao ProjT1;
 public:
 	bool LevarDano(unsigned int dano); //retorna se morreu
-	int VerificarColisao(const GameObject obj); //retorna dano causado pelas balas ao obj, e destrói
+	int VerificarColisao(const GameObject obj); //retorna dano causado pelas balas ao obj, e destrói (mas n remove)
 	//projéteis que causaram dano. Função exterior tem q tirar vida do obj
 	void AdicionarMunicao(unsigned int qtd); //adiciona munição ao Projétil de tipo 1
 	void Atirar(unsigned int destino_x, unsigned int destino_y); //atira projétil de tipo 1

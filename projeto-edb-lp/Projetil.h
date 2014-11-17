@@ -27,6 +27,8 @@ class Projetil : public go::GameObject {
 	void Destruir();
 	bool GetDesruido();
 	unsigned int GetDano();
+	int VerificarColisao(const GameObject obj); //retorna dano causado pela bala ao obj, e destrói
+	//projétil que causou dano. Função exterior tem q tirar vida do obj e remover projétil da memória
 };
 
 #endif
