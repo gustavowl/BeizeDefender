@@ -201,7 +201,7 @@ void Inimigo::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY)
 {
 	GameObject::AtualizarDestino(DestinoX, DestinoY);
 }
-
+/*
 Lista<Projetil*> Inimigo::GetProjeteisToDraw() 
 { 	//retorna uma lista com posição de todos os projéteis para desenhar
 	Lista<Projetil*> to_return; //lista para retornar
@@ -219,3 +219,5 @@ Lista<Projetil*> Inimigo::GetProjeteisToDraw()
 	}
 	return to_return;
 }
+
+*/
