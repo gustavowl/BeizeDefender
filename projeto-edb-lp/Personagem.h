@@ -19,8 +19,6 @@ public:
 	//verifica colisão com a base (projeto final player não vai precisar dessa função, só inimigo)
 	virtual void Atirar(unsigned int destino_x, unsigned int destino_y); //atira projétil de tipo 1
 	void Mover(); //sobrescreve operação de mover. Move tanto o player quanto suas balas
-	Lista<Projetil*> GetProjeteisToDraw(); //retorna uma lista com posição de todos os projéteis
-	//para desenhar
 	Lista<Projetil*> GetProjeteis() const; //retorna lista e projéteis (usado nos operator= de classe filha)
 	int GetVida() const; //serve para saber se verifica colisão com ele, já que algumas balas provavelmente ainda estarão
 	//na arena, mesmo com o personagem já destruído

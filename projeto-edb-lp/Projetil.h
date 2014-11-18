@@ -27,6 +27,7 @@ class Projetil : public go::GameObject {
 		void operator=(const Projetil &proj); //faz cópia profunda
 		void Mover();
 		void Destruir();
+		void Draw();
 		bool GetDesruido();
 		unsigned int GetDano();
 		int VerificarColisao(const GameObject obj); //retorna dano causado pela bala ao obj, e destrói

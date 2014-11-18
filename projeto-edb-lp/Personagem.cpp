@@ -48,25 +48,6 @@ void Personagem::Mover() { //sobrescreve operação de mover. Move tanto o playe
 	}
 }
 
-Lista<Projetil*> Personagem::GetProjeteisToDraw() { //retorna uma lista com posição de todos os projéteis para desenhar
-	Lista<Projetil*> to_return; //lista para retornar
-	Projetil *temp; //ponteiro para pegar valores da lista
-	int i = 0;
-	while ( Projeteis.GetElem(i, temp) ) {
-		//verifica se projétil em questão não foi destruído
-		if ( temp->GetDesruido() ) {
-			delete temp; //deleta projétil dinamicamente alocado
-			Projeteis.Remove(i);//remove bala da lista
-			//não incrementa o i pois agora o próximo elemento está na posução atual
-		}
-		else {
-			to_return.Insert( 0, temp );//adiciona ao retorno
-			i++;
-		}
-	}
-	return to_return;
-}
-
 Lista<Projetil*> Personagem::GetProjeteis() const { //retorna uma lista com posição de todos os projéteis para desenhar
 	Lista<Projetil*> to_return; //lista para retornar
 	Projetil *temp; //ponteiro para pegar valores da lista
@@ -83,7 +64,23 @@ int Personagem::GetVida() const {
 }
 
 void Personagem::Draw(unsigned int red, unsigned int green, unsigned int blue) {
-	if (Vida > 0) { //se não estiver destruído, o desenha
+	//Desenha projéteis independentemente do inimigo ter sido destruído
+	Projetil *temp; //ponteiro para pegar valores da lista
+	int i = 0;
+	while ( Projeteis.GetElem(i, temp) ) {
+		//verifica se projétil em questão não foi destruído
+		if ( temp->GetDesruido() ) {
+			delete temp; //deleta projétil dinamicamente alocado
+			Projeteis.Remove(i);//remove bala da lista
+			//não incrementa o i pois agora o próximo elemento está na posução atual
+		}
+		else {
+			temp->Draw();
+			i++;
+		}
+	}
+	//se não estiver destruído, o desenha
+	if (Vida > 0) {
 		unsigned int x, y;
 		this->GetPosicaoAtual(x, y);
 		al_draw_filled_circle(x, y, 10, al_map_rgb(red % 256, green % 256, blue % 256));

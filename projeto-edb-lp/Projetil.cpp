@@ -1,6 +1,6 @@
 #include "Projetil.h"
-#include <iostream>
 #include <math.h>
+#include <allegro5/allegro_primitives.h>
 
 Projetil::Projetil() {
 	*this = GameObject(0, 0, 30, 0, 0, 2, LINEAR);
@@ -68,13 +68,19 @@ void Projetil::operator=(const Projetil &proj) { //faz cópia profunda
 
 void Projetil::Mover() {
 	GameObject::Mover();
-	if ( FrameAtual >= TotalFrames )
+	if ( FrameAtual > TotalFrames )
 		Destruir();
 }
 
 //destroi se chegar no destino
 void Projetil::Destruir() {
 	Destruido = true;
+}
+
+void Projetil::Draw() {
+	if ( !Destruido ) {
+		al_draw_filled_circle(XAtual, YAtual, Raio, al_map_rgb(255, 255, 255));
+	}
 }
 
 bool Projetil::GetDesruido() {
