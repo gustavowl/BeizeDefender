@@ -7,7 +7,7 @@
 
 class Inimigo : public Personagem{
 	//definição do intervalo padrao abaixo levou em conta 30 fps
-	#define INTERVALOTIROPADRAO 20
+	#define INTERVALOTIROPADRAO 30
 
 	private:
 		int Tipo; // se sera normal, boss ou outra coisa //por enquanto armazena lixo
