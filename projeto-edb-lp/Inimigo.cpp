@@ -1,34 +1,27 @@
 #include "Inimigo.h"
 #include <math.h>
-//#include <allegro5/allegro.h>
-//#include <allegro5/allegro_primitives.h>
-
-/*Inimigo::Inimigo( unsigned int PositionX, unsigned int PositionY)
-{
-	//if (MaxX > 0 && MaxY > 0 && PositionX <= MaxX && PositionY <= MaxY) { //verifica se valor é válido
-		int velocidade = 1;
-		int raio = 10;
-		//chama o construtor da classe pai
-		GameObject temp = GameObject(PositionX, PositionY, velocidade, raio, LINEAR);
-		*this =  temp; //copia os valores de pai para filho (tava dando erro ao fazer direto)
-		destruido = false;
-		Municao = 10; // valor temp
-		IsPlayerAlvo = false;
-	//}
-}*/
+#include <cstdlib>
 
 Inimigo::Inimigo(int velocidade, int vida) { //gera posição inicial randômicamente (nas bordas)
 	*this = Personagem(velocidade, vida, LINEAR);
 	Municao = 10;
 	CalcularProxDest =  false;
+	InterveloTiro = INTERVALOTIROPADRAO;
+	ProxTiro = InterveloTiro;
 }
 
-Inimigo::Inimigo(int velocidade, int vida, int municao) { //gera posição inicial randômicamente (nas bordas)
+ //gera posição inicial randômicamente (nas bordas)
+Inimigo::Inimigo(int velocidade, int vida, int municao, int intervelo_tiro) {
 	*this = Personagem(velocidade, vida, LINEAR);
 	if (municao >= 0)
 		Municao = municao;
 	else
 		Municao = 0;
+	if (intervelo_tiro > 0)
+		InterveloTiro = intervelo_tiro;
+	else
+		InterveloTiro = INTERVALOTIROPADRAO;
+	ProxTiro = rand() % (InterveloTiro + 1);
 	CalcularProxDest =  false;
 }
 
@@ -180,7 +173,7 @@ void Inimigo::operator=(const Personagem &persona) {
 
 void Inimigo::Atirar(const Personagem &p) 
 {
-	if (Vida > 0) {
+	if ( ProxTiro == 0 && Vida > 0) {
 		int x_atual = GetXAtual(), y_atual = GetYAtual(); //evitar erros de subtração
 		int px_atual = p.GetXAtual(), py_atual = p.GetYAtual(); //evitar erros de subtração
 		int px_orig = p.GetXOrigem(), py_orig = p.GetYOrigem(); //evitar erros de subtração
@@ -194,7 +187,11 @@ void Inimigo::Atirar(const Personagem &p)
 		else
 			novo_projetil = new Projetil(this->XAtual, this->YAtual, px_atual, py_atual);
 		Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
+		//zera a contagem dos intervalos
+		//+1 evita que ProxTiro = 0, o que faria que o inimigo parasse de atirar
+		ProxTiro = ( rand() % InterveloTiro ) + 1;
 	}
+	ProxTiro--; //subtrai a cada frame
 }
 
 void Inimigo::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY)

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
 #include <math.h>
 #include "GameObject.h"
 #include "ListaEncadeada/lista.h"
@@ -7,24 +8,22 @@
 #include "Base.h"
 #include "Player.h"
 #include "Inimigo.h"
-#include "Horda.h"
+//#include "Horda.h"
 
-void *threadTiro(ALLEGRO_THREAD *thr, void *dados );
+
 using namespace go;
 
-GameObject arena(1024, 640); 
-Player player(1024/2, 640/2);
-//Inimigo inimigo(2, 5);
-Base base(380,200,620,440);
-Horda horda(5, 1);
 
 int main() {
   int i, X, Y, fps = 30;
   float v, qtd_ite = 0;
   bool done = false;
   
-  
-  //
+  GameObject arena(1024, 640); 
+  Player player(1024/2, 640/2);
+  Inimigo inimigo(2, 5);
+  Base base(380,200,620,440);
+  //Horda horda(5, 1);
   
 	//variaveis do allegro
 
@@ -35,34 +34,44 @@ int main() {
 	ALLEGRO_TIMER *timer = NULL;
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
-	ALLEGRO_THREAD *thread = NULL;
 
 	timer = al_create_timer(1.0 / fps);
-	if (!timer)
+	if (!timer) {
+		al_uninstall_system();
 		return -1;
+	}
 
 	display = al_create_display( (int)arena.GetMaxX(), (int)arena.GetMaxY() );
 
 	if (!display) {
+		al_uninstall_system();
 		al_destroy_timer(timer);
 		return -1;
 	}
 
 	event_queue = al_create_event_queue();
 	if (!event_queue) {
+		al_uninstall_system();
 		al_destroy_timer(timer);
 		al_destroy_display(display);
 		return -1;
 	}
 
 	if ( !al_install_mouse() ) {
+		al_uninstall_system();
 		al_destroy_event_queue(event_queue);
 		al_destroy_timer(timer);
 		al_destroy_display(display);
 		return -1;
 	}
-
-	//al_init_primitives_addon();	
+	if (!al_init_primitives_addon()) {
+		al_uninstall_system();
+		al_uninstall_mouse();
+		al_destroy_event_queue(event_queue);
+		al_destroy_timer(timer);
+		al_destroy_display(display);
+		return -1;
+	}
 
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 	al_register_event_source(event_queue, al_get_display_event_source(display));
@@ -70,12 +79,10 @@ int main() {
 
 	al_start_timer(timer);
 	
-	// Cria a thread e a dispara
-    thread = al_create_thread(threadTiro, NULL);
-    al_start_thread(thread);
+
 
 	ALLEGRO_EVENT ev;
-	srand(time(NULL));
+
 	while(!done)
 	{
 		if ( al_get_next_event(event_queue, &ev) ) {
@@ -104,29 +111,30 @@ int main() {
 			}
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) { 
-				//inimigo.Atirar(player);
+				inimigo.Atirar(player);
 				player.Mover(); //já move os projéteis do player
-				horda.Mover(player, base.GetRaio());
-				//inimigo.Distancia( player, base.GetRaio() ); //se tirar referência dá falha de segmentação
+				//horda.Mover(player, base.GetRaio());
+				inimigo.Distancia( player, base.GetRaio() ); //se tirar referência dá falha de segmentação
 				//RESOLVER PROBLEMA NO CONSTRUTOR DE CÓPIA
-				//inimigo.Mover();
-				horda.LiberarInimigos();
+				inimigo.Mover();
 				//int i = 0;
 				//dano colocado antes do desenho para dar a ilusão de maior tamanho da base
-				//base.LevarDano( inimigo.VerificarColisaoQuadrada(base) );
+				base.LevarDano( inimigo.VerificarColisaoQuadrada(base) );
         
 				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
 				base.Draw();
 				player.Draw();
 				//DrawPlayer(player);
 				//horda.LiberarInimigos();
-				//inimigo.Draw();
-				//CollideProjetil(player, projeteis, 10, 2);
+				inimigo.Draw();
+				//CollideProjetil(player, projeteis, 10, 2);*/
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));
 				//player.VerificarColisao(inimigo);
-			//	player.LevarDano( inimigo.VerificarColisao(player) );
-			//	inimigo.LevarDano( player.VerificarColisao(inimigo) );
+				if ( player.GetVida() > 0 ) //verifica a colisão se não morreu
+					player.LevarDano( inimigo.VerificarColisao(player) );
+				if ( inimigo.GetVida() > 0 ) //verifica a colisão se não morreu
+					inimigo.LevarDano( player.VerificarColisao(inimigo) );
 
 
 			}
@@ -138,15 +146,6 @@ int main() {
 	al_destroy_timer(timer);
 	al_destroy_display(display);
 	al_uninstall_system();
+	al_shutdown_primitives_addon();
 	return 0;
-}
-
-void *threadTiro(ALLEGRO_THREAD *thr, void *dados )
-{/*
-    while(true)
-    {
-    	//inimigo.Atirar(player);
-        al_rest(1); // Atira a cada 1s
-    }*/
-    //return NULL;
 }

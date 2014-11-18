@@ -6,21 +6,22 @@
 #include "Personagem.h"
 
 class Inimigo : public Personagem{
-	//velocidade padrão da bala: 1
-	//raio padrão do inimigo: 10
-	//walktype: linear
+	//definição do intervalo padrao abaixo levou em conta 30 fps
+	#define INTERVALOTIROPADRAO 20
 
 	private:
 		int Tipo; // se sera normal, boss ou outra coisa //por enquanto armazena lixo
 		int Municao; // quantidade de municao que ele vai dropar
 		bool CalcularProxDest;
+		int InterveloTiro; //atira a cada intervalo, medido em frames
+		int ProxTiro; //armazena frames restantes para próximo tiro
 		//bool destruido; //tem vida
 		//Lista<Projetil*> Projeteis; //tem em personagem
 	public:
 		//Inimigo();
 		//Inimigo( unsigned int PositionX,  unsigned int PositionY);
 		Inimigo(int velocidade, int vida); //gera posição inicial randômicamente (nas bordas)
-		Inimigo(int velocidade, int vida, int municao); //gera posição inicial randômicamente (nas bordas)
+		Inimigo(int velocidade, int vida, int municao, int intervelo_tiro); //gera posição inicial randômicamente (nas bordas)
 		void Distancia(Personagem p, int base_raio);
 		int Dropar();
 		void Draw();
