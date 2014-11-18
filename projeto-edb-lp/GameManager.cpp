@@ -114,7 +114,7 @@ int main() {
 				base.LevarDano( inimigo.VerificarColisaoQuadrada(base) );
         
 				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
-				base.DrawBase();
+				base.Draw();
 				player.Draw();
 				//DrawPlayer(player);
 				//horda.LiberarInimigos();
