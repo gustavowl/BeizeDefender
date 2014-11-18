@@ -27,7 +27,6 @@ class Inimigo : public Personagem{
 		void operator=(const Personagem &persona);
 		void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);
 		void Atirar(const Personagem &p);
-		Lista<Projetil*> GetProjeteisToDraw();
 };
 
 #endif

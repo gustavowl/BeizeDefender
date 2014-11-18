@@ -15,9 +15,7 @@
 
 
 int main() {
-	int fps = 30;
-  /*int i, X, Y, fps = 30;
-  float v, qtd_ite = 0;
+  int fps = 30;
   bool done = false;
   
   /*GameObject arena(1024, 640); 
@@ -27,14 +25,11 @@ int main() {
   //Horda horda(5, 1);
   
 	//variaveis do allegro
-  	//al_init();
+	if( !al_init() ) //apenas o al_init() causa 2372 bytes def. lost
+		return -1;
 	ALLEGRO_TIMER *timer = NULL;
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
-
-
-	if( !al_init() )
-		return -1;
 
 	timer = al_create_timer(1.0 / fps);
 	if (!timer)
@@ -60,19 +55,17 @@ int main() {
 		return -1;
 	}
 
-	//al_init_primitives_addon();	
+	al_register_event_source(event_queue, al_get_timer_event_source(timer));
+	al_register_event_source(event_queue, al_get_display_event_source(display));
+	al_register_event_source(event_queue, al_get_mouse_event_source());
 
-	//al_register_event_source(event_queue, al_get_timer_event_source(timer));
-	//al_register_event_source(event_queue, al_get_display_event_source(display));
-	//al_register_event_source(event_queue, al_get_mouse_event_source());
-
-	//al_start_timer(timer);
+	al_start_timer(timer);
 	
 
 
-	//ALLEGRO_EVENT ev;
+	ALLEGRO_EVENT ev;
 
-	/*while(!done)
+	while(!done)
 	{
 		if ( al_get_next_event(event_queue, &ev) ) {
 		  //if (al_wait_for_event_until(event_queue, &ev, &timeout)) {
@@ -89,49 +82,51 @@ int main() {
 			{
 
 				if(ev.mouse.button & 2) {
-          			player.AtualizarDestino(ev.mouse.x, ev.mouse.y);
+          			//player.AtualizarDestino(ev.mouse.x, ev.mouse.y);
 				}
 				
 				else if(ev.mouse.button & 1)
 				{
-          			player.Atirar(ev.mouse.x, ev.mouse.y); //oks
+          			//player.Atirar(ev.mouse.x, ev.mouse.y); //oks
 
 				}
 			}
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) { 
-				inimigo.Atirar(player);
-				player.Mover(); //já move os projéteis do player
+//				inimigo.Atirar(player);
+//				player.Mover(); //já move os projéteis do player
 				//horda.Mover(player, base.GetRaio());
-				inimigo.Distancia( player, base.GetRaio() ); //se tirar referência dá falha de segmentação
+//				inimigo.Distancia( player, base.GetRaio() ); //se tirar referência dá falha de segmentação
 				//RESOLVER PROBLEMA NO CONSTRUTOR DE CÓPIA
-				inimigo.Mover();
+//				inimigo.Mover();
 				//int i = 0;
 				//dano colocado antes do desenho para dar a ilusão de maior tamanho da base
-				base.LevarDano( inimigo.VerificarColisaoQuadrada(base) );
+//				base.LevarDano( inimigo.VerificarColisaoQuadrada(base) );
         
 				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
-				base.DrawBase();
-				player.Draw();
+//				base.DrawBase();
+//				player.Draw();
 				//DrawPlayer(player);
 				//horda.LiberarInimigos();
-				inimigo.Draw();
+//				inimigo.Draw();
 				//CollideProjetil(player, projeteis, 10, 2);
+
 				al_flip_display();
-				al_clear_to_color(al_map_rgb(0,0,0));
+				al_clear_to_color(al_map_rgb(0,0,0)); //causa +544 possibly lost bytes
+
 				//player.VerificarColisao(inimigo);
-				player.LevarDano( inimigo.VerificarColisao(player) );
-				inimigo.LevarDano( player.VerificarColisao(inimigo) );
+//				player.LevarDano( inimigo.VerificarColisao(player) );
+//				inimigo.LevarDano( player.VerificarColisao(inimigo) );
 
 
 			}
 		}
-	}*/
+	}
 	
-	//al_destroy_display(display);
 	al_uninstall_mouse();
 	al_destroy_event_queue(event_queue);
 	al_destroy_timer(timer);
 	al_destroy_display(display);
+	al_uninstall_system();
 	return 0;
 }
