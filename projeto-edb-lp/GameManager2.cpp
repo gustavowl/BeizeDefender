@@ -7,15 +7,16 @@
 #include "Base.h"
 #include "Player.h"
 #include "Inimigo.h"
-//#include "Horda.h"
+#include "Horda.h"
 
 void *threadTiro(ALLEGRO_THREAD *thr, void *dados );
 using namespace go;
 
 GameObject arena(1024, 640); 
 Player player(1024/2, 640/2);
-Inimigo inimigo(2, 5);
+//Inimigo inimigo(2, 5);
 Base base(380,200,620,440);
+Horda horda(5, 1);
 
 int main() {
   int i, X, Y, fps = 30;
@@ -23,7 +24,7 @@ int main() {
   bool done = false;
   
   
-  //Horda horda(5, 1);
+  //
   
 	//variaveis do allegro
 
@@ -74,7 +75,7 @@ int main() {
     al_start_thread(thread);
 
 	ALLEGRO_EVENT ev;
-
+	srand(time(NULL));
 	while(!done)
 	{
 		if ( al_get_next_event(event_queue, &ev) ) {
@@ -105,26 +106,27 @@ int main() {
 			else if (ev.type == ALLEGRO_EVENT_TIMER) { 
 				//inimigo.Atirar(player);
 				player.Mover(); //já move os projéteis do player
-				//horda.Mover(player, base.GetRaio());
-				inimigo.Distancia( player, base.GetRaio() ); //se tirar referência dá falha de segmentação
+				horda.Mover(player, base.GetRaio());
+				//inimigo.Distancia( player, base.GetRaio() ); //se tirar referência dá falha de segmentação
 				//RESOLVER PROBLEMA NO CONSTRUTOR DE CÓPIA
-				inimigo.Mover();
+				//inimigo.Mover();
+				horda.LiberarInimigos();
 				//int i = 0;
 				//dano colocado antes do desenho para dar a ilusão de maior tamanho da base
-				base.LevarDano( inimigo.VerificarColisaoQuadrada(base) );
+				//base.LevarDano( inimigo.VerificarColisaoQuadrada(base) );
         
 				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
-				base.DrawBase();
+				base.Draw();
 				player.Draw();
 				//DrawPlayer(player);
 				//horda.LiberarInimigos();
-				inimigo.Draw();
+				//inimigo.Draw();
 				//CollideProjetil(player, projeteis, 10, 2);
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));
 				//player.VerificarColisao(inimigo);
-				player.LevarDano( inimigo.VerificarColisao(player) );
-				inimigo.LevarDano( player.VerificarColisao(inimigo) );
+			//	player.LevarDano( inimigo.VerificarColisao(player) );
+			//	inimigo.LevarDano( player.VerificarColisao(inimigo) );
 
 
 			}
@@ -140,11 +142,11 @@ int main() {
 }
 
 void *threadTiro(ALLEGRO_THREAD *thr, void *dados )
-{
+{/*
     while(true)
     {
-    	inimigo.Atirar(player);
+    	//inimigo.Atirar(player);
         al_rest(1); // Atira a cada 1s
-    }
+    }*/
     //return NULL;
 }
