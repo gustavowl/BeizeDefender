@@ -31,8 +31,14 @@ Base::~Base()
 
 void Base::Draw()
 {
+    if(vida > 0){
+        al_draw_rectangle(x_esquerda, y_superior, x_direita, y_inferior, al_map_rgb(255, 0, 255), 10);    
+    }
+    else {
+        
+    }
    // al_init_primitives_addon();
-    al_draw_rectangle(x_esquerda, y_superior, x_direita, y_inferior, al_map_rgb(255, 0, 255), 10);
+    
 
 }
 
