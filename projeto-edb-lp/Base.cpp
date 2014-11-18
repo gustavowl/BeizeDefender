@@ -4,7 +4,7 @@
 
 Base::Base(unsigned int x_esq, unsigned int y_sup, unsigned int x_dir, unsigned int y_inf)
 {
-    vida = 10; //aumentaar pra quanto?
+    vida = 100;
     y_superior = y_sup;
     x_esquerda = x_esq;
     y_inferior = y_inf;
@@ -31,15 +31,8 @@ Base::~Base()
 
 void Base::Draw()
 {
-    if(vida > 0){
+    if(vida > 0)
         al_draw_rectangle(x_esquerda, y_superior, x_direita, y_inferior, al_map_rgb(255, 0, 255), 10);    
-    }
-    else {
-        
-    }
-   // al_init_primitives_addon();
-    
-
 }
 
 int Base::GetVida() 

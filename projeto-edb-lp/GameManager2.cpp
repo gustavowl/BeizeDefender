@@ -12,7 +12,7 @@
 using namespace go;
 
 GameObject arena(1024, 640); 
-Player player(1024/2, 640/2);
+Player player(1024/2, 640/2, 50, 50, 100);
 Base base(380,200,620,440);
 Horda horda(5, 1);
 
@@ -75,49 +75,35 @@ int main() {
 			{	
 				done = true;
 			}
-			else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES)
-			{
-				
-			}
-			else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
-			{
-
-				if(ev.mouse.button & 2) {
-          			player.AtualizarDestino(ev.mouse.x, ev.mouse.y);
-				}
-				
-				else if(ev.mouse.button & 1)
+			//verifica se o jogo não acabou
+			else if ( player.GetVida() > 0 && base.GetVida() > 0 && !horda.Destruida() ) {
+				if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 				{
-          			player.Atirar(ev.mouse.x, ev.mouse.y); //oks
 
+					if(ev.mouse.button & 2) {
+	          			player.AtualizarDestino(ev.mouse.x, ev.mouse.y);
+					}
+					
+					else if(ev.mouse.button & 1)
+					{
+	          			player.Atirar(ev.mouse.x, ev.mouse.y); //oks
+
+					}
 				}
-			}
-
-			else if (ev.type == ALLEGRO_EVENT_TIMER) {
-				
-				player.Mover(); //já move os projéteis do player
-				horda.Mover(player, base.GetRaio());
-				horda.Atirar(player);
-				//int i = 0;
-				//dano colocado antes do desenho para dar a ilusão de maior tamanho da base
-				//base.LevarDano( inimigo.VerificarColisaoQuadrada(base) );
-        
-				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
-				base.LevarDano(horda.VerificarColisao(base));
-				base.Draw();
-				player.Draw();
-				horda.LiberarInimigos();
-				//CollideProjetil(player, projeteis, 10, 2);
-				al_flip_display();
-				al_clear_to_color(al_map_rgb(0,0,0));
-				//player.VerificarColisao(inimigo);
-			
-				
-				player.LevarDano(horda.VerificarColisao(player));
-
-			//	inimigo.LevarDano( player.VerificarColisao(inimigo) );
-
-
+				else if (ev.type == ALLEGRO_EVENT_TIMER) {
+					player.Mover(); //já move os projéteis do player
+					horda.Mover(player, base.GetRaio());
+					horda.Atirar(player);
+					player.LevarDano( horda.VerificarColisaoProjInimObj(player) );
+					horda.VerificarColisaoProjPersInim(player);
+					//dano colocado antes do desenho para dar a ilusão de maior tamanho da base
+					base.LevarDano( horda.VerificarColisaoProjInimObj(base) );
+					base.Draw();
+					player.Draw();
+					horda.Draw();
+					al_flip_display();
+					al_clear_to_color(al_map_rgb(0,0,0));					
+				}
 			}
 		}
 	}
