@@ -9,12 +9,10 @@
 #include "Inimigo.h"
 #include "Horda.h"
 
-void *threadTiro(ALLEGRO_THREAD *thr, void *dados );
 using namespace go;
 
 GameObject arena(1024, 640); 
 Player player(1024/2, 640/2);
-//Inimigo inimigo(2, 5);
 Base base(380,200,620,440);
 Horda horda(5, 1);
 
@@ -32,8 +30,7 @@ int main() {
 	ALLEGRO_TIMER *timer = NULL;
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
-	ALLEGRO_THREAD *thread = NULL;
-
+	
 	timer = al_create_timer(1.0 / fps);
 	if (!timer)
 		return -1;
@@ -66,10 +63,6 @@ int main() {
 	al_register_event_source(event_queue, al_get_mouse_event_source());
 
 	al_start_timer(timer);
-	
-	// Cria a thread e a dispara
-    thread = al_create_thread(threadTiro, NULL);
-    al_start_thread(thread);
 
 	ALLEGRO_EVENT ev;
 	srand(time(NULL));
@@ -135,14 +128,4 @@ int main() {
 	al_destroy_display(display);
 	al_uninstall_system();
 	return 0;
-}
-
-void *threadTiro(ALLEGRO_THREAD *thr, void *dados )
-{
-    while(true)
-    {
-    	//horda.Atirar(player);
-        al_rest(1); // Atira a cada 1s
-    }
-    //return NULL;
 }
