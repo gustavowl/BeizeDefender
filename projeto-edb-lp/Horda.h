@@ -16,7 +16,7 @@ class Horda {
 		Horda(int quantidade, int id);
 		void LiberarInimigos();
 		void Atirar();
-		void Mover(Player p, int base_raio);
+		void Mover(Personagem p, int base_raio);
 
 };
 

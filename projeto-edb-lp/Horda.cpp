@@ -21,7 +21,7 @@ void Horda::LiberarInimigos(){
 	}
 }
 
-void Horda::Mover(Player p, int base_raio){
+void Horda::Mover(Personagem p, int base_raio){
 
 	Inimigo *temp;
 	int i = 0;
