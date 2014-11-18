@@ -1,6 +1,5 @@
 #include "Personagem.h"
 #include <math.h>
-//#include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 
 bool Personagem::LevarDano(unsigned int dano) { //retorna se morreu
@@ -148,6 +147,12 @@ void Personagem::operator=(const Personagem &persona) {//faz cópia profunda
 	this->TipoMovimento = persona.GetTipoMovimento();
 	this->Vida = persona.Vida;
 	Projetil *temp; int i = 0;
+	
+	while ( Projeteis.GetElem(0, temp) ) { //deleta todos os projéteis dinamicamente alocados
+		delete temp; //deleta projétil dinamicamente alocado
+		Projeteis.Remove(0);//remove bala da lista
+	}
+
 	while ( persona.Projeteis.GetElem( i, temp ) ) {
 		Projetil* to_add = new Projetil();
 		*to_add = *temp;

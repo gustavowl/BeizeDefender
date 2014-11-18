@@ -1,8 +1,7 @@
 #include "Inimigo.h"
-#include <iostream>
 #include <math.h>
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_primitives.h>
+//#include <allegro5/allegro.h>
+//#include <allegro5/allegro_primitives.h>
 
 /*Inimigo::Inimigo( unsigned int PositionX, unsigned int PositionY)
 {
@@ -166,6 +165,11 @@ void Inimigo::operator=(const Personagem &persona) {
 
 	Lista<Projetil*> proj_persona = persona.GetProjeteis();
 	Projetil *temp; int i = 0;
+
+	while ( this->Projeteis.GetElem(0, temp) ) { //deleta todos os projéteis dinamicamente alocados
+		delete temp; //deleta projétil dinamicamente alocado
+		this->Projeteis.Remove(0);//remove bala da lista
+	}
 	while ( proj_persona.GetElem( i, temp ) ) {
 		Projetil* to_add = new Projetil();
 		*to_add = *temp;
