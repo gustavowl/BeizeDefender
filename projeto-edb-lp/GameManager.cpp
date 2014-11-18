@@ -7,24 +7,20 @@
 #include "Base.h"
 #include "Player.h"
 #include "Inimigo.h"
-//#include "Horda.h"
+#include "Horda.h"
 
-void *threadTiro(ALLEGRO_THREAD *thr, void *dados );
 using namespace go;
 
 GameObject arena(1024, 640); 
 Player player(1024/2, 640/2);
-Inimigo inimigo(2, 5);
 Base base(380,200,620,440);
+Horda horda(5, 1);
 
 int main() {
-  int i, X, Y, fps = 30;
-  float v, qtd_ite = 0;
-  bool done = false;
-  
-  
-  //Horda horda(5, 1);
-  
+    int i, X, Y, fps = 30;
+    float v, qtd_ite = 0;
+    bool done = false;
+
 	//variaveis do allegro
 
 
@@ -34,8 +30,7 @@ int main() {
 	ALLEGRO_TIMER *timer = NULL;
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
-	ALLEGRO_THREAD *thread = NULL;
-
+	
 	timer = al_create_timer(1.0 / fps);
 	if (!timer)
 		return -1;
@@ -68,13 +63,9 @@ int main() {
 	al_register_event_source(event_queue, al_get_mouse_event_source());
 
 	al_start_timer(timer);
-	
-	// Cria a thread e a dispara
-    thread = al_create_thread(threadTiro, NULL);
-    al_start_thread(thread);
 
 	ALLEGRO_EVENT ev;
-
+	srand(time(NULL));
 	while(!done)
 	{
 		if ( al_get_next_event(event_queue, &ev) ) {
@@ -102,29 +93,29 @@ int main() {
 				}
 			}
 
-			else if (ev.type == ALLEGRO_EVENT_TIMER) { 
-				//inimigo.Atirar(player);
+			else if (ev.type == ALLEGRO_EVENT_TIMER) {
+				
 				player.Mover(); //já move os projéteis do player
-				//horda.Mover(player, base.GetRaio());
-				inimigo.Distancia( player, base.GetRaio() ); //se tirar referência dá falha de segmentação
-				//RESOLVER PROBLEMA NO CONSTRUTOR DE CÓPIA
-				inimigo.Mover();
+				horda.Mover(player, base.GetRaio());
+				horda.Atirar(player);
 				//int i = 0;
 				//dano colocado antes do desenho para dar a ilusão de maior tamanho da base
-				base.LevarDano( inimigo.VerificarColisaoQuadrada(base) );
+				//base.LevarDano( inimigo.VerificarColisaoQuadrada(base) );
         
 				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
+				base.LevarDano(horda.VerificarColisao(base));
 				base.Draw();
 				player.Draw();
-				//DrawPlayer(player);
-				//horda.LiberarInimigos();
-				inimigo.Draw();
+				horda.LiberarInimigos();
 				//CollideProjetil(player, projeteis, 10, 2);
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));
 				//player.VerificarColisao(inimigo);
-				player.LevarDano( inimigo.VerificarColisao(player) );
-				inimigo.LevarDano( player.VerificarColisao(inimigo) );
+			
+				
+				player.LevarDano(horda.VerificarColisao(player));
+
+			//	inimigo.LevarDano( player.VerificarColisao(inimigo) );
 
 
 			}
@@ -137,14 +128,4 @@ int main() {
 	al_destroy_display(display);
 	al_uninstall_system();
 	return 0;
-}
-
-void *threadTiro(ALLEGRO_THREAD *thr, void *dados )
-{
-    while(true)
-    {
-    	inimigo.Atirar(player);
-        al_rest(1); // Atira a cada 1s
-    }
-    //return NULL;
 }
