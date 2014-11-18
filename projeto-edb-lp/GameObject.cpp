@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include <cstdlib>
 #include <math.h>
+#include <time.h>
 
 using namespace go;
 
@@ -30,7 +31,10 @@ GameObject::GameObject(unsigned int MaximoX, unsigned int MaximoY) { //inicializ
 GameObject::GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov) {
 	if (MaxX > 0 && MaxY > 0 && Raio > 0) {
 		//0: borda sup | 1: borda dir | 2: borda inf | 3: borda esq
-		int r = rand() % 4;
+		 
+		srand(time(NULL) * rand());
+
+		int r =  rand() % 4;
 		switch (r) {
 			case 0:  //posição aleatória na borda superior
 				YOrigem = 0;
