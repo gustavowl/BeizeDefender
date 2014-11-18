@@ -19,7 +19,7 @@ class Horda {
 		~Horda();
 		void Draw();
 		void Atirar(Personagem p);
-		void Mover(Personagem p, int base_raio);
+		void Mover(Personagem p, go::GameObject base);
 		//retorna dano causado pelos projéteis dos inimigos em obj
 		int VerificarColisaoProjInimObj(const go::GameObject obj);
 		/*Faz colisão dos projéteis de persona com Inimigos, calcula dano

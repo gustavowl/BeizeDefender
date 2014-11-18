@@ -92,7 +92,7 @@ int main() {
 				}
 				else if (ev.type == ALLEGRO_EVENT_TIMER) {
 					player.Mover(); //já move os projéteis do player
-					horda.Mover(player, base.GetRaio());
+					horda.Mover(player, base);
 					horda.Atirar(player);
 					player.LevarDano( horda.VerificarColisaoProjInimObj(player) );
 					horda.VerificarColisaoProjPersInim(player);

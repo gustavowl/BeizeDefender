@@ -1,6 +1,7 @@
 #ifndef _INIMIGO_H_
 #define _INIMIGO_H_
 
+#include "GameObject.h"
 #include "ListaEncadeada/lista.h"
 #include "Projetil.h"
 #include "Personagem.h"
@@ -22,7 +23,7 @@ class Inimigo : public Personagem{
 		//Inimigo( unsigned int PositionX,  unsigned int PositionY);
 		Inimigo(int velocidade, int vida); //gera posição inicial randômicamente (nas bordas)
 		Inimigo(int velocidade, int vida, int municao, int intervelo_tiro); //gera posição inicial randômicamente (nas bordas)
-		void Distancia(Personagem p, int base_raio);
+		void Distancia(Personagem p, go::GameObject base);
 		int Dropar();
 		void Draw();
 		void operator=(const Personagem &persona);

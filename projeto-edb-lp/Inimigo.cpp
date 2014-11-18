@@ -30,17 +30,21 @@ int Inimigo::Dropar()
 	return Municao;
 }
 
-void Inimigo::Distancia(Personagem p, int base_raio)
+void Inimigo::Distancia(Personagem p, go::GameObject base)
 {
 	int x_atual = GetXAtual(), y_atual = GetYAtual(); //evitar erros de subtração
 	int px_atual = p.GetXAtual(), py_atual = p.GetYAtual(); //evitar erros de subtração
 	int px_orig = p.GetXOrigem(), py_orig = p.GetYOrigem(); //evitar erros de subtração
-	int max_x = MaxX, max_y = MaxY; //evitar erros de subtração
+	int base_x = base.GetXAtual(), base_y = base.GetYAtual(); //evitar erros de subtração
+	int base_raio = base.GetRaio();
 
 	float dist_jogador = sqrt( pow(x_atual - px_atual, 2) + pow(y_atual - py_atual, 2) );
-	float dist_base = sqrt( pow(x_atual - max_x / 2, 2) + pow(y_atual - max_y / 2, 2) );
+	float dist_base = sqrt( pow(x_atual - base_x, 2) + pow(y_atual - base_y, 2) );
 
-	if (dist_jogador >= dist_base) {
+	//se o jogador estiver mais longe da base ou dentro dela, ataca a base
+	if (dist_jogador >= dist_base || ( px_atual > base_x - base_raio && 
+	px_atual < base_x + base_raio && py_atual > base_y - base_raio &&
+	py_atual < base_y + base_raio) ) { 
 		int novo_x, novo_y;
 		if (x_atual < (MaxX / 2) - base_raio)
 			novo_x = (MaxX/2) - base_raio;
@@ -63,7 +67,7 @@ void Inimigo::Distancia(Personagem p, int base_raio)
 		if ((px_orig == px_atual && py_orig == py_atual) || /*personagem mudou de rota, recalcula*/
 		(x_atual == XDestino && y_atual == YDestino) || /*Inimigo atingiu destino, recalcula*/
 		(px_atual == p.GetXDestino() && py_atual == p.GetYDestino()) /*Personagem atingiu destino, recalcula*/
-		|| p.GetFrameAtual() <= 1) //saiu da inércia
+		/*|| p.GetFrameAtual() <= 1*/) //saiu da inércia
 			CalcularProxDest = true;
 
 		if (CalcularProxDest) {
