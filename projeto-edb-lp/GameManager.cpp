@@ -1,76 +1,67 @@
 #include <iostream>
 #include <allegro5/allegro.h>
-#include <allegro5/allegro_primitives.h>
 #include <math.h>
 #include "GameObject.h"
 #include "ListaEncadeada/lista.h"
 #include "Projetil.h"
 #include "Base.h"
-#include "Player.h" //fix
+#include "Player.h"
+#include "Inimigo.h"
+//#include "Horda.h"
 
-
+void *threadTiro(ALLEGRO_THREAD *thr, void *dados );
 using namespace go;
 
-void DrawProjetil(Lista<Projetil*> projeteis); //=D
-void DrawPlayer(GameObject player);
-void DrawInimigo(GameObject inimigo);
-void CollideProjetil(GameObject player, Lista<GameObject*> projeteis, unsigned int raio_j, unsigned int raio_p);
-GameObject Distancia(GameObject a, GameObject b);//remover
-
+GameObject arena(1024, 640); 
+Player player(1024/2, 640/2);
+Inimigo inimigo(2, 5);
+Base base(380,200,620,440);
 
 int main() {
   int i, X, Y, fps = 30;
-  unsigned int speed = 10; //pixels por segundos
   float v, qtd_ite = 0;
   bool done = false;
   
-  GameObject arena(1024, 640); 
-  Player player(1024/2, 640/2);//atualizado
-  GameObject inimigo(10, 320, 1, 10, LINEAR);
-  Base base(380,200,620,440);//atualizado
-
   
-  //em GameObject tem um enum: enum WalkType { STATIC, LINEAR, SMOOTH }; 
-
-  
-  //Lista<GameObject*> NomeDaLista //inicializa lista encadeada
-  //NomedaLista.Size(); //retorna o tamanho
-  //NomeDaLista.GetElem(1, go); (retorna elemento da posição 1 para go)
-  //        método retorna bool /\ (se go tem elemento válido)
-  //NomeDaLista.Search(go); //procura pelo objeto "go" na lista e retorna posição
-  //NomeDaLista.Insert(2, go); //insere objeto go na posição 2 da lista, retorna
-                              // se inseriu ou n
-  //NomeDaLista.Remove(3); remove objeto da posição 3, retorna se removeu
-  //NomeDaLista.Remove(4, go); objeto da posição 4, salva em go e retorna se removeu
-  //NomeDaLista.Print(); //imprime tds os objetos da lista, separando com espaço
-  //NomeDaLista.Print('\n'); //imprime tds os objetos da lista, separando com "enter"
-
+  //Horda horda(5, 1);
   
 	//variaveis do allegro
+
+
+	if( !al_init() )
+		return -1;
 
 	ALLEGRO_TIMER *timer = NULL;
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
-
-	if(!al_init())
-		return -1;
+	ALLEGRO_THREAD *thread = NULL;
 
 	timer = al_create_timer(1.0 / fps);
-	if (!timer) {
+	if (!timer)
+		return -1;
+
+	display = al_create_display( (int)arena.GetMaxX(), (int)arena.GetMaxY() );
+
+	if (!display) {
+		al_destroy_timer(timer);
 		return -1;
 	}
 
-  //Pega dimensões da arena
-	//std::cout << "x: " << (int)arena.GetMaxX() << " y: " << (int)arena.GetMaxY() << std::endl;
-	display = al_create_display((int)arena.GetMaxX(), (int)arena.GetMaxY());
-
-	if(!display)
-		return -1;
-
-	al_init_primitives_addon();
-	al_install_mouse();	
-
 	event_queue = al_create_event_queue();
+	if (!event_queue) {
+		al_destroy_timer(timer);
+		al_destroy_display(display);
+		return -1;
+	}
+
+	if ( !al_install_mouse() ) {
+		al_destroy_event_queue(event_queue);
+		al_destroy_timer(timer);
+		al_destroy_display(display);
+		return -1;
+	}
+
+	//al_init_primitives_addon();	
 
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 	al_register_event_source(event_queue, al_get_display_event_source(display));
@@ -78,7 +69,9 @@ int main() {
 
 	al_start_timer(timer);
 	
-
+	// Cria a thread e a dispara
+    thread = al_create_thread(threadTiro, NULL);
+    al_start_thread(thread);
 
 	ALLEGRO_EVENT ev;
 
@@ -105,100 +98,53 @@ int main() {
 				else if(ev.mouse.button & 1)
 				{
           			player.Atirar(ev.mouse.x, ev.mouse.y); //oks
-              /*player.Mover();
-  			      inimigo = Distancia(inimigo, player);
-				      inimigo.Mover();
-		          //TAREFA PENDENTE: realizar cálculo para ir até o fim da tela
-		          //player->atirar();
-		          
-		          Projetil *projetil = new Projetil(player.GetXAtual(), player.GetYAtual(), ev.mouse.x, ev.mouse.y);
-		          teste = projetil;
-		          
-		          projeteis.Insert(projeteis.Size(), projetil);
-		          
-						//	FireProjetil(projeteis, projeteis.Size());*/
 
 				}
 			}
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) { 
+				//inimigo.Atirar(player);
 				player.Mover(); //já move os projéteis do player
-				inimigo = Distancia(inimigo, player);
+				//horda.Mover(player, base.GetRaio());
+				inimigo.Distancia( player, base.GetRaio() ); //se tirar referência dá falha de segmentação
+				//RESOLVER PROBLEMA NO CONSTRUTOR DE CÓPIA
 				inimigo.Mover();
-				int i = 0;
-				Lista<Projetil*> projeteis_from_player = player.GetProjeteisToDraw();
+				//int i = 0;
 				//dano colocado antes do desenho para dar a ilusão de maior tamanho da base
-				base.LevarDano( player.VerificarColisaoQuadrada(base) );
-		        /*GameObject *temp;
-		        while ( projeteis.GetElem(i, temp) ) {
-		          temp->Mover();
-		          i++;
-		        }*/
+				base.LevarDano( inimigo.VerificarColisaoQuadrada(base) );
         
 				//al_draw_rectangle(180, 160, 480, 320, al_map_rgb(255, 0, 255), 10);
-        		base.DrawBase();
-				DrawProjetil(projeteis_from_player);
-				DrawPlayer(player);
-				DrawInimigo(inimigo);
+				base.DrawBase();
+				player.Draw();
+				//DrawPlayer(player);
+				//horda.LiberarInimigos();
+				inimigo.Draw();
 				//CollideProjetil(player, projeteis, 10, 2);
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0,0,0));
-				player.VerificarColisao(inimigo);
+				//player.VerificarColisao(inimigo);
+				player.LevarDano( inimigo.VerificarColisao(player) );
+				inimigo.LevarDano( player.VerificarColisao(inimigo) );
 
 
 			}
 		}
 	}
+	
+	al_uninstall_mouse();
+	al_destroy_event_queue(event_queue);
+	al_destroy_timer(timer);
+	al_destroy_display(display);
+	al_uninstall_system();
+	return 0;
 }
 
-
-
-void DrawPlayer(GameObject player)
+void *threadTiro(ALLEGRO_THREAD *thr, void *dados )
 {
-  int i = 0;
-  unsigned int x, y;
-  player.GetPosicaoAtual(x, y);
-  //std::cout << x << ' ' << y << std::endl;
-  al_draw_filled_circle(x, y, 10, al_map_rgb(0, 255, 0));
+    while(true)
+    {
+    	inimigo.Atirar(player);
+        al_rest(1); // Atira a cada 1s
+    }
+    //return NULL;
 }
-
-void DrawProjetil(Lista<Projetil*> projeteis)
-{
-  int i = 0;
-  unsigned int x, y;
-  Projetil *temp;
-  while ( projeteis.GetElem(i, temp) ) {
-    temp->GetPosicaoAtual(x, y);
-    al_draw_filled_circle(x, y, 2, al_map_rgb(255, 255, 255));
-    i++;
-  }
-
-}
-
-void DrawInimigo(GameObject inimigo)
-{
-  int i = 0;
-  unsigned int x, y;
-  inimigo.GetPosicaoAtual(x, y);
-  //std::cout << x << ' ' << y << std::endl;
-  al_draw_filled_circle(x, y, 10, al_map_rgb(100, 100, 100));
-}
-
-GameObject Distancia(GameObject a, GameObject b){
-	float distJogador = sqrt( pow(a.GetXAtual() - b.GetXAtual(), 2) + pow(a.GetYAtual() - b.GetYAtual(), 2) );
-
-	float distbase = sqrt( pow(a.GetXAtual() - (640/2), 2) + pow(a.GetYAtual() - (480/2), 2) );
-
-	if(distJogador >= distbase){
-		a.AtualizarDestino(b.GetXAtual(), b.GetYAtual());
-		a.Mover();
-		return a;
-	}
-	else{
-		a.AtualizarDestino((640/2), (480/2));
-		a.Mover();
-		return a;
-	}
-}
-
-
