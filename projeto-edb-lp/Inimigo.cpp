@@ -41,22 +41,22 @@ void Inimigo::Distancia(Personagem p, go::GameObject base)
 	float dist_jogador = sqrt( pow(x_atual - px_atual, 2) + pow(y_atual - py_atual, 2) );
 	float dist_base = sqrt( pow(x_atual - base_x, 2) + pow(y_atual - base_y, 2) );
 
-	//se o jogador estiver mais longe da base ou dentro dela, ataca a base
+	//se o jogador estiver mais longe da base ou player dentro dela, ataca a base
 	if (dist_jogador >= dist_base || ( px_atual > base_x - base_raio && 
 	px_atual < base_x + base_raio && py_atual > base_y - base_raio &&
 	py_atual < base_y + base_raio) ) { 
 		int novo_x, novo_y;
-		if (x_atual < (MaxX / 2) - base_raio)
-			novo_x = (MaxX/2) - base_raio;
-		else if (x_atual > (MaxX/2) + base_raio)
-			novo_x = (MaxX/2) + base_raio;
+		if (x_atual < base_x - base_raio)
+			novo_x = base_x - base_raio * 1.25;
+		else if (x_atual > base_x + base_raio)
+			novo_x = base_x + base_raio * 1.25;
 		else
 			novo_x = x_atual;
 
-		if (y_atual < (MaxY / 2) - base_raio)
-			novo_y = (MaxY/2) - base_raio;
-		else if (y_atual > (MaxY/2) + base_raio)
-			novo_y = (MaxY/2) + base_raio;
+		if (y_atual < base_y - base_raio)
+			novo_y = base_y - base_raio * 1.25;
+		else if (y_atual > base_y + base_raio)
+			novo_y = base_y + base_raio * 1.25;
 		else
 			novo_y = y_atual;
 
@@ -86,59 +86,7 @@ void Inimigo::Distancia(Personagem p, go::GameObject base)
 				CalcularProxDest = false;
 			}
 		}
-			//vai para a metade do caminho
-		/*if (px_orig != px_atual && px_atual != p.GetXDestino() &&
-			py_atual != py_orig && py_atual != p.GetYDestino()) { //está se movimentando
-			//vai para a metade do caminho
-			if (CalcularProxDest) {
-				this->AtualizarDestino( (px_atual + p.GetXDestino()) / 2,
-					(py_atual + p.GetYDestino()) / 2);
-			}
-			else if (XAtual == XDestino && YAtual == YDestino) {
-				//chegou no destino, calcula na próxima iteração
-				CalcularProxDest = true;				
-			}
-		}
-		else { //está parado
-			if (CalcularProxDest) {
-				this->AtualizarDestino(px_atual, py_atual);
-				CalcularProxDest = false;
-			}
-			else if (XAtual == XDestino && YAtual == YDestino)
-				//chegou no destino, calcula na próxima iteração
-				CalcularProxDest = true;
-		}*/
 	}
-
-	/*if(dist_jogador > dist_base) {//ataca base
-		//atualiza destino se tiver mudado alvo ou seja ao ponto de destino
-	//	if ( IsPlayerAlvo ) {
-		if (XDestino != MaxX/2 - 100 && YDestino != MaxY/2 - 100) {
-			this->AtualizarDestino((MaxX/2) - 100, (MaxY/2) - 100);
-		}
-		IsPlayerAlvo = false;
-	//	}
-	}
-	else {//ataca jogador
-		//atualiza destino se tiver mudado alvo ou seja ao ponto de destino
-	//	if ( !IsPlayerAlvo ) {
-		if (XDestino != px_orig && YDestino != py_orig &&
-			p.GetXDestino() != px_atual && p.GetYDestino() != py_atual) { //está se movimentando e não parado
-			this->AtualizarDestino(px_orig, py_orig); //atualiza 1x
-			IsPlayerAlvo = false;
-		}
-		else if (p.GetXDestino() == px_atual && p.GetYDestino() == py_atual && !IsPlayerAlvo) { //parado
-			this->AtualizarDestino(px_atual, py_atual);
-			IsPlayerAlvo = true;
-		}
-		/*else if (px_orig == XDestino && py_orig == YDestino) {
-			this->AtualizarDestino(0, 0);
-		}* /
-
-
-	//	}
-	}*/
-	//this->Mover(); //para não mover as balas
 }
 
 void Inimigo::Draw()
