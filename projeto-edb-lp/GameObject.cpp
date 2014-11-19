@@ -132,7 +132,7 @@ void GameObject::Mover() {
 }
 
 void GameObject::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY) {
-	if (DestinoX != XDestino && DestinoY != YDestino) {
+	if (DestinoX != XDestino || DestinoY != YDestino) {
 		XOrigem = XAtual;
 		YOrigem = YAtual;
 		XDestino = DestinoX;
