@@ -1,5 +1,8 @@
 #include <iostream>
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <stdio.h>
 #include <math.h>
 #include "GameObject.h"
 #include "ListaEncadeada/lista.h"
@@ -17,23 +20,40 @@ Base base(380,200,620,440);
 Horda horda(5, 1);
 
 int main() {
-    int i, X, Y, fps = 30;
+    int fps = 30;
     float v, qtd_ite = 0;
     bool done = false;
 
 	//variaveis do allegro
-
-
 	if( !al_init() )
 		return -1;
 
 	ALLEGRO_TIMER *timer = NULL;
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
+	ALLEGRO_FONT *fonte = NULL;
 	
 	timer = al_create_timer(1.0 / fps);
 	if (!timer)
 		return -1;
+
+	// Inicialização do add-on para uso de fontes
+    al_init_font_addon();
+
+    if (!al_init_ttf_addon())
+    {
+        fprintf(stderr, "Falha ao inicializar add-on allegro_ttf.\n");
+        return -1;
+    }
+
+    // Carregando o arquivo de fonte
+    fonte = al_load_font("WEST.TTF", 48, 0);
+    if (!fonte)
+    {
+        al_destroy_display(display);
+        fprintf(stderr, "Falha ao carregar fonte.\n");
+        return -1;
+    }
 
 	display = al_create_display( (int)arena.GetMaxX(), (int)arena.GetMaxY() );
 
@@ -101,6 +121,9 @@ int main() {
 					base.Draw();
 					player.Draw();
 					horda.Draw();
+					al_draw_textf(fonte, al_map_rgb(0, 0, 200), 1024, 0, ALLEGRO_ALIGN_RIGHT, "Vida: %d", player.GetVida());
+    				al_draw_textf(fonte, al_map_rgb(0, 0, 200), 1024, 50, ALLEGRO_ALIGN_RIGHT, "Base: %d", base.GetVida());
+    				al_draw_textf(fonte, al_map_rgb(0, 0, 200), 1024, 100, ALLEGRO_ALIGN_RIGHT, "Energia: %d", player.GetMunicaoAtual());
 					al_flip_display();
 					al_clear_to_color(al_map_rgb(0,0,0));					
 				}
