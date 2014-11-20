@@ -83,7 +83,7 @@ void Projetil::Destruir() {
 
 void Projetil::Draw() {
 	if ( !Destruido ) {
-		al_draw_filled_circle(XAtual, YAtual, Raio, al_map_rgb(255, 255, 255));
+		al_draw_filled_circle(XAtual, YAtual, Raio, al_map_rgb(0, 0, 0));
 	}
 }
 
