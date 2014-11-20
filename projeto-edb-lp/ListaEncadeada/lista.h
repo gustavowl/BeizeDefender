@@ -34,6 +34,7 @@
 		bool Remove(int pos, type &get);
 		bool Remove(type &get);
 		void Print(char separator = ' ');
+		BEHAVIOR GetBehavior() const;
 	//MÉTODOS
 		//construtores
 /*		Lista() {

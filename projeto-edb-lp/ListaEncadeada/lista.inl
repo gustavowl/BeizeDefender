@@ -240,3 +240,8 @@ void Lista<type>::Print(char separator) {
 	}
 	std::cout << std::endl;
 }
+
+template <class type>
+BEHAVIOR Lista<type>::GetBehavior() const {
+	return bhvr;
+}

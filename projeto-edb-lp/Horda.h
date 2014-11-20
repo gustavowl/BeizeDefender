@@ -10,11 +10,11 @@
 class Horda {
 
 	private:
-		int quantInimigos;
 		Lista<Inimigo*> listaInimigos;
 
 
 	public:
+		Horda(); //cria horda fazia
 		Horda(int quantidade);
 		Horda(int quantidade, int velocidade, int vida, int raio, int municao, int intervelo_tiro,
 			int primeiro_tiro, Projetil projetil_base);
