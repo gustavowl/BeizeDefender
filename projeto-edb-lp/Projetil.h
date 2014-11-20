@@ -22,7 +22,8 @@ class Projetil : public go::GameObject {
 				unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, WalkType TipoMov);*/
 		Projetil(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, unsigned int DestinoX,
 			unsigned int DestinoY, unsigned int Raio, unsigned int Dano);
-		
+		Projetil(const Projetil &projetil); //construtor de cópia
+
 		void operator=(const GameObject &GameObj);
 		void operator=(const Projetil &proj); //faz cópia profunda
 		void Mover();

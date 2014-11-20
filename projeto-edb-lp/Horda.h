@@ -4,21 +4,23 @@
 #include "Inimigo.h"
 #include "Personagem.h"
 #include "GameObject.h"
+#include "Projetil.h"
 
 
 class Horda {
 
 	private:
 		int quantInimigos;
-		int id;
 		Lista<Inimigo*> listaInimigos;
 
 
 	public:
-		Horda(int quantidade, int id);
+		Horda(int quantidade);
+		Horda(int quantidade, int velocidade, int vida, int raio, int municao, int intervelo_tiro,
+			int primeiro_tiro, Projetil projetil_base);
 		~Horda();
 		void Draw();
-		void Atirar(Personagem p);
+		void Atirar(Personagem p, go::GameObject base);
 		void Mover(Personagem p, go::GameObject base);
 		//retorna dano causado pelos projéteis dos inimigos em obj
 		int VerificarColisaoProjInimObj(const go::GameObject obj);

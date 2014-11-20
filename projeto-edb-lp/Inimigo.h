@@ -22,13 +22,16 @@ class Inimigo : public Personagem{
 		//Inimigo();
 		//Inimigo( unsigned int PositionX,  unsigned int PositionY);
 		Inimigo(int velocidade, int vida); //gera posição inicial randômicamente (nas bordas)
-		Inimigo(int velocidade, int vida, int municao, int intervelo_tiro); //gera posição inicial randômicamente (nas bordas)
+		//gera posição inicial randômicamente (nas bordas)
+		//primeiro_tiro: frames até dar o primeiro tiro
+		Inimigo(int velocidade, int vida, int raio, int municao, int intervelo_tiro,
+			int primeiro_tiro, Projetil projetil_base);
 		void Distancia(Personagem p, go::GameObject base);
 		int Dropar();
 		void Draw();
 		void operator=(const Personagem &persona);
 		void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);
-		void Atirar(const Personagem &p);
+		void Atirar(const Personagem &p, const go::GameObject &base);
 };
 
 #endif

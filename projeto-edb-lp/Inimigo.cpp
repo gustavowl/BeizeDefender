@@ -3,7 +3,7 @@
 #include <cstdlib>
 
 Inimigo::Inimigo(int velocidade, int vida) { //gera posição inicial randômicamente (nas bordas)
-	*this = Personagem(velocidade, vida, LINEAR);
+	*this = Personagem(velocidade, vida, 10, LINEAR, Projetil(0, 0, 1, 1)); //cria projétil padrão 
 	Municao = 10;
 	CalcularProxDest =  false;
 	InterveloTiro = INTERVALOTIROPADRAO;
@@ -11,8 +11,10 @@ Inimigo::Inimigo(int velocidade, int vida) { //gera posição inicial randômica
 }
 
  //gera posição inicial randômicamente (nas bordas)
-Inimigo::Inimigo(int velocidade, int vida, int municao, int intervelo_tiro) {
-	*this = Personagem(velocidade, vida, LINEAR);
+Inimigo::Inimigo(int velocidade, int vida, int raio, int municao, int intervelo_tiro,
+	int primeiro_tiro, Projetil projetil_base) {
+
+	*this = Personagem(velocidade, vida, raio, LINEAR, projetil_base);
 	if (municao >= 0)
 		Municao = municao;
 	else
@@ -21,7 +23,10 @@ Inimigo::Inimigo(int velocidade, int vida, int municao, int intervelo_tiro) {
 		InterveloTiro = intervelo_tiro;
 	else
 		InterveloTiro = INTERVALOTIROPADRAO;
-	ProxTiro = rand() % (InterveloTiro + 1);
+	if (primeiro_tiro >= 0)
+		ProxTiro = primeiro_tiro;
+	else
+		ProxTiro = rand() % (InterveloTiro + 1);
 	CalcularProxDest =  false;
 }
 
@@ -94,6 +99,7 @@ void Inimigo::Draw()
 	Personagem::Draw(255, 0, 0);
 }
 
+//operator= eh herdado?
 void Inimigo::operator=(const Personagem &persona) {
 	this->FrameAtual = persona.GetFrameAtual();
 	this->TotalFrames = persona.GetTotalFrames();
@@ -107,6 +113,7 @@ void Inimigo::operator=(const Personagem &persona) {
 	this->Velocidade = persona.GetVelocidade();
 	this->TipoMovimento = persona.GetTipoMovimento();
 	this->Vida = persona.GetVida();
+	this->ProjetilBase = persona.GetProjetilBase();
 
 	Lista<Projetil*> proj_persona = persona.GetProjeteis();
 	Projetil *temp; int i = 0;
@@ -123,21 +130,23 @@ void Inimigo::operator=(const Personagem &persona) {
 	}
 }
 
-void Inimigo::Atirar(const Personagem &p) 
+void Inimigo::Atirar(const Personagem &p, const go::GameObject &base) 
 {
 	if ( ProxTiro == 0 && Vida > 0) {
 		int x_atual = GetXAtual(), y_atual = GetYAtual(); //evitar erros de subtração
 		int px_atual = p.GetXAtual(), py_atual = p.GetYAtual(); //evitar erros de subtração
 		int px_orig = p.GetXOrigem(), py_orig = p.GetYOrigem(); //evitar erros de subtração
-		int max_x = MaxX, max_y = MaxY; //evitar erros de subtração
+		int base_x = base.GetXAtual(), base_y = base.GetYAtual(); //evitar erros de subtração
 		float dist_jogador = sqrt( pow(x_atual - px_atual, 2) + pow(y_atual - py_atual, 2) );
-		float dist_base = sqrt( pow(x_atual - max_x / 2, 2) + pow(y_atual - max_y / 2, 2) );
+		float dist_base = sqrt( pow(x_atual - base_x, 2) + pow(y_atual - base_y, 2) );
 		
 		Projetil *novo_projetil;
 		if (dist_jogador > dist_base)
-			novo_projetil = new Projetil(this->XAtual, this->YAtual, max_x / 2, max_y / 2);
+			novo_projetil = new Projetil(XAtual, YAtual, ProjetilBase.GetVelocidade(), base_x, base_y,
+				ProjetilBase.GetRaio(), ProjetilBase.GetDano() );
 		else
-			novo_projetil = new Projetil(this->XAtual, this->YAtual, px_atual, py_atual);
+			novo_projetil = new Projetil(XAtual, YAtual, ProjetilBase.GetVelocidade(), px_atual, py_atual,
+				ProjetilBase.GetRaio(), ProjetilBase.GetDano() );
 		Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
 		//zera a contagem dos intervalos
 		//+1 evita que ProxTiro = 0, o que faria que o inimigo parasse de atirar

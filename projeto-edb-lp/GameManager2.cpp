@@ -1,8 +1,5 @@
 #include <iostream>
 #include <allegro5/allegro.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_ttf.h>
-#include <stdio.h>
 #include <math.h>
 #include "GameObject.h"
 #include "ListaEncadeada/lista.h"
@@ -14,46 +11,31 @@
 
 using namespace go;
 
-GameObject arena(1024, 640); 
-Player player(1024/2, 640/2, 50, 50, 100);
-Base base(380,200,620,440);
-Horda horda(5, 1);
-
 int main() {
-    int fps = 30;
+    int i, X, Y, fps = 30;
     float v, qtd_ite = 0;
     bool done = false;
 
+	GameObject arena(1024, 640);
+	Base base(380, 200, 620, 440);
+	Projetil proj_player(0, 0, 30, 1, 1, 2, 5);
+	Player player(base.GetXAtual() , base.GetYAtual() , 50, 25, 15, 100, 10, proj_player);
+	Projetil proj_inimigo(0, 0, 30, 1, 1, 2, 1);
+	Horda horda(7, 5, 5, 10, 10, 30, 60, proj_inimigo);
+
 	//variaveis do allegro
+
+
 	if( !al_init() )
 		return -1;
 
 	ALLEGRO_TIMER *timer = NULL;
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
-	ALLEGRO_FONT *fonte = NULL;
 	
 	timer = al_create_timer(1.0 / fps);
 	if (!timer)
 		return -1;
-
-	// Inicialização do add-on para uso de fontes
-    al_init_font_addon();
-
-    if (!al_init_ttf_addon())
-    {
-        fprintf(stderr, "Falha ao inicializar add-on allegro_ttf.\n");
-        return -1;
-    }
-
-    // Carregando o arquivo de fonte
-    fonte = al_load_font("WEST.TTF", 48, 0);
-    if (!fonte)
-    {
-        al_destroy_display(display);
-        fprintf(stderr, "Falha ao carregar fonte.\n");
-        return -1;
-    }
 
 	display = al_create_display( (int)arena.GetMaxX(), (int)arena.GetMaxY() );
 
@@ -113,7 +95,7 @@ int main() {
 				else if (ev.type == ALLEGRO_EVENT_TIMER) {
 					player.Mover(); //já move os projéteis do player
 					horda.Mover(player, base);
-					horda.Atirar(player);
+					horda.Atirar(player, base);
 					player.LevarDano( horda.VerificarColisaoProjInimObj(player) );
 					horda.VerificarColisaoProjPersInim(player);
 					//dano colocado antes do desenho para dar a ilusão de maior tamanho da base
@@ -121,9 +103,6 @@ int main() {
 					base.Draw();
 					player.Draw();
 					horda.Draw();
-					al_draw_textf(fonte, al_map_rgb(0, 0, 200), 1024, 0, ALLEGRO_ALIGN_RIGHT, "Vida: %d", player.GetVida());
-    				al_draw_textf(fonte, al_map_rgb(0, 0, 200), 1024, 50, ALLEGRO_ALIGN_RIGHT, "Base: %d", base.GetVida());
-    				al_draw_textf(fonte, al_map_rgb(0, 0, 200), 1024, 100, ALLEGRO_ALIGN_RIGHT, "Energia: %d", player.GetMunicaoAtual());
 					al_flip_display();
 					al_clear_to_color(al_map_rgb(0,0,0));					
 				}

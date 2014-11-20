@@ -3,14 +3,30 @@
 #include "GameObject.h"
 
 
-Horda::Horda(int quantidade, int id){
-	this->quantInimigos = quantidade;
-	this->id = id;
+Horda::Horda(int quantidade) {
+	if (quantidade > 0) {
+		this->quantInimigos = quantidade;
 
-	for (int i = 0; i < quantidade; ++i){
-		Inimigo *enemy = new Inimigo(2, 5);
-		listaInimigos.Insert(0, enemy);
-	}	
+		for (int i = 0; i < quantidade; ++i){
+			Inimigo *enemy = new Inimigo(2, 5); //cria inimigo padrão
+			listaInimigos.Insert(0, enemy);
+		}
+	}
+
+}
+
+Horda::Horda(int quantidade, int velocidade, int vida, int raio, int municao, int intervelo_tiro,
+	int primeiro_tiro, Projetil projetil_base) {
+	
+	if (quantidade > 0) {
+		this->quantInimigos = quantidade;
+
+		for (int i = 0; i < quantidade; ++i){
+			Inimigo *enemy = new Inimigo(velocidade, vida, raio, municao, intervelo_tiro,
+				primeiro_tiro, projetil_base);
+			listaInimigos.Insert(0, enemy);
+		}
+	}
 }
 
 Horda::~Horda() {
@@ -42,12 +58,12 @@ void Horda::Mover(Personagem p, go::GameObject base){
 	}
 }
 
-void Horda::Atirar(Personagem p){
+void Horda::Atirar(Personagem p, go::GameObject base) {
 	Inimigo *temp;
 	
 	int i = 0;
 	while(listaInimigos.GetElem(i, temp)){
-		temp->Atirar(p);
+		temp->Atirar(p, base);
 		i++;
 	}
 }

@@ -32,7 +32,8 @@ int Personagem::VerificarColisaoQuadrada(const GameObject obj) {
 }
 
 void Personagem::Atirar(unsigned int destino_x, unsigned int destino_y) { //atira projétil de tipo 1
-	Projetil *novo_projetil = new Projetil(XAtual, YAtual, destino_x, destino_y);
+	Projetil *novo_projetil = new Projetil( XAtual, YAtual, ProjetilBase.GetVelocidade(),
+		destino_x, destino_y, ProjetilBase.GetRaio(), ProjetilBase.GetDano() );
 	Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
 }
 
@@ -48,6 +49,10 @@ void Personagem::Mover() { //sobrescreve operação de mover. Move tanto o playe
 	}
 }
 
+void Personagem::SetProjetilBase(const Projetil &novo_projetil) { //utilizado para mudar tipo do projétil
+	ProjetilBase = novo_projetil;
+}
+
 Lista<Projetil*> Personagem::GetProjeteis() const { //retorna uma lista com posição de todos os projéteis para desenhar
 	Lista<Projetil*> to_return; //lista para retornar
 	Projetil *temp; //ponteiro para pegar valores da lista
@@ -61,6 +66,10 @@ Lista<Projetil*> Personagem::GetProjeteis() const { //retorna uma lista com posi
 
 int Personagem::GetVida() const {
 	return Vida;
+}
+
+Projetil Personagem::GetProjetilBase() const {
+	return ProjetilBase;
 }
 
 void Personagem::Draw(unsigned int red, unsigned int green, unsigned int blue) {
@@ -81,9 +90,7 @@ void Personagem::Draw(unsigned int red, unsigned int green, unsigned int blue) {
 	}
 	//se não estiver destruído, o desenha
 	if (Vida > 0) {
-		unsigned int x, y;
-		this->GetPosicaoAtual(x, y);
-		al_draw_filled_circle(x, y, 10, al_map_rgb(red % 256, green % 256, blue % 256));
+		al_draw_filled_circle(XAtual, YAtual, Raio, al_map_rgb(red % 256, green % 256, blue % 256));
 	}
 }
 
@@ -95,20 +102,25 @@ Personagem::Personagem() {
 Personagem::Personagem(unsigned int posicao_x, unsigned int posicao_y, WalkType walk_type) {
 	*this = GameObject(posicao_x, posicao_y, 5, 10, walk_type);
 	Vida = 10;
-
+	ProjetilBase = Projetil(0, 0, 1, 1);
 }
 
-Personagem::Personagem(int velocidade, int vida, WalkType walk_type) { //gera posição inicial randômicamente (nas bordas)
-	if (vida > 0 && velocidade > 0) {
-		*this = GameObject(velocidade, 10, walk_type);
+ //gera posição inicial randômicamente (nas bordas)
+Personagem::Personagem(int velocidade, int vida, int raio, WalkType walk_type, Projetil projetil_base) {
+	if (vida > 0 && velocidade > 0 && raio > 0) {
+		*this = GameObject(velocidade, raio, walk_type);
 		Vida = vida;
+		ProjetilBase = projetil_base;
 	}	
 }
 
-Personagem::Personagem(unsigned int posicao_x, unsigned int posicao_y, int velocidade, int vida, WalkType walk_type) {
-	if (vida > 0 && velocidade > 0) {
-		*this = GameObject(posicao_x, posicao_y, velocidade, 10, walk_type);
+Personagem::Personagem(unsigned int posicao_x, unsigned int posicao_y, int velocidade, int vida,
+	int raio, WalkType walk_type, Projetil projetil_base) {
+
+	if (vida > 0 && velocidade > 0 && raio > 0) {
+		*this = GameObject(posicao_x, posicao_y, velocidade, raio, walk_type);
 		Vida = vida;
+		ProjetilBase = projetil_base;
 	}
 }
 
@@ -143,8 +155,9 @@ void Personagem::operator=(const Personagem &persona) {//faz cópia profunda
 	this->Velocidade = persona.Velocidade;
 	this->TipoMovimento = persona.GetTipoMovimento();
 	this->Vida = persona.Vida;
+	this->ProjetilBase = persona.ProjetilBase;
+
 	Projetil *temp; int i = 0;
-	
 	while ( Projeteis.GetElem(0, temp) ) { //deleta todos os projéteis dinamicamente alocados
 		delete temp; //deleta projétil dinamicamente alocado
 		Projeteis.Remove(0);//remove bala da lista

@@ -33,7 +33,8 @@ public:
 	//int GetVida();
 
 	Player(unsigned int posicao_x, unsigned int posicao_y);
-	Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, int municao_atual, int vida);
+	Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, int municao_atual, 
+		int velocidade, int vida, int raio, Projetil projetil_base);
 	void operator=(const Personagem &persona);
 };
 

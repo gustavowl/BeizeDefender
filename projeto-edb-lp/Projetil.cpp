@@ -29,11 +29,15 @@ unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, unsigned int Da
 		//calcula coordenada de destino em que sairá da arena
 		CalcularCoordenadasFinais(PositionX, PositionY, DestinoX, DestinoY);
 		//chama o construtor da classe pai
-		GameObject temp = GameObject(PositionX, PositionY, 30, DestinoX, DestinoX, 2, LINEAR);
+		GameObject temp = GameObject(PositionX, PositionY, Velocidade, DestinoX, DestinoY, Raio, LINEAR);
 		*this =  temp; //copia os valores de pai para filho (tava dando erro ao fazer direto)
 		this->Dano = Dano; //atualiza dano com valor de entrada
 		Destruido = false;
 	}
+}
+
+Projetil::Projetil(const Projetil &projetil) {
+	*this = projetil;
 }
 
 void Projetil::operator=(const GameObject &GameObj) {
