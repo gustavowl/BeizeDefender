@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Inimigo.h"
 #include "Horda.h"
+#include "Waves.h"
 
 using namespace go;
 
@@ -21,7 +22,17 @@ int main() {
 	Projetil proj_player(0, 0, 30, 1, 1, 2, 5);
 	Player player(base.GetXAtual() , base.GetYAtual() , 50, 25, 15, 100, 10, proj_player);
 	Projetil proj_inimigo(0, 0, 30, 1, 1, 2, 1);
-	Horda horda(7, 5, 5, 10, 10, 30, 60, proj_inimigo);
+	Lista<Horda*> fila_horda(FILA);
+	Lista<int> fila_tempo_espera(FILA);
+
+	//gera horda para wave
+	for (int i = 2; i <= 6; i+=2) {
+		Horda* nova_horda = new Horda(i, 2, 5, 10, 10, 30, 60, proj_inimigo);
+		fila_horda.Insert( nova_horda );
+		fila_tempo_espera.Insert( i * 15 ); //espera 1, 2 e 3 segundos
+	}
+	//gera wave
+	Waves wave( fila_horda, fila_tempo_espera );
 
 	//variaveis do allegro
 
@@ -78,7 +89,7 @@ int main() {
 				done = true;
 			}
 			//verifica se o jogo não acabou
-			else if ( player.GetVida() > 0 && base.GetVida() > 0 && !horda.Destruida() ) {
+			else if ( player.GetVida() > 0 && base.GetVida() > 0 && !wave.Destruida() ) {
 				if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 				{
 
@@ -94,15 +105,19 @@ int main() {
 				}
 				else if (ev.type == ALLEGRO_EVENT_TIMER) {
 					player.Mover(); //já move os projéteis do player
-					horda.Mover(player, base);
-					horda.Atirar(player, base);
-					player.LevarDano( horda.VerificarColisaoProjInimObj(player) );
-					horda.VerificarColisaoProjPersInim(player);
+					wave.Mover(player, base); //move projéteis da wave, msm se horda destruída (?)
+					if ( !wave.EsperandoProximaHorda() ) {
+						//só atira caso horda não tenha sido destruída
+						wave.Atirar(player, base);
+						//verifica dano nos inimigos da horda
+						wave.VerificarColisaoProjPersInim(player);
+					}
+					player.LevarDano( wave.VerificarColisaoProjInimObj(player) );
 					//dano colocado antes do desenho para dar a ilusão de maior tamanho da base
-					base.LevarDano( horda.VerificarColisaoProjInimObj(base) );
+					base.LevarDano( wave.VerificarColisaoProjInimObj(base) );
 					base.Draw();
 					player.Draw();
-					horda.Draw();
+					wave.Draw();
 					al_flip_display();
 					al_clear_to_color(al_map_rgb(0,0,0));					
 				}
