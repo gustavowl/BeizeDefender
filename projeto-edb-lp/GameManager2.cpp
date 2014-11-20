@@ -1,5 +1,9 @@
 #include <iostream>
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <cstdlib>
 #include <math.h>
 #include "GameObject.h"
 #include "ListaEncadeada/lista.h"
@@ -40,7 +44,9 @@ int main() {
 	if( !al_init() )
 		return -1;
 
+	ALLEGRO_BITMAP *background = NULL;
 	ALLEGRO_TIMER *timer = NULL;
+	ALLEGRO_FONT *font = NULL;
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	
@@ -55,6 +61,7 @@ int main() {
 		return -1;
 	}
 
+	//background = al_create_bitmap(1024,640);
 	event_queue = al_create_event_queue();
 	if (!event_queue) {
 		al_destroy_timer(timer);
@@ -69,6 +76,33 @@ int main() {
 		return -1;
 	}
 
+	al_init_image_addon();
+
+	al_init_font_addon();
+	
+	if(!al_load_bitmap("base_concept.png")) {
+		std::cout << "Image not loaded" << std::endl;
+		return -1;
+	}
+	if(!al_init_ttf_addon()) {
+		std::cout << "Font not loaded" << std::endl;
+
+		return -1;
+	}
+
+
+
+	background = al_load_bitmap("base_concept.png");
+	font = al_load_font("WEST.TTF", 48, 0);
+
+	if(!font) 
+	{
+		al_destroy_display(display);
+		return -1;
+	}
+
+
+
 	//al_init_primitives_addon();	
 
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
@@ -81,6 +115,7 @@ int main() {
 	srand(time(NULL));
 	while(!done)
 	{
+
 		if ( al_get_next_event(event_queue, &ev) ) {
 		  //if (al_wait_for_event_until(event_queue, &ev, &timeout)) {
 
@@ -115,9 +150,18 @@ int main() {
 					player.LevarDano( wave.VerificarColisaoProjInimObj(player) );
 					//dano colocado antes do desenho para dar a ilusão de maior tamanho da base
 					base.LevarDano( wave.VerificarColisaoProjInimObj(base) );
+
 					base.Draw();
+					al_draw_bitmap(background, 0, 0, 0);
+
 					player.Draw();
+
 					wave.Draw();
+					al_draw_textf(font, al_map_rgb(0, 0, 200), 1024, 0, ALLEGRO_ALIGN_RIGHT, "Vida: %d", player.GetVida());
+					al_draw_textf(font, al_map_rgb(0, 0, 200), 1024, 50, ALLEGRO_ALIGN_RIGHT, "Base: %d", base.GetVida());
+					al_draw_textf(font, al_map_rgb(0, 0, 200), 1024, 100, ALLEGRO_ALIGN_RIGHT, "Energia: %d", player.GetMunicaoAtual());
+
+
 					al_flip_display();
 					al_clear_to_color(al_map_rgb(0,0,0));					
 				}
@@ -126,6 +170,7 @@ int main() {
 	}
 	
 	al_uninstall_mouse();
+	al_destroy_bitmap(background);
 	al_destroy_event_queue(event_queue);
 	al_destroy_timer(timer);
 	al_destroy_display(display);
