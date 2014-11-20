@@ -3,8 +3,11 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include <cstdlib>
 #include <math.h>
+#include <string>
 #include "GameObject.h"
 #include "ListaEncadeada/lista.h"
 #include "Projetil.h"
@@ -13,6 +16,14 @@
 #include "Inimigo.h"
 #include "Horda.h"
 #include "Waves.h"
+
+void checkExpression (bool expression, std::string message)
+{
+	if (expression) {
+		std::cout << message << std::endl;
+		exit(1);
+	}
+}
 
 using namespace go;
 
@@ -23,20 +34,35 @@ int main() {
 
 	GameObject arena(1024, 640);
 	Base base(380, 200, 620, 440);
-	Projetil proj_player(0, 0, 30, 1, 1, 2, 5);
-	Player player(base.GetXAtual() , base.GetYAtual() , 50, 25, 15, 100, 10, proj_player);
-	Projetil proj_inimigo(0, 0, 30, 1, 1, 2, 1);
+	Projetil proj_player(0, 0, 20, 1, 1, 2, 5);
+	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 15, 100, 10, proj_player);
+	Projetil proj_inimigo(0, 0, 20, 1, 1, 2, 1);
 	Lista<Horda*> fila_horda(FILA);
 	Lista<int> fila_tempo_espera(FILA);
 
-	//gera horda para wave
-	for (int i = 2; i <= 6; i+=2) {
-		Horda* nova_horda = new Horda(i, 2, 5, 10, 10, 30, 60, proj_inimigo);
-		fila_horda.Insert( nova_horda );
-		fila_tempo_espera.Insert( i * 15 ); //espera 1, 2 e 3 segundos
-	}
+	/*Gera 3 "Fases" e 3 Boss*/
+	/*Também aumenta a vida dos Inimigo e dos Boss*/
+
+	for(int j = 1; j <= 3; ++j)
+	{
+		//gera horda para wave
+		for (int i = 2; i <= 6; i+=2) {
+			Horda* nova_horda = new Horda(i, 2, 5*j, 10, 10, 30, 60, proj_inimigo);
+			fila_horda.Insert( nova_horda );
+			fila_tempo_espera.Insert( i * 15 ); //espera 1, 2 e 3 segundos
+		}
 	//gera wave
-	Waves wave( fila_horda, fila_tempo_espera );
+		Horda * boss = new Horda(1, 10, 40*j, 10, 10, 7, 15, proj_inimigo);
+		fila_horda.Insert(boss);
+		fila_tempo_espera.Insert(150);
+	}
+	
+
+	/*  Múltiplas Waves */
+
+
+	Waves wave( fila_horda, fila_tempo_espera);
+	
 
 	//variaveis do allegro
 
@@ -49,6 +75,8 @@ int main() {
 	ALLEGRO_FONT *font = NULL;
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
+	ALLEGRO_SAMPLE * tiro = NULL;
+	ALLEGRO_AUDIO_STREAM * trilha = NULL;
 	
 	timer = al_create_timer(1.0 / fps);
 	if (!timer)
@@ -60,6 +88,19 @@ int main() {
 		al_destroy_timer(timer);
 		return -1;
 	}
+
+	checkExpression(!al_install_audio(), "Problemas ao iniciar o plugin de audio. Abortar!");
+	al_reserve_samples(5);
+	checkExpression(!al_init_acodec_addon(), "Problemas ao iniciar o plugin adicional de audio. Abortar!");
+	//checkExpression(!al_init_reserve_sample(1), "Problemas ao iniciar os canais de audio. Abortar!");
+
+	trilha = al_load_audio_stream("die_motherfucker_die.wav", 5, 1024);
+	checkExpression(!trilha, "Música não Carregada");
+
+	tiro = al_load_sample("pistol.wav");
+
+	al_attach_audio_stream_to_mixer(trilha, al_get_default_mixer());
+	al_set_audio_stream_playmode(trilha, ALLEGRO_PLAYMODE_LOOP);
 
 	//background = al_create_bitmap(1024,640);
 	event_queue = al_create_event_queue();
@@ -79,7 +120,7 @@ int main() {
 	al_init_image_addon();
 
 	al_init_font_addon();
-	
+
 	if(!al_load_bitmap("base_concept.png")) {
 		std::cout << "Image not loaded" << std::endl;
 		return -1;
@@ -111,6 +152,8 @@ int main() {
 
 	al_start_timer(timer);
 
+	
+
 	ALLEGRO_EVENT ev;
 	srand(time(NULL));
 	while(!done)
@@ -135,6 +178,7 @@ int main() {
 					else if(ev.mouse.button & 1)
 					{
 	          			player.Atirar(ev.mouse.x, ev.mouse.y); //oks
+	          			al_play_sample(tiro, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
 					}
 				}
@@ -168,12 +212,14 @@ int main() {
 			}
 		}
 	}
+
 	
 	al_uninstall_mouse();
 	al_destroy_bitmap(background);
 	al_destroy_event_queue(event_queue);
 	al_destroy_timer(timer);
 	al_destroy_display(display);
+	al_destroy_audio_stream(trilha);
 	al_uninstall_system();
 	return 0;
 }
