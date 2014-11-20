@@ -27,7 +27,7 @@ class Horda {
 		/*Faz colisão dos projéteis de persona com Inimigos, calcula dano
 		e remove inimigos derrotados*/
 		void VerificarColisaoProjPersInim(Personagem &persona);
-		//retorna se todos os inimigos da Horda foram destruídos
+		//retorna se todos os inimigos e projéteis da Horda foram destruídos
 		bool Destruida();
 
 };

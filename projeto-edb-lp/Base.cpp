@@ -31,8 +31,9 @@ Base::~Base()
 
 void Base::Draw()
 {
-    if(vida > 0)
+    if(vida > 0) {
         al_draw_rectangle(x_esquerda, y_superior, x_direita, y_inferior, al_map_rgb(255, 0, 255), 10);    
+    }
 }
 
 int Base::GetVida() 

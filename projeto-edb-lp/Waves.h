@@ -36,6 +36,8 @@ class Waves {
 		void Mover(Personagem p, go::GameObject base);
 		//Faz com que inimigos da horda atual atirem
 		void Atirar(Personagem p, go::GameObject base);
+		//Desenha inimigos da horda
+		void Draw();
 		//retorna dano causado pelos projéteis dos inimigos em obj
 		int VerificarColisaoProjInimObj(const go::GameObject obj);
 		/*Faz colisão dos projéteis de persona com Inimigos, calcula dano

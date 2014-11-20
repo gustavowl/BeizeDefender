@@ -81,7 +81,8 @@ void Horda::VerificarColisaoProjPersInim(Personagem &persona) {
 	int dano_total = 0;
 	while (listaInimigos.GetElem(i, ini_temp)) {
 		ini_temp->LevarDano( persona.VerificarColisao(*ini_temp) );
-		if ( ini_temp->GetVida() > 0 ) //se não morreu
+		//se não foi totalmente destruído (ele e projéteis)
+		if ( !ini_temp->PersonagemEProjeteisDestruidos() )
 			i++; //verifica colisão com próximo inimigo
 		else {//se morreu
 			 //remove inimigo da lista, não incrementa o i pois verifica próximo inimigo

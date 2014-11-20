@@ -22,8 +22,12 @@ public:
 	void Mover(); //sobrescreve operação de mover. Move tanto o player quanto suas balas
 	void SetProjetilBase(const Projetil &novo_projetil); //utilizado para mudar tipo do projétil
 	Lista<Projetil*> GetProjeteis() const; //retorna lista e projéteis (usado nos operator= de classe filha)
-	int GetVida() const; //serve para saber se verifica colisão com ele, já que algumas balas provavelmente ainda estarão
+	//substituir por destruido?
+	//serve para saber se verifica colisão com ele, já que algumas balas provavelmente ainda estarão
 	//na arena, mesmo com o personagem já destruído
+	int GetVida() const;
+	//retorna se o personagem E os projéteis dele foram destruídos
+	bool PersonagemEProjeteisDestruidos();
 	Projetil GetProjetilBase() const;
 
 	Personagem(); //cria personagem "vazio"

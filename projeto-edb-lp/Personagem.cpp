@@ -68,6 +68,10 @@ int Personagem::GetVida() const {
 	return Vida;
 }
 
+bool Personagem::PersonagemEProjeteisDestruidos() {
+	return ( Vida <= 0 && Projeteis.Size() == 0 );
+}
+
 Projetil Personagem::GetProjetilBase() const {
 	return ProjetilBase;
 }
