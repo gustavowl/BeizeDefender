@@ -1,7 +1,7 @@
 //#include <iostream>
 #include <allegro5/allegro.h>
-/*#include <allegro5/allegro_primitives.h>
-#include <math.h>
+#include <allegro5/allegro_primitives.h>
+/*#include <math.h>
 #include "GameObject.h"
 #include "ListaEncadeada/lista.h"
 #include "Projetil.h"
@@ -93,6 +93,7 @@ int main() {
 			}
 
 			else if (ev.type == ALLEGRO_EVENT_TIMER) { 
+				al_draw_filled_circle(640, 320, 10, al_map_rgb(255, 255, 255));
 //				inimigo.Atirar(player);
 //				player.Mover(); //já move os projéteis do player
 				//horda.Mover(player, base.GetRaio());
