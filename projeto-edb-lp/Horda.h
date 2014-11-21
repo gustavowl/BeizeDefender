@@ -5,6 +5,7 @@
 #include "Personagem.h"
 #include "GameObject.h"
 #include "Projetil.h"
+#include "Drop.h"
 
 
 class Horda {
@@ -26,7 +27,7 @@ class Horda {
 		int VerificarColisaoProjInimObj(const go::GameObject obj);
 		/*Faz colisão dos projéteis de persona com Inimigos, calcula dano
 		e remove inimigos derrotados*/
-		void VerificarColisaoProjPersInim(Personagem &persona);
+		void VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila_cafe);
 		//retorna se todos os inimigos e projéteis da Horda foram destruídos
 		bool Destruida();
 
