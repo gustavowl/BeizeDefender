@@ -16,11 +16,14 @@
 #include "Inimigo.h"
 #include "Horda.h"
 #include "Waves.h"
-#include "Drop.h"
+#include "GameManager.h"
 
 #define MAX_TIME 86400
 
-void checkExpression (bool expression, std::string message)
+GameManager::GameManager()
+{}
+
+void  GameManager::checkExpression (bool expression, std::string message)
 {
 	if (expression) {
 		std::cout << message << std::endl;
@@ -30,28 +33,25 @@ void checkExpression (bool expression, std::string message)
 
 using namespace go;
 
-int main() {
+int GameManager::Executar() {
     int i, X, Y, fps = 30;
-    int tecla;
+    int tecla = 0;
     float v, qtd_ite = 0;
     bool done = false;
 
 	GameObject arena(1024, 640);
 	Base base(380, 200, 620, 440);
 	Projetil proj_player(0, 0, 20, 1, 1, 2, 5);
-	Player player(base.GetXAtual() , base.GetYAtual() , 100, 50, 15, 100, 10, proj_player);
+	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 15, 100, 10, proj_player);
 	Projetil proj_inimigo(0, 0, 20, 1, 1, 2, 1);
 	Lista<Horda*> fila_horda(FILA);
 	Lista<int> fila_tempo_espera(FILA);
-	Lista<Drop*> fila_cafe(LISTASIMPLES);
-	Drop cafe;
 
 	/*Gera 3 "Fases" e 3 Boss*/
 	/*Também aumenta a vida dos Inimigo e dos Boss*/
 
 	for(int j = 1; j <= 3; ++j)
 	{
-		
 		//gera horda para wave
 		for (int i = 2; i <= 6; i+=2) {
 			Horda* nova_horda = new Horda(i, 2, 5*j, 10, 10, 30, 60, proj_inimigo);
@@ -95,15 +95,11 @@ int main() {
 		al_destroy_timer(timer);
 		return -1;
 	}
-	if (!al_install_keyboard())
-    {
-        std::cout << "Falha ao inicializar o teclado" << std::endl;
-        return false;
-    }
 
 	checkExpression(!al_install_audio(), "Problemas ao iniciar o plugin de audio. Abortar!");
 	al_reserve_samples(5);
 	checkExpression(!al_init_acodec_addon(), "Problemas ao iniciar o plugin adicional de audio. Abortar!");
+	checkExpression(!al_install_keyboard(), "Problema ao iniciar o teclado");
 	//checkExpression(!al_init_reserve_sample(1), "Problemas ao iniciar os canais de audio. Abortar!");
 
 	trilha = al_load_audio_stream("die_motherfucker_die.wav", 5, 1024);
@@ -159,9 +155,10 @@ int main() {
 	//al_init_primitives_addon();	
 
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
-    al_register_event_source(event_queue, al_get_keyboard_event_source());
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_mouse_event_source());
+    al_register_event_source(event_queue, al_get_keyboard_event_source());
+
 
 	al_start_timer(timer);
 
@@ -179,6 +176,8 @@ int main() {
 			{	
 				done = true;
 			}
+
+			/* Entrada do Teclado */
 			else if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
 			{
 				switch(ev.keyboard.keycode) 
@@ -216,6 +215,7 @@ int main() {
 
 					}
 				}
+
 			}
 			//verifica se o jogo não acabou
 			else if ( player.GetVida() > 0 && base.GetVida() > 0 && !wave.Destruida() ) {
@@ -236,7 +236,12 @@ int main() {
 				else if (ev.type == ALLEGRO_EVENT_TIMER) {
 					player.Mover(); //já move os projéteis do player
 					wave.Mover(player, base); //move projéteis da wave, msm se horda destruída (?)
-					
+					if ( !wave.EsperandoProximaHorda() ) {
+						//só atira caso horda não tenha sido destruída
+						wave.Atirar(player, base);
+						//verifica dano nos inimigos da horda
+						wave.VerificarColisaoProjPersInim(player);
+					}
 					player.LevarDano( wave.VerificarColisaoProjInimObj(player) );
 					//dano colocado antes do desenho para dar a ilusão de maior tamanho da base
 					base.LevarDano( wave.VerificarColisaoProjInimObj(base) );
@@ -244,21 +249,8 @@ int main() {
 					base.Draw();
 					al_draw_bitmap(background, 0, 0, 0);
 
-					if ( !wave.EsperandoProximaHorda() ) {
-						//só atira caso horda não tenha sido destruída
-						wave.Atirar(player, base);
-						//verifica dano nos inimigos da horda
-						wave.VerificarColisaoProjPersInim(player, fila_cafe);
-					}
-					else{
-						base.Regenerar();
-					}
-
-					
-
 					player.Draw();
-					cafe.Draw(fila_cafe);
-					cafe.Pegar(player, fila_cafe);
+
 					wave.Draw();
 					al_draw_textf(font, al_map_rgb(0, 0, 200), 1024, 0, ALLEGRO_ALIGN_RIGHT, "Vida: %d", player.GetVida());
 					al_draw_textf(font, al_map_rgb(0, 0, 200), 1024, 50, ALLEGRO_ALIGN_RIGHT, "Base: %d", base.GetVida());
@@ -268,6 +260,7 @@ int main() {
 					al_flip_display();
 					al_clear_to_color(al_map_rgb(0,0,0));					
 				}
+				
 			}
 		}
 	}
