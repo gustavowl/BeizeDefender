@@ -14,6 +14,7 @@ class Base: public go::GameObject{
         void Draw();
 
     private:
+        int vidaTotal;
         int vida;
         int regem;
         unsigned int y_superior; //canto superior esquerdo da tela
