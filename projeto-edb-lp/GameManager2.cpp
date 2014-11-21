@@ -16,6 +16,7 @@
 #include "Inimigo.h"
 #include "Horda.h"
 #include "Waves.h"
+#include "Drop.h"
 
 void checkExpression (bool expression, std::string message)
 {
@@ -35,16 +36,19 @@ int main() {
 	GameObject arena(1024, 640);
 	Base base(380, 200, 620, 440);
 	Projetil proj_player(0, 0, 20, 1, 1, 2, 5);
-	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 15, 100, 10, proj_player);
+	Player player(base.GetXAtual() , base.GetYAtual() , 100, 50, 15, 100, 10, proj_player);
 	Projetil proj_inimigo(0, 0, 20, 1, 1, 2, 1);
 	Lista<Horda*> fila_horda(FILA);
 	Lista<int> fila_tempo_espera(FILA);
+	Lista<Drop*> fila_cafe(LISTASIMPLES);
+	Drop cafe;
 
 	/*Gera 3 "Fases" e 3 Boss*/
 	/*Também aumenta a vida dos Inimigo e dos Boss*/
 
 	for(int j = 1; j <= 3; ++j)
 	{
+		
 		//gera horda para wave
 		for (int i = 2; i <= 6; i+=2) {
 			Horda* nova_horda = new Horda(i, 2, 5*j, 10, 10, 30, 60, proj_inimigo);
@@ -185,12 +189,7 @@ int main() {
 				else if (ev.type == ALLEGRO_EVENT_TIMER) {
 					player.Mover(); //já move os projéteis do player
 					wave.Mover(player, base); //move projéteis da wave, msm se horda destruída (?)
-					if ( !wave.EsperandoProximaHorda() ) {
-						//só atira caso horda não tenha sido destruída
-						wave.Atirar(player, base);
-						//verifica dano nos inimigos da horda
-						wave.VerificarColisaoProjPersInim(player);
-					}
+					
 					player.LevarDano( wave.VerificarColisaoProjInimObj(player) );
 					//dano colocado antes do desenho para dar a ilusão de maior tamanho da base
 					base.LevarDano( wave.VerificarColisaoProjInimObj(base) );
@@ -198,8 +197,21 @@ int main() {
 					base.Draw();
 					al_draw_bitmap(background, 0, 0, 0);
 
-					player.Draw();
+					if ( !wave.EsperandoProximaHorda() ) {
+						//só atira caso horda não tenha sido destruída
+						wave.Atirar(player, base);
+						//verifica dano nos inimigos da horda
+						wave.VerificarColisaoProjPersInim(player, fila_cafe);
+					}
+					else{
+						base.Regenerar();
+					}
 
+					
+
+					player.Draw();
+					cafe.Draw(fila_cafe);
+					cafe.Pegar(player, fila_cafe);
 					wave.Draw();
 					al_draw_textf(font, al_map_rgb(0, 0, 200), 1024, 0, ALLEGRO_ALIGN_RIGHT, "Vida: %d", player.GetVida());
 					al_draw_textf(font, al_map_rgb(0, 0, 200), 1024, 50, ALLEGRO_ALIGN_RIGHT, "Base: %d", base.GetVida());
