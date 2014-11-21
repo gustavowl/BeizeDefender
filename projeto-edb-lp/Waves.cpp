@@ -78,10 +78,10 @@ int Waves::VerificarColisaoProjInimObj(const go::GameObject obj) {
 
 /*Faz colisão dos projéteis de persona com Inimigos, calcula dano
 e remove inimigos derrotados*/
-void Waves::VerificarColisaoProjPersInim(Personagem &persona) {
+void Waves::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila_cafe) {
 	if ( hordaAtual != NULL && tempoEspera == 0 ) {
 		//calcula todo o dano
-		hordaAtual->VerificarColisaoProjPersInim(persona);
+		hordaAtual->VerificarColisaoProjPersInim(persona, fila_cafe);
 		//verifica se horda foi destruída
 		if ( hordaAtual->Destruida() ) { //colocar para destruir só se todas as balas foram destruidas
 			delete hordaAtual; //deleta horda dinamicamente alocada
