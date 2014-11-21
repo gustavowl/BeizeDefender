@@ -5,6 +5,7 @@
 Base::Base(unsigned int x_esq, unsigned int y_sup, unsigned int x_dir, unsigned int y_inf)
 {
     vida = 100;
+    vidaTotal = vida;
     y_superior = y_sup;
     x_esquerda = x_esq;
     y_inferior = y_inf;
@@ -47,4 +48,8 @@ bool Base::LevarDano(int dano)
   if (vida <= 0)
     return true;
   return false;
+}
+
+void Base::Regenerar(){
+    vida = vidaTotal;
 }

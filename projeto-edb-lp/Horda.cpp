@@ -1,6 +1,8 @@
+#include "Drop.h"
 #include "Horda.h"
 #include "Inimigo.h"
 #include "GameObject.h"
+
 
 Horda::Horda(int quantidade) {
 	if (quantidade > 0) {
@@ -75,7 +77,7 @@ int Horda::VerificarColisaoProjInimObj(const go::GameObject obj) {
     return dano_total;
 }
 
-void Horda::VerificarColisaoProjPersInim(Personagem &persona) {
+void Horda::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila_cafe) {
 	Inimigo *ini_temp;
 	int i = 0;
 	int dano_total = 0;
@@ -86,6 +88,9 @@ void Horda::VerificarColisaoProjPersInim(Personagem &persona) {
 			i++; //verifica colisão com próximo inimigo
 		else {//se morreu
 			 //remove inimigo da lista, não incrementa o i pois verifica próximo inimigo
+			//ini_temp->Dropar();
+			Drop *cafe_temp = new Drop(10, ini_temp->GetXAtual(), ini_temp->GetYAtual());
+			fila_cafe.Insert(0, cafe_temp);
 			listaInimigos.Remove(i);
 			delete ini_temp; //deleta instância de inimigo dinamicamente alocada
 		}

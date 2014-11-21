@@ -42,7 +42,7 @@ class Waves {
 		int VerificarColisaoProjInimObj(const go::GameObject obj);
 		/*Faz colisão dos projéteis de persona com Inimigos, calcula dano
 		e remove inimigos derrotados*/
-		void VerificarColisaoProjPersInim(Personagem &persona);
+		void VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila_cafe);
 
 };
 
