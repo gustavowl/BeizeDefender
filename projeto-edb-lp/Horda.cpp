@@ -2,6 +2,8 @@
 #include "Horda.h"
 #include "Inimigo.h"
 #include "GameObject.h"
+#include <stdlib.h>
+#include <time.h>
 
 
 Horda::Horda(int quantidade) {
@@ -14,9 +16,9 @@ Horda::Horda(int quantidade) {
 
 }
 
-Horda::Horda(int quantidade, int velocidade, int vida, int raio, int municao, int intervelo_tiro,
+Horda::Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, int municao, int intervelo_tiro,
 	int primeiro_tiro, Projetil projetil_base) {
-	
+	id = idHorda;
 	if (quantidade > 0) {
 		for (int i = 0; i < quantidade; ++i){
 			Inimigo *enemy = new Inimigo(velocidade, vida, raio, municao, intervelo_tiro,
@@ -88,9 +90,15 @@ void Horda::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila
 			i++; //verifica colisão com próximo inimigo
 		else {//se morreu
 			 //remove inimigo da lista, não incrementa o i pois verifica próximo inimigo
-			//ini_temp->Dropar();
-			Drop *cafe_temp = new Drop(10, ini_temp->GetXAtual(), ini_temp->GetYAtual());
-			fila_cafe.Insert(0, cafe_temp);
+			srand (time (NULL)); // Gera uma 'random seed' baseada no retorno da funcao time()
+			int numero;
+			numero = (rand () % 3) + 1; // Retorna um numero aleatorio entre 1 e 4
+			std::cout<<numero<<std::endl;
+			if(numero == 1){ // Chance de 25% para realizar o drop
+				Drop *cafe_temp = new Drop(ini_temp->Dropar(), ini_temp->GetXAtual(), ini_temp->GetYAtual());
+				fila_cafe.Insert(0, cafe_temp);	
+				std::cout<<ini_temp->Dropar()<<std::endl;
+			}
 			listaInimigos.Remove(i);
 			delete ini_temp; //deleta instância de inimigo dinamicamente alocada
 		}
@@ -101,4 +109,8 @@ bool Horda::Destruida() {
 	if ( listaInimigos.Size() > 0 ) //se tamanho == 0, destruiu todos
 		return false;
 	return true;
+}
+
+int Horda::GetId(){
+	return id;
 }
