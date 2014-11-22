@@ -91,6 +91,7 @@ Player::Player(unsigned int posicao_x, unsigned int posicao_y) {
 	*this = Personagem(posicao_x, posicao_y, 15, 100, 10, SMOOTH, Projetil(0, 0, 1, 1)); //cria projétil padrão
 	MaxMunicao = 50;
 	MunicaoAtual = 10;
+	VidaTotal = Vida;
 }
 
 Player::Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, int municao_atual, 
@@ -104,6 +105,7 @@ Player::Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, 
 		else
 			MunicaoAtual = municao_atual;
 	}
+	VidaTotal = Vida;
 }
 
 void Player::operator=(const Personagem &persona){
@@ -135,4 +137,8 @@ void Player::operator=(const Personagem &persona){
 		this->Projeteis.Insert(i, to_add);//insere na última posição para preservar a ordem (apesar de não alterar nada)
 		i++;
 	}
+}
+
+void Player::Regenerar(){
+	Vida = VidaTotal;
 }
