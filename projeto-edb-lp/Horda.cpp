@@ -93,7 +93,6 @@ void Horda::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila
 			srand (time (NULL)); // Gera uma 'random seed' baseada no retorno da funcao time()
 			int numero;
 			numero = (rand () % 3) + 1; // Retorna um numero aleatorio entre 1 e 4
-			std::cout<<numero<<std::endl;
 			if(numero == 1){ // Chance de 25% para realizar o drop
 				Drop *cafe_temp = new Drop(ini_temp->Dropar(), ini_temp->GetXAtual(), ini_temp->GetYAtual());
 				fila_cafe.Insert(0, cafe_temp);	
