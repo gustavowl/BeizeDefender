@@ -98,5 +98,8 @@ void Waves::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila
 }
 
 int Waves::GetIdHorda(){
-	return hordaAtual->GetId();
+	if(hordaAtual != NULL){
+		return hordaAtual->GetId();	
+	}
+	return 0;
 }

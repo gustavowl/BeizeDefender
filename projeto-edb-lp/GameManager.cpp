@@ -22,6 +22,7 @@
 #define MAX_TIME 86400
 #define MAX_ALTURA 640
 #define MAX_LARGURA 1024
+#define MAX_HORDAS 15
 
 GameManager::GameManager()
 {}
@@ -161,22 +162,14 @@ int GameManager::Executar() {
 
 	ALLEGRO_EVENT ev;
 	srand(time(NULL));
-	while(!done)
-	{
-
+	while(!done){
 		if ( al_get_next_event(event_queue, &ev) ) {
-		  //if (al_wait_for_event_until(event_queue, &ev, &timeout)) {
-
-			if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-			{	
+			if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){	
 				done = true;
 			}
-
 			/* Entrada do Teclado */
-			else if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
-			{
-				switch(ev.keyboard.keycode) 
-				{
+			else if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
+				switch(ev.keyboard.keycode){
 					case ALLEGRO_KEY_Q:
 						tecla = 1;
 						break;
@@ -187,10 +180,8 @@ int GameManager::Executar() {
 						tecla = 3;
 						break;
 				}
-				if (tecla)
-				{
-					switch(tecla)
-					{
+				if (tecla){
+					switch(tecla){
 						case 1:
 						
 							std::cout << "Tecla Q" << std::endl;
@@ -209,22 +200,24 @@ int GameManager::Executar() {
 							break;
 					}
 				}
-
 			}
-			//verifica se o jogo não acabou
+			else if(wave.Destruida()){
+				// jogador ganhou
+				std::cout<<"Ganhei"<<std::endl;
+			}
+			else if ( player.GetVida() == 0 || base.GetVida() == 0) {
+				// jogador perdeu
+				std::cout<<"Perdi"<<std::endl;
+			}  
+			//verifica se player && vida estão vivos
 			else if ( player.GetVida() > 0 && base.GetVida() > 0 && !wave.Destruida() ) {
-				if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
-				{
-
+				if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN){
 					if(ev.mouse.button & 2) {
 	          			player.AtualizarDestino(ev.mouse.x, ev.mouse.y);
 					}
-					
-					else if(ev.mouse.button & 1)
-					{
+					else if(ev.mouse.button & 1){
 	          			player.Atirar(ev.mouse.x, ev.mouse.y); //oks
 	          			al_play_sample(tiro, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-
 					}
 				}
 				else if (ev.type == ALLEGRO_EVENT_TIMER) {
@@ -247,7 +240,7 @@ int GameManager::Executar() {
 					else{
 						if(wave.GetIdHorda() % 5 == 1){
 							base.Regenerar();
-							player.Regenerar();	
+							player.Regenerar();		
 						}
 					}
 
