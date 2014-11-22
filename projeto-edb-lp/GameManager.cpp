@@ -68,15 +68,16 @@ int GameManager::Executar() {
 			idHorda++;
 		}
 		//gera boss
+		Horda * boss;
 		switch(j){
 			case 1:
-				Horda * boss = new Horda(idHorda, 1, 10, 40*j, 10, 10, 7, 15, proj_inimigo);
+				boss = new Horda(idHorda, 1, 10, 50*j, 10, 10, 7, 15, proj_inimigo);
 				break;
 			case 2:
-				Horda * boss = new Horda(idHorda, 1, 3, 40*j, 10, 15, 5, 15, proj_inimigo);
+				boss = new Horda(idHorda, 1, 3, 50*j, 10, 15, 5, 15, proj_inimigo);
 				break;
 			case 3: 
-				Horda * boss = new Horda(idHorda, 1, 10, 40*j, 4, 10, 7, 15, proj_inimigo);
+				boss = new Horda(idHorda, 1, 10, 50*j, 4, 10, 7, 15, proj_inimigo);
 				break;
 		}
 		fila_horda.Insert(boss);
