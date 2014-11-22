@@ -2,7 +2,7 @@
 #include <allegro5/allegro_primitives.h>
 
 
-Base::Base(unsigned int x_esq, unsigned int y_sup, unsigned int x_dir, unsigned int y_inf)
+Base::Base(unsigned int x_esq, unsigned int y_sup, unsigned int x_dir, unsigned int y_inf, int REGEM)
 {
     vida = 100;
     vidaTotal = vida;
@@ -10,7 +10,7 @@ Base::Base(unsigned int x_esq, unsigned int y_sup, unsigned int x_dir, unsigned 
     x_esquerda = x_esq;
     y_inferior = y_inf;
     x_direita = x_dir;
-    regem = 0; //0 enquanto não define =D =D
+    regem = REGEM; //0 enquanto não define =D =D
     
     FrameAtual = 0;
     TotalFrames = 0;
@@ -51,5 +51,8 @@ bool Base::LevarDano(int dano)
 }
 
 void Base::Regenerar(){
-    vida = vidaTotal;
+    vida += regem;
+    if(vida > vidaTotal){
+        vida = vidaTotal;
+    }
 }
