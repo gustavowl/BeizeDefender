@@ -23,6 +23,7 @@
 #define MAX_ALTURA 640
 #define MAX_LARGURA 1024
 #define MAX_HORDAS 15
+#define HORDA_BOSS 5
 
 GameManager::GameManager()
 {}
@@ -60,7 +61,8 @@ int GameManager::Executar() {
 	for(int j = 1; j <= 3; ++j)
 	{
 		//gera horda para wave
-		for (int i = 2; i <= 8; i+=2) {
+		//for (int i = 3; i <= 12; i+=3) { // modo dificil
+		for (int i = 2; i <= 8; i+=2) { // modo normal
 			Horda* nova_horda = new Horda(idHorda, i, 2, 5*j, 10, 10, 30, 60, proj_inimigo);
 			fila_horda.Insert( nova_horda );
 			fila_tempo_espera.Insert( i * 15 ); //espera 1, 2 e 3 segundos
@@ -238,7 +240,7 @@ int GameManager::Executar() {
 						wave.VerificarColisaoProjPersInim(player, lista_cafe);
 					}
 					else{
-						if(wave.GetIdHorda() % 5 == 1){
+						if(wave.GetIdHorda() % HORDA_BOSS == 1){
 							base.Regenerar();
 							player.Regenerar();		
 						}
@@ -252,7 +254,6 @@ int GameManager::Executar() {
 					al_draw_textf(font, al_map_rgb(0, 0, 200), MAX_LARGURA, 45, ALLEGRO_ALIGN_RIGHT, "Base: %d", base.GetVida());
 					al_draw_textf(font, al_map_rgb(0, 0, 200), MAX_LARGURA, 90, ALLEGRO_ALIGN_RIGHT, "Energia: %d", player.GetMunicaoAtual());
 					al_draw_textf(font, al_map_rgb(0, 0, 200), MAX_LARGURA, 135, ALLEGRO_ALIGN_RIGHT, "Horda: %d", wave.GetIdHorda());
-
 					al_flip_display();
 					al_clear_to_color(al_map_rgb(0,0,0));					
 				}

@@ -9,6 +9,7 @@
 Drop::Drop(int energia, int XOrigem, int YOrigem){
 	*this = GameObject(XOrigem, YOrigem, 0, 5, STATIC);
 	this->energia = energia;
+	tempoEspera = 150; // 5 segundos
 }
 
 Drop::Drop(){
@@ -33,7 +34,12 @@ void Drop::Draw(Lista<Drop*> &fila_cafe){
 	int i = 0;
 	Drop *cafe;
 	while ( fila_cafe.GetElem( i, cafe ) ) {
-		al_draw_filled_circle(cafe->XOrigem, cafe->YOrigem, 5, al_map_rgb(255, 255, 255));
+		if(cafe->PassarTempo()){
+			al_draw_filled_circle(cafe->XOrigem, cafe->YOrigem, 5, al_map_rgb(255, 255, 255));
+		}
+		else{
+			fila_cafe.Remove(i);
+		}
 		i++;
 	}
 }
@@ -101,6 +107,23 @@ int Drop::VerificarColisao(Player &p, Drop &cafe){
 	return 0;
 }
 
+
 int Drop::GetEnergia(){
-	return energia;
+	if(energia > 0){
+		return energia;	
+	}
+	else{
+		return 0;
+	}
+}
+
+
+int Drop::PassarTempo(){
+	if (tempoEspera>0){
+		tempoEspera--;
+		return 1;
+	}
+	else{
+		return 0;
+	}
 }
