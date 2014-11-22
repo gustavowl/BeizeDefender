@@ -59,7 +59,7 @@ int GameManager::Executar() {
 	for(int j = 1; j <= 3; ++j)
 	{
 		//gera horda para wave
-		for (int i = 2; i <= 6; i+=2) {
+		for (int i = 2; i <= 8; i+=2) {
 			Horda* nova_horda = new Horda(idHorda, i, 2, 5*j, 10, 10, 30, 60, proj_inimigo);
 			fila_horda.Insert( nova_horda );
 			fila_tempo_espera.Insert( i * 15 ); //espera 1, 2 e 3 segundos
@@ -142,7 +142,7 @@ int GameManager::Executar() {
 	}
 
 	background = al_load_bitmap("base_concept.png");
-	font = al_load_font("WEST.TTF", 48, 0);
+	font = al_load_font("WEST.TTF", 40, 0);
 
 	if(!font) 
 	{
@@ -256,9 +256,9 @@ int GameManager::Executar() {
 					cafe.Pegar(player, lista_cafe);
 					wave.Draw();
 					al_draw_textf(font, al_map_rgb(0, 0, 200), MAX_LARGURA, 0, ALLEGRO_ALIGN_RIGHT, "Vida: %d", player.GetVida());
-					al_draw_textf(font, al_map_rgb(0, 0, 200), MAX_LARGURA, 50, ALLEGRO_ALIGN_RIGHT, "Base: %d", base.GetVida());
-					al_draw_textf(font, al_map_rgb(0, 0, 200), MAX_LARGURA, 100, ALLEGRO_ALIGN_RIGHT, "Energia: %d", player.GetMunicaoAtual());
-
+					al_draw_textf(font, al_map_rgb(0, 0, 200), MAX_LARGURA, 45, ALLEGRO_ALIGN_RIGHT, "Base: %d", base.GetVida());
+					al_draw_textf(font, al_map_rgb(0, 0, 200), MAX_LARGURA, 90, ALLEGRO_ALIGN_RIGHT, "Energia: %d", player.GetMunicaoAtual());
+					al_draw_textf(font, al_map_rgb(0, 0, 200), MAX_LARGURA, 135, ALLEGRO_ALIGN_RIGHT, "Horda: %d", wave.GetIdHorda());
 
 					al_flip_display();
 					al_clear_to_color(al_map_rgb(0,0,0));					
