@@ -9,7 +9,6 @@
 Drop::Drop(int energia, int XOrigem, int YOrigem){
 	*this = GameObject(XOrigem, YOrigem, 0, 5, STATIC);
 	this->energia = energia;
-	//al_draw_filled_circle(XOrigem, YOrigem, 50, al_map_rgb(255, 255, 255));
 }
 
 Drop::Drop(){
