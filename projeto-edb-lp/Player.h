@@ -11,6 +11,7 @@ private:
 	//struct Municao {
 	int MaxMunicao;
 	int MunicaoAtual;
+	int VidaTotal;
 	//Lista<Projetil*> Projeteis; //projéteis que foram atirados e ainda estão dentro da arena
 	//};
 	//int Vida;
@@ -31,6 +32,8 @@ public:
 	int GetMunicaoAtual();
 	void Draw();
 	//int GetVida();
+	void Regenerar();
+
 
 	Player(unsigned int posicao_x, unsigned int posicao_y);
 	Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, int municao_atual, 

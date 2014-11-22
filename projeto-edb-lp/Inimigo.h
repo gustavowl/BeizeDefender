@@ -12,7 +12,8 @@ class Inimigo : public Personagem{
 
 	private:
 		int Tipo; // se sera normal, boss ou outra coisa //por enquanto armazena lixo
-		int Municao; // quantidade de municao que ele vai dropar
+		int Municao; // quantidade de municao que ele vai atirar
+		int Drop;
 		bool CalcularProxDest;
 		int InterveloTiro; //atira a cada intervalo, medido em frames
 		int ProxTiro; //armazena frames restantes para próximo tiro

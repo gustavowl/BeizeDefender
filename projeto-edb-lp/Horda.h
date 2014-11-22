@@ -11,13 +11,14 @@
 class Horda {
 
 	private:
+		int id;
 		Lista<Inimigo*> listaInimigos;
 
 
 	public:
 		Horda(); //cria horda fazia
 		Horda(int quantidade);
-		Horda(int quantidade, int velocidade, int vida, int raio, int municao, int intervelo_tiro,
+		Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, int municao, int intervelo_tiro,
 			int primeiro_tiro, Projetil projetil_base);
 		~Horda();
 		void Draw();
@@ -30,6 +31,7 @@ class Horda {
 		void VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila_cafe);
 		//retorna se todos os inimigos e projéteis da Horda foram destruídos
 		bool Destruida();
+		int GetId();
 
 };
 

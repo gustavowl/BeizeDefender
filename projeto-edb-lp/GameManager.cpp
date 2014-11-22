@@ -41,6 +41,7 @@ int GameManager::Executar() {
     int tecla = 0;
     float v, qtd_ite = 0;
     bool done = false;
+    int hordaAtual = 1;
 
 	GameObject arena(MAX_LARGURA, MAX_ALTURA);
 	Base base(380, 200, 620, 440);
@@ -49,24 +50,26 @@ int GameManager::Executar() {
 	Projetil proj_inimigo(0, 0, 20, 1, 1, 2, 1);
 	Lista<Horda*> fila_horda(FILA);
 	Lista<int> fila_tempo_espera(FILA);
-	Lista<Drop*> fila_cafe(LISTASIMPLES);
+	Lista<Drop*> lista_cafe(LISTASIMPLES);
 	Drop cafe;
 
 	/*Gera 3 "Fases" e 3 Boss*/
 	/*Também aumenta a vida dos Inimigo e dos Boss*/
-
+	int idHorda = 1;
 	for(int j = 1; j <= 3; ++j)
 	{
 		//gera horda para wave
-		for (int i = 2; i <= 6; i+=2) {
-			Horda* nova_horda = new Horda(i, 2, 5*j, 10, 10, 30, 60, proj_inimigo);
+		for (int i = 2; i <= 8; i+=2) {
+			Horda* nova_horda = new Horda(idHorda, i, 2, 5*j, 10, 10, 30, 60, proj_inimigo);
 			fila_horda.Insert( nova_horda );
 			fila_tempo_espera.Insert( i * 15 ); //espera 1, 2 e 3 segundos
+			idHorda++;
 		}
-	//gera wave
-		Horda * boss = new Horda(1, 10, 40*j, 10, 10, 7, 15, proj_inimigo);
+		//gera boss
+		Horda * boss = new Horda(idHorda, 1, 10, 40*j, 10, 10, 7, 15, proj_inimigo);
 		fila_horda.Insert(boss);
 		fila_tempo_espera.Insert(150);
+		idHorda++;
 	}
 	
 	/*  Múltiplas Waves */
@@ -239,15 +242,18 @@ int GameManager::Executar() {
 						//só atira caso horda não tenha sido destruída
 						wave.Atirar(player, base);
 						//verifica dano nos inimigos da horda
-						wave.VerificarColisaoProjPersInim(player, fila_cafe);
+						wave.VerificarColisaoProjPersInim(player, lista_cafe);
 					}
 					else{
-						base.Regenerar();
+						if(wave.GetIdHorda() % 5 == 1){
+							base.Regenerar();
+							player.Regenerar();	
+						}
 					}
 
 					player.Draw();
-					cafe.Draw(fila_cafe);
-					cafe.Pegar(player, fila_cafe);
+					cafe.Draw(lista_cafe);
+					cafe.Pegar(player, lista_cafe);
 					wave.Draw();
 					al_draw_textf(font, al_map_rgb(0, 0, 200), MAX_LARGURA, 0, ALLEGRO_ALIGN_RIGHT, "Vida: %d", player.GetVida());
 					al_draw_textf(font, al_map_rgb(0, 0, 200), MAX_LARGURA, 50, ALLEGRO_ALIGN_RIGHT, "Base: %d", base.GetVida());
