@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "ListaEncadeada/FilaDupl.h"
 #include <math.h>
 
 /*bool Player::LevarDano(unsigned int dano) { //retorna se morreu
@@ -95,7 +96,7 @@ Player::Player(unsigned int posicao_x, unsigned int posicao_y) {
 }
 
 Player::Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, int municao_atual, 
-	int velocidade, int vida, int raio, Projetil projetil_base) {
+	int velocidade, int vida, int raio, Projetil projetil_base, int REGEM) {
 	
 	if (max_municao > 0 && municao_atual > 0 && vida > 0) {
 		*this = Personagem(posicao_x, posicao_y, velocidade, vida, raio, SMOOTH, projetil_base);
@@ -106,6 +107,7 @@ Player::Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, 
 			MunicaoAtual = municao_atual;
 	}
 	VidaTotal = Vida;
+	regem = REGEM;
 }
 
 void Player::operator=(const Personagem &persona){
@@ -140,5 +142,16 @@ void Player::operator=(const Personagem &persona){
 }
 
 void Player::Regenerar(){
-	Vida = VidaTotal;
+	Vida += regem;
+	if(Vida > VidaTotal){
+		Vida = VidaTotal;
+	}
+}
+
+void Player::proxProjetil(){
+
+}
+
+void Player::antProjetil(){
+
 }

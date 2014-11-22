@@ -3,6 +3,7 @@
 
 #include "Personagem.h"
 #include "ListaEncadeada/lista.h"
+#include "ListaEncadeada/FilaDupl.h"
 #include "Projetil.h"
 
 class Player : public Personagem {
@@ -12,6 +13,8 @@ private:
 	int MaxMunicao;
 	int MunicaoAtual;
 	int VidaTotal;
+	int regem;
+	FilaDupl<Projetil*> projeteis; 
 	//Lista<Projetil*> Projeteis; //projéteis que foram atirados e ainda estão dentro da arena
 	//};
 	//int Vida;
@@ -33,11 +36,13 @@ public:
 	void Draw();
 	//int GetVida();
 	void Regenerar();
+	void proxProjetil();
+	void antProjetil();
 
 
 	Player(unsigned int posicao_x, unsigned int posicao_y);
 	Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, int municao_atual, 
-		int velocidade, int vida, int raio, Projetil projetil_base);
+		int velocidade, int vida, int raio, Projetil projetil_base, int REGEM);
 	void operator=(const Personagem &persona);
 };
 
