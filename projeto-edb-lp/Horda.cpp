@@ -96,7 +96,6 @@ void Horda::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila
 			if(numero == 1){ // Chance de 25% para realizar o drop
 				Drop *cafe_temp = new Drop(ini_temp->Dropar(), ini_temp->GetXAtual(), ini_temp->GetYAtual());
 				fila_cafe.Insert(0, cafe_temp);	
-				std::cout<<ini_temp->Dropar()<<std::endl;
 			}
 			listaInimigos.Remove(i);
 			delete ini_temp; //deleta instância de inimigo dinamicamente alocada

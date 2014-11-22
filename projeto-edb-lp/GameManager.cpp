@@ -59,7 +59,7 @@ int GameManager::Executar() {
 	for(int j = 1; j <= 3; ++j)
 	{
 		//gera horda para wave
-		for (int i = 2; i <= 8; i+=2) {
+		for (int i = 2; i <= 6; i+=2) {
 			Horda* nova_horda = new Horda(idHorda, i, 2, 5*j, 10, 10, 30, 60, proj_inimigo);
 			fila_horda.Insert( nova_horda );
 			fila_tempo_espera.Insert( i * 15 ); //espera 1, 2 e 3 segundos
