@@ -18,7 +18,7 @@ class Horda {
 	public:
 		Horda(); //cria horda fazia
 		Horda(int quantidade);
-		Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, int municao, int intervelo_tiro,
+		Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, int municao, int intervalo_tiro,
 			int primeiro_tiro, Projetil projetil_base);
 		~Horda();
 		void Draw();

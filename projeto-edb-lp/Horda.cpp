@@ -16,12 +16,12 @@ Horda::Horda(int quantidade) {
 
 }
 
-Horda::Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, int municao, int intervelo_tiro,
+Horda::Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, int municao, int intervalo_tiro,
 	int primeiro_tiro, Projetil projetil_base) {
 	id = idHorda;
 	if (quantidade > 0) {
 		for (int i = 0; i < quantidade; ++i){
-			Inimigo *enemy = new Inimigo(velocidade, vida, raio, municao, intervelo_tiro,
+			Inimigo *enemy = new Inimigo(velocidade, vida, raio, municao, intervalo_tiro,
 				primeiro_tiro, projetil_base);
 			listaInimigos.Insert(0, enemy);
 		}
