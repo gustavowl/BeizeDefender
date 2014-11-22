@@ -96,3 +96,7 @@ void Waves::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila
 		}
 	}
 }
+
+int Waves::GetIdHorda(){
+	return hordaAtual->GetId();
+}
