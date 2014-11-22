@@ -5,6 +5,7 @@
 Inimigo::Inimigo(int velocidade, int vida) { //gera posição inicial randômicamente (nas bordas)
 	*this = Personagem(velocidade, vida, 10, LINEAR, Projetil(0, 0, 1, 1)); //cria projétil padrão 
 	Municao = 10;
+	Drop = 15;
 	CalcularProxDest =  false;
 	InterveloTiro = INTERVALOTIROPADRAO;
 	ProxTiro = InterveloTiro;
@@ -13,7 +14,7 @@ Inimigo::Inimigo(int velocidade, int vida) { //gera posição inicial randômica
  //gera posição inicial randômicamente (nas bordas)
 Inimigo::Inimigo(int velocidade, int vida, int raio, int municao, int intervelo_tiro,
 	int primeiro_tiro, Projetil projetil_base) {
-
+	Drop = 15;
 	*this = Personagem(velocidade, vida, raio, LINEAR, projetil_base);
 	if (municao >= 0)
 		Municao = municao;
@@ -30,9 +31,10 @@ Inimigo::Inimigo(int velocidade, int vida, int raio, int municao, int intervelo_
 	CalcularProxDest =  false;
 }
 
+// Envia o valor do drop para Horda.VerificarColisaoProjPersInim()
 int Inimigo::Dropar()
 {
-	return Municao;
+	return Drop;
 }
 
 void Inimigo::Distancia(Personagem p, go::GameObject base)
