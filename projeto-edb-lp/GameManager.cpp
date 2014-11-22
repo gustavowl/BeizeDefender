@@ -22,8 +22,8 @@
 #define MAX_TIME 86400
 #define MAX_ALTURA 640
 #define MAX_LARGURA 1024
-#define MAX_HORDAS 15
-#define HORDA_BOSS 5
+#define MAX_HORDAS 15 // quantidade total das hordas
+#define HORDA_BOSS 5 // quantidade de repetições para aparecer um boss
 
 GameManager::GameManager()
 {}
@@ -58,8 +58,7 @@ int GameManager::Executar() {
 	/*Gera 3 "Fases" e 3 Boss*/
 	/*Também aumenta a vida dos Inimigo e dos Boss*/
 	int idHorda = 1;
-	for(int j = 1; j <= 3; ++j)
-	{
+	for(int j = 1; j <= 3; ++j){
 		//gera horda para wave
 		//for (int i = 3; i <= 12; i+=3) { // modo dificil
 		for (int i = 2; i <= 8; i+=2) { // modo normal
@@ -69,7 +68,17 @@ int GameManager::Executar() {
 			idHorda++;
 		}
 		//gera boss
-		Horda * boss = new Horda(idHorda, 1, 10, 40*j, 10, 10, 7, 15, proj_inimigo);
+		switch(j){
+			case 1:
+				Horda * boss = new Horda(idHorda, 1, 10, 40*j, 10, 10, 7, 15, proj_inimigo);
+				break;
+			case 2:
+				Horda * boss = new Horda(idHorda, 1, 3, 40*j, 10, 15, 5, 15, proj_inimigo);
+				break;
+			case 3: 
+				Horda * boss = new Horda(idHorda, 1, 10, 40*j, 4, 10, 7, 15, proj_inimigo);
+				break;
+		}
 		fila_horda.Insert(boss);
 		fila_tempo_espera.Insert(150);
 		idHorda++;
@@ -140,15 +149,13 @@ int GameManager::Executar() {
 	}
 	if(!al_init_ttf_addon()) {
 		std::cout << "Font not loaded" << std::endl;
-
 		return -1;
 	}
 
 	background = al_load_bitmap("base_concept.png");
 	font = al_load_font("WEST.TTF", 40, 0);
 
-	if(!font) 
-	{
+	if(!font){
 		al_destroy_display(display);
 		return -1;
 	}
@@ -185,13 +192,11 @@ int GameManager::Executar() {
 				if (tecla){
 					switch(tecla){
 						case 1:
-						
 							std::cout << "Tecla Q" << std::endl;
 							tecla = 0;
 							break;
 
 						case 2:
-						
 							std::cout << "Tecla W" << std::endl;
 							tecla = 0;
 							break;
@@ -260,7 +265,6 @@ int GameManager::Executar() {
 			}
 		}
 	}
-
 	
 	al_uninstall_mouse();
 	al_destroy_bitmap(background);

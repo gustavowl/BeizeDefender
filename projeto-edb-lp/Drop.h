@@ -20,7 +20,7 @@ class Drop : public go::GameObject{
 		void Pegar(Player &p, Lista<Drop*> &fila_cafe); 
 		int VerificarColisao(Player &p, Drop &cafe); // Verifica a colisão do Player com o Drop
 		int GetEnergia();
-		int PassarTempo(); //decrementa o tempo de espera
+		int PassarTempo(); //decrementa o tempo de espera - chamada em Draw()
 };
 
 #endif
