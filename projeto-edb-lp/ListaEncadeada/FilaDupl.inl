@@ -91,6 +91,15 @@ bool FilaDupl<type>::GetPrevElem(type &get) {
 }
 
 template <class type>
+bool FilaDupl<type>::GetLastGetElem(type &get) {
+	if (tam > 0) {
+		get = lastget->val;
+		return true;
+	}
+	return false;
+}
+
+template <class type>
 bool FilaDupl<type>::Insert(type val) { //retorna se inserção OK. Insere val em filas e pilhas
 
 	if (tam > 0) {

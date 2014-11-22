@@ -1,6 +1,8 @@
 #include "SpriteManip.h"
-#include <math.h>
+#include <allegro5/allegro_image.h>
 #include <iostream>
+#include <math.h>
+#include <allegro5/allegro_primitives.h>
 
 using namespace SpManip;
 
@@ -172,7 +174,12 @@ void SpriteManip::MudarDestinoOuAlvo( int x_atual, int y_atual, int x_destino,
 		else { //AcaoAtual == MORRER
 			Morrer[DirecaoAlvo].GetFirstElem(teste);
 		}
-		std::cout << teste << std::endl;
+		if (teste != NULL) {
+			al_draw_bitmap(teste, 0, 0, 0);
+			std::cout << "HU3" << std::endl;
+			al_flip_display();
+			al_clear_to_color(al_map_rgb(0,0,0));
+		}
 	}
 	//senão avança o sprite da ação atual
 	else {
@@ -192,18 +199,41 @@ void SpriteManip::MudarAcaoAtual( ACAO nova_acao ) {
 void SpriteManip::AvancarSprite() {
 	ALLEGRO_BITMAP *teste;
 	if ( AcaoAtual == PARADO ) {
-		Parado[DirecaoAlvo].GetNextElem(teste);
+		Parado[DirecaoAlvo].GetPrevElem(teste);
+		if (teste != NULL) {
+			al_draw_bitmap(teste, 0, 0, 0);
+			std::cout << "HU3" << std::endl;
+			al_flip_display();
+			al_clear_to_color(al_map_rgb(0,0,0));
+		}
 	}
 	else if ( AcaoAtual == ANDAR ) {
-		Andar[DirecaoAlvo].GetNextElem(teste);
+		Andar[DirecaoAlvo].GetPrevElem(teste);
+		if (teste != NULL) {
+			al_draw_bitmap(teste, 0, 0, 0);
+			std::cout << "HU3" << std::endl;
+			al_flip_display();
+			al_clear_to_color(al_map_rgb(0,0,0));
+		}
 	}
 	else if ( AcaoAtual == ATIRAR ) {
-		Atirar[DirecaoAlvo].GetNextElem(teste);
+		Atirar[DirecaoAlvo].GetPrevElem(teste);
+		if (teste != NULL) {
+			al_draw_bitmap(teste, 0, 0, 0);
+			std::cout << "HU3" << std::endl;
+			al_flip_display();
+			al_clear_to_color(al_map_rgb(0,0,0));
+		}
 	}
 	else { //AcaoAtual == MORRER
-		Morrer[DirecaoAlvo].GetNextElem(teste);
+		Morrer[DirecaoAlvo].GetPrevElem(teste);
+		if (teste != NULL) {
+			al_draw_bitmap(teste, 0, 0, 0);
+			std::cout << "HU3" << std::endl;
+			al_flip_display();
+			al_clear_to_color(al_map_rgb(0,0,0));
+		}
 	}
-	std::cout << teste << std::endl;
 }
 
 SpriteManip::~SpriteManip() {

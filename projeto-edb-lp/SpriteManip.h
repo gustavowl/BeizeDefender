@@ -1,13 +1,12 @@
 #ifndef _SPRITEMANIP_H_
 #define _SPRITEMANIP_H_
 	#include <allegro5/allegro.h>
-	#include <allegro5/allegro_image.h>
 	#include "ListaEncadeada/FilaDupl.h"
-	#include <cstddef>
-	#define QTD_DIRECOES 8
-	#define PI 3.1415926535897932
+	//#include <cstddef>
 
 namespace SpManip {
+	#define QTD_DIRECOES 8
+	#define PI 3.1415926535897932
 	//CIMA = 0, CIMADIR = 1....
 	enum DIRECAO {CIMA = 0, CIMADIR, DIREITA, BAIXODIR,
 		BAIXO, BAIXOESQ, ESQUERDA, CIMAESQ};

@@ -31,6 +31,7 @@
 		bool GetFirstElem(type &get);
 		bool GetNextElem(type &get);
 		bool GetPrevElem(type &get);
+		bool GetLastGetElem(type &get);
 		//int Search(type val);
 		//bool Insert(int pos, type val);
 		bool Insert(type val);
