@@ -24,6 +24,7 @@
 #define MAX_LARGURA 1024
 #define MAX_HORDAS 15 // quantidade total das hordas
 #define HORDA_BOSS 5 // quantidade de repetições para aparecer um boss
+#define REGEM 15
 
 GameManager::GameManager()
 {}
@@ -41,22 +42,20 @@ using namespace go;
 int GameManager::Executar() {
     int fps = 30;
     int tecla = 0;
-    float v, qtd_ite = 0;
     bool done = false;
     int hordaAtual = 1;
 
 	GameObject arena(MAX_LARGURA, MAX_ALTURA);
-	Base base(380, 200, 620, 440);
+	Base base(380, 200, 620, 440, REGEM);
 	Projetil proj_player(0, 0, 20, 1, 1, 2, 5);
-	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 15, 100, 10, proj_player);
+	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 15, 100, 10, proj_player, REGEM);
 	Projetil proj_inimigo(0, 0, 20, 1, 1, 2, 1);
 	Lista<Horda*> fila_horda(FILA);
 	Lista<int> fila_tempo_espera(FILA);
 	Lista<Drop*> lista_cafe(LISTASIMPLES);
 	Drop cafe;
 
-	/*Gera 3 "Fases" e 3 Boss*/
-	/*Também aumenta a vida dos Inimigo e dos Boss*/
+	/*Gera 15 "hordas" com 3 Boss*/
 	int idHorda = 1;
 	for(int j = 1; j <= 3; ++j){
 		//gera horda para wave
@@ -85,12 +84,12 @@ int GameManager::Executar() {
 		idHorda++;
 	}
 	
-	/*  Múltiplas Waves */
+	/*  Múltiplas hordas */
 	Waves wave( fila_horda, fila_tempo_espera);
-	
 
 	if( !al_init() )
 		return -1;
+
 	//variaveis do allegro
 	ALLEGRO_BITMAP *background = NULL;
 	ALLEGRO_TIMER *timer = NULL;
@@ -246,9 +245,10 @@ int GameManager::Executar() {
 						wave.VerificarColisaoProjPersInim(player, lista_cafe);
 					}
 					else{
-						if(wave.GetIdHorda() % HORDA_BOSS == 1){
+						if(wave.GetIdHorda() != hordaAtual){
 							base.Regenerar();
 							player.Regenerar();		
+							hordaAtual++;
 						}
 					}
 
