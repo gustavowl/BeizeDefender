@@ -2,6 +2,28 @@
 #include <math.h>
 #include <allegro5/allegro_primitives.h>
 
+void Personagem::Draw(unsigned int red, unsigned int green, unsigned int blue) {
+	//Desenha projéteis independentemente do inimigo ter sido destruído
+	Projetil *temp; //ponteiro para pegar valores da lista
+	int i = 0;
+	while ( Projeteis.GetElem(i, temp) ) {
+		//verifica se projétil em questão não foi destruído
+		if ( temp->GetDesruido() ) {
+			delete temp; //deleta projétil dinamicamente alocado
+			Projeteis.Remove(i);//remove bala da lista
+			//não incrementa o i pois agora o próximo elemento está na posução atual
+		}
+		else {
+			temp->Draw();
+			i++;
+		}
+	}
+	//se não estiver destruído, o desenha
+	if (Vida > 0) {
+		al_draw_filled_circle(XAtual, YAtual, Raio, al_map_rgb(red % 256, green % 256, blue % 256));
+	}
+}
+
 bool Personagem::LevarDano(unsigned int dano) { //retorna se morreu
 	Vida -= dano; //prevejo erros vindo daqui
 	if (Vida <= 0)
@@ -118,26 +140,8 @@ Projetil Personagem::GetProjetilBase() const {
 	return ProjetilBase;
 }
 
-void Personagem::Draw(unsigned int red, unsigned int green, unsigned int blue) {
-	//Desenha projéteis independentemente do inimigo ter sido destruído
-	Projetil *temp; //ponteiro para pegar valores da lista
-	int i = 0;
-	while ( Projeteis.GetElem(i, temp) ) {
-		//verifica se projétil em questão não foi destruído
-		if ( temp->GetDesruido() ) {
-			delete temp; //deleta projétil dinamicamente alocado
-			Projeteis.Remove(i);//remove bala da lista
-			//não incrementa o i pois agora o próximo elemento está na posução atual
-		}
-		else {
-			temp->Draw();
-			i++;
-		}
-	}
-	//se não estiver destruído, o desenha
-	if (Vida > 0) {
-		al_draw_filled_circle(XAtual, YAtual, Raio, al_map_rgb(red % 256, green % 256, blue % 256));
-	}
+int Personagem::GetDanoFisico(){
+	return danoFisico;
 }
 
 Personagem::Personagem() {
@@ -223,9 +227,4 @@ Personagem::~Personagem() { //deleta lista de projéteis dinamicamente alocados
 		delete temp; //deleta projétil dinamicamente alocado
 		Projeteis.Remove(0);//remove bala da lista
 	}
-}
-
-
-int Personagem::GetDanoFisico(){
-	return danoFisico;
 }
