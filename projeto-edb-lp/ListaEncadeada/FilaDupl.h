@@ -1,6 +1,5 @@
 #ifndef _FILA_DUPLA_H_
 #define _FILA_DUPLA_H_
-	#include <iostream>
 	#include <cstddef>
 
 	/**

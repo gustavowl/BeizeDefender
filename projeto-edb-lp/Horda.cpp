@@ -2,14 +2,14 @@
 #include "Horda.h"
 #include "Inimigo.h"
 #include "GameObject.h"
-#include <stdlib.h>
-#include <time.h>
+#include <cstdlib>
+#include <ctime>
 
 
 Horda::Horda(int quantidade) {
 	if (quantidade > 0) {
 		for (int i = 0; i < quantidade; ++i){
-			Inimigo *enemy = new Inimigo(2, 5); //cria inimigo padrão
+			Inimigo *enemy = new Inimigo(2, 5); //Cria inimigo padrão
 			listaInimigos.Insert(0, enemy);
 		}
 	}
@@ -32,8 +32,8 @@ Horda::~Horda() {
 	Inimigo *ini_temp;
 	int i = 0;
 	while(listaInimigos.GetElem(i, ini_temp)) {
-		listaInimigos.Remove(i); //remove inimigo da lista (acho q n precisa por causa do destrutor da lista)
-		delete ini_temp; //deleta instância de inimigo dinamicamente alocada
+		listaInimigos.Remove(i); //Remove inimigo da lista (acho q n precisa por causa do destrutor da lista)
+		delete ini_temp; //Deleta instância de inimigo dinamicamente alocada
 	}
 }
 
@@ -75,11 +75,6 @@ void Horda::Mover(Player &p, go::GameObject base){
 }
 
 
-
-
-
-
-
 void Horda::Atirar(Personagem p, go::GameObject base) {
 	Inimigo *temp;
 	
@@ -90,7 +85,6 @@ void Horda::Atirar(Personagem p, go::GameObject base) {
 	}
 }
 
-//retorna dano causado pelas balas
 int Horda::VerificarColisaoProjInimObj(const go::GameObject obj) {
 	Inimigo *ini_temp;
 	int i = 0;
@@ -108,11 +102,11 @@ void Horda::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila
 	int dano_total = 0;
 	while (listaInimigos.GetElem(i, ini_temp)) {
 		ini_temp->LevarDano( persona.VerificarColisao(*ini_temp) );
-		//se não foi totalmente destruído (ele e projéteis)
+		//Se não foi totalmente destruído (ele e projéteis)
 		if ( !ini_temp->PersonagemEProjeteisDestruidos() )
-			i++; //verifica colisão com próximo inimigo
-		else {//se morreu
-			 //remove inimigo da lista, não incrementa o i pois verifica próximo inimigo
+			i++; //Verifica colisão com próximo inimigo
+		else {//Se morreu
+			 //Remove inimigo da lista, não incrementa o i pois verifica próximo inimigo
 			srand (time (NULL)); // Gera uma 'random seed' baseada no retorno da funcao time()
 			int numero;
 			numero = (rand () % 3) + 1; // Retorna um numero aleatorio entre 1 e 4
@@ -127,7 +121,7 @@ void Horda::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila
 }
 
 bool Horda::Destruida() {
-	if ( listaInimigos.Size() > 0 ) //se tamanho == 0, destruiu todos
+	if ( listaInimigos.Size() > 0 ) //Se tamanho == 0, destroi todos
 		return false;
 	return true;
 }
