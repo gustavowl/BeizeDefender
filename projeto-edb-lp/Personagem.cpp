@@ -49,6 +49,48 @@ void Personagem::Mover() { //sobrescreve operação de mover. Move tanto o playe
 	}
 }
 
+void Personagem::Mover(Lista<Personagem*> &list_pers, Personagem* This) {
+	if (Vida > 0) { //só move se ainda estiver vivo
+
+		int prox_x, prox_y, px_atual, py_atual;
+		float t = (float)(FrameAtual) / TotalFrames; //variável utilizada para calcular interpolação
+			//atualiza posição atual, leva em conta posição de origem e destino
+
+		prox_x = round( XDestino * t + XOrigem * (1 - t) );
+		prox_y = round( YDestino * t + YOrigem * (1 - t) );
+
+
+		//prox_x = XAtual; prox_y = YAtual;
+		float dist;
+		bool colindo = false;
+
+		int i = 0;
+		Personagem *temp;
+		while(list_pers.GetElem(i, temp) && !colindo) {
+			if (temp != This) {
+				px_atual = temp->GetXAtual();
+				py_atual = temp->GetYAtual();
+
+				dist = sqrt( pow( prox_x - px_atual, 2) + pow (prox_y - py_atual, 2) );
+				if (dist < ( This->GetRaio() + temp->GetRaio() ) ) {
+					colindo = true;
+				}
+			}
+			i++;
+		}
+
+		if (!colindo) {
+			GameObject::Mover(); //chama mover original
+		}
+	}
+	//chama mover para os projéteis
+	Projetil *temp; int i = 0;
+	while ( Projeteis.GetElem( i, temp ) ) {
+		temp->Mover();
+		i++;
+	}
+}
+
 void Personagem::SetProjetilBase(const Projetil &novo_projetil) { //utilizado para mudar tipo do projétil
 	ProjetilBase = novo_projetil;
 }

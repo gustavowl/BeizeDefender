@@ -20,6 +20,8 @@ public:
 	//verifica colisão com a base (projeto final player não vai precisar dessa função, só inimigo)
 	virtual void Atirar(unsigned int destino_x, unsigned int destino_y); //atira projétil de tipo 1
 	void Mover(); //sobrescreve operação de mover. Move tanto o player quanto suas balas
+	//só move caso Personagem atual não esteja sobrepondo nenhum personagem da lista
+	void Mover(Lista<Personagem*> &list_pers, Personagem* This); 
 	void SetProjetilBase(const Projetil &novo_projetil); //utilizado para mudar tipo do projétil
 	Lista<Projetil*> GetProjeteis() const; //retorna lista e projéteis (usado nos operator= de classe filha)
 	//substituir por destruido?

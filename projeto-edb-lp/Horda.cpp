@@ -47,12 +47,21 @@ void Horda::Draw(){
 }
 
 void Horda::Mover(Personagem p, go::GameObject base){
-
+	Lista<Personagem*> lista_p;
+	Personagem *p_temp;
 	Inimigo *temp;
 	int i = 0;
-	while(listaInimigos.GetElem(i, temp)){
+	while(listaInimigos.GetElem(i, temp)) {
+		p_temp = new Personagem();
+		*p_temp = *temp;
+		lista_p.Insert(i, p_temp);
+		i++;
+	}
+	i = 0;
+	while(listaInimigos.GetElem(i, temp)) {
+		lista_p.GetElem(i, p_temp);
 		temp->Distancia(p, base);
-		temp->Mover();
+		temp->Mover(lista_p, p_temp);
 		i++;
 	}
 }
