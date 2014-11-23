@@ -64,6 +64,9 @@ void Horda::Mover(Personagem p, go::GameObject base){
 		temp->Mover(lista_p, p_temp);
 		i++;
 	}
+	while (lista_p.Remove(0, p_temp)) {
+		delete p_temp;
+	}
 }
 
 void Horda::Atirar(Personagem p, go::GameObject base) {
