@@ -113,7 +113,7 @@
 		*/
 		bool Remove(unsigned int pos);
 		/*
-		* Remove valor de uma posição da lista
+		* Remove valor da fila/pilha
 		* Só funciona para filas ou pilhas.
 		* \return Retorna se removeu o elemento
 		*/
