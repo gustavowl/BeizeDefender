@@ -3,7 +3,9 @@
 
 int main()
 {
-	TelaInicial Main;
 
-	Main.Inicializar();
+	GameManager Main;
+
+	Main.Executar();
+	
 }
