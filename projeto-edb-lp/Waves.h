@@ -33,7 +33,7 @@ class Waves {
 		bool EsperandoProximaHorda();
 		bool Destruida(); //retorna se a wave foi destruída
 		//faz com que inimigos da horda atual se movam
-		void Mover(Personagem p, go::GameObject base);
+		void Mover(Player &p, go::GameObject base);
 		//Faz com que inimigos da horda atual atirem
 		void Atirar(Personagem p, go::GameObject base);
 		//Desenha inimigos da horda

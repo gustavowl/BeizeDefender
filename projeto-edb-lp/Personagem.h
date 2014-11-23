@@ -10,6 +10,7 @@ protected:
 	Projetil ProjetilBase; //projétil que será inserido na lista
 	Lista<Projetil*> Projeteis; //projéteis que foram atirados e ainda estão dentro da arena
 	int Vida;
+	int danoFisico;
 	void Draw(unsigned int red, unsigned int green, unsigned int blue);
 public:
 	bool LevarDano(unsigned int dano); //retorna se morreu
@@ -31,6 +32,7 @@ public:
 	//retorna se o personagem E os projéteis dele foram destruídos
 	bool PersonagemEProjeteisDestruidos();
 	Projetil GetProjetilBase() const;
+	int GetDanoFisico();
 
 	Personagem(); //cria personagem "vazio"
 	//pode ser utilizado para o jogador padrão

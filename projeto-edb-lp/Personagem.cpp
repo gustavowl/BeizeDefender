@@ -224,3 +224,8 @@ Personagem::~Personagem() { //deleta lista de projéteis dinamicamente alocados
 		Projeteis.Remove(0);//remove bala da lista
 	}
 }
+
+
+int Personagem::GetDanoFisico(){
+	return danoFisico;
+}

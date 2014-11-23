@@ -50,7 +50,7 @@ bool Waves::Destruida() { //retorna se a wave foi destruída
 }
 
 //faz com que inimigos da horda atual se movam
-void Waves::Mover(Personagem p, go::GameObject base) {
+void Waves::Mover(Player &p, go::GameObject base) {
 	//move caso haja uma horda no campo de batalha
 	if ( hordaAtual != NULL && tempoEspera == 0 )
 		hordaAtual->Mover(p, base);

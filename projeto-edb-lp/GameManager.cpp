@@ -87,7 +87,7 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	{
 		//gera horda para wave
 		for (int i = 2; i <= 8; i+=2) {
-			Horda* nova_horda = new Horda(idHorda, i, 2, 5*j, 10, 10, 30, 60, proj_inimigo);
+			Horda* nova_horda = new Horda(idHorda, i, 2, 5*j, 10, 10, 30, 60, proj_inimigo, 5);
 			fila_horda.Insert( nova_horda );
 			fila_tempo_espera.Insert( i * 15 ); //espera 1, 2 e 3 segundos
 			idHorda++;
@@ -96,13 +96,13 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 		Horda * boss;
 		switch(j){
 			case 1:
-				boss = new Horda(idHorda, 1, 10, 50*j, 10, 10, 7, 15, proj_inimigo);
+				boss = new Horda(idHorda, 1, 3, 50*j, 10, 10, 7, 15, proj_inimigo, 100);
 				break;
 			case 2:
-				boss = new Horda(idHorda, 1, 3, 50*j, 10, 15, 5, 15, proj_inimigo);
+				boss = new Horda(idHorda, 1, 3, 50*j, 10, 15, 5, 15, proj_inimigo, 100);
 				break;
 			case 3: 
-				boss = new Horda(idHorda, 1, 10, 50*j, 4, 10, 7, 15, proj_inimigo);
+				boss = new Horda(idHorda, 1, 3, 50*j, 4, 10, 7, 15, proj_inimigo, 100);
 				break;
 		}
 		fila_horda.Insert(boss);
@@ -134,10 +134,6 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	background2 = al_load_bitmap("base_concept2.png");
 	background3 = al_load_bitmap("base_concept3.png");
 	background4 = al_load_bitmap("base_concept4.png");
-
-
-
-
 
 
 	if(!al_load_bitmap("base_concept1.png")) {
@@ -189,55 +185,11 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 
 		if ( al_get_next_event(event_queue, &ev) ) 
 		{
-		  //if (al_wait_for_event_until(event_queue, &ev, &timeout)) {
 
 			if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 			{	
 				close = true;
 			}
-
-			
-			//verifica se o jogo não acabou
-			/*if (gamestate == GAME_STATE_MENU)
-			{
-
-				novo_jogo = al_load_bitmap("mnuNewGame.bmp");
-				instrucoes = al_load_bitmap("mnuOptions.bmp");
-				creditos = al_load_bitmap("mnuHighscoresM.bmp");
-				sair = al_load_bitmap("mnuExit.bmp");
-
-				al_draw_bitmap(novo_jogo, 384, 160, 0);
-				al_draw_bitmap(instrucoes, 384, 240, 0);
-				al_draw_bitmap(creditos, 384, 320, 0);
-				al_draw_bitmap(sair, 448, 400, 0);
-
-				if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
-      			{
-			        if(ev.mouse.button & 1)
-			        {
-			               /*Novo Jogo* /
-			               if(ev.mouse.x >= 384 && ev.mouse.y >=160 && ev.mouse.y <= 206)
-			               {
-			               		gamestate = GAME_STATE_MAINGAME;
-           						Inicializar();
-
-			               }
-			               /*Instruções* /
-			               else if(ev.mouse.x >= 384 && ev.mouse.y >=240 && ev.mouse.y <= 291)
-			                     std::cout << "eu faço algo" << std::endl;
-			               /*Creditos* /
-			               else if(ev.mouse.x >= 384 && ev.mouse.y >=320 && ev.mouse.y <= 369)
-			                     std::cout << "eu faço algo" << std::endl;
-			               /*Sair* /
-			               else if(ev.mouse.x >= 448 && ev.mouse.y >=400 && ev.mouse.y <= 451)
-			                     std::cout << "eu faço algo" << std::endl;
-			        }
-				}
-
-				al_flip_display();
-				al_clear_to_color( al_map_rgb(0,0,0));
-
-			}*/
 
 
 			if ( player.GetVida() > 0 && base.GetVida() > 0 && !wave.Destruida() ) 
@@ -328,18 +280,12 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 						switch(tecla)
 						{
 							case 1:
-							
-								std::cout << "Tecla Q" << std::endl;
 								player.ProxProjetil();
-
 								tecla = 0;
 								break;
 
 							case 2:
-							
-								std::cout << "Tecla W" << std::endl;
 								player.AntProjetil();
-
 								tecla = 0;
 								break;
 						}

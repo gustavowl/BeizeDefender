@@ -17,12 +17,12 @@ Horda::Horda(int quantidade) {
 }
 
 Horda::Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, int municao, int intervalo_tiro,
-	int primeiro_tiro, Projetil projetil_base) {
+	int primeiro_tiro, Projetil projetil_base, int danoFisico) {
 	id = idHorda;
 	if (quantidade > 0) {
 		for (int i = 0; i < quantidade; ++i){
 			Inimigo *enemy = new Inimigo(velocidade, vida, raio, municao, intervalo_tiro,
-				primeiro_tiro, projetil_base);
+				primeiro_tiro, projetil_base, danoFisico);
 			listaInimigos.Insert(0, enemy);
 		}
 	}
@@ -46,8 +46,9 @@ void Horda::Draw(){
 	}
 }
 
-void Horda::Mover(Personagem p, go::GameObject base){
-	Lista<Personagem*> lista_p;
+void Horda::Mover(Player &p, go::GameObject base){
+
+	Lista<Personagem*> lista_p; 
 	Personagem *p_temp;
 	Inimigo *temp;
 	int i = 0;
@@ -60,14 +61,24 @@ void Horda::Mover(Personagem p, go::GameObject base){
 	i = 0;
 	while(listaInimigos.GetElem(i, temp)) {
 		lista_p.GetElem(i, p_temp);
-		temp->Distancia(p, base);
+ 		temp->Distancia(p, base);
 		temp->Mover(lista_p, p_temp);
-		i++;
-	}
-	while (lista_p.Remove(0, p_temp)) {
+		if(temp->VerificarColisaoInimigo(p, *temp)){
+			temp->LevarDano(p.GetDanoFisico());
+			p.LevarDano(temp->GetDanoFisico());
+		}
+ 		i++;
+ 	}
+ 	while (lista_p.Remove(0, p_temp)) {
 		delete p_temp;
 	}
 }
+
+
+
+
+
+
 
 void Horda::Atirar(Personagem p, go::GameObject base) {
 	Inimigo *temp;

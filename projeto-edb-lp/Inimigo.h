@@ -5,6 +5,7 @@
 #include "ListaEncadeada/lista.h"
 #include "Projetil.h"
 #include "Personagem.h"
+#include "Player.h"
 
 class Inimigo : public Personagem{
 	//definição do intervalo padrao abaixo levou em conta 30 fps
@@ -26,13 +27,18 @@ class Inimigo : public Personagem{
 		//gera posição inicial randômicamente (nas bordas)
 		//primeiro_tiro: frames até dar o primeiro tiro
 		Inimigo(int velocidade, int vida, int raio, int municao, int intervelo_tiro,
-			int primeiro_tiro, Projetil projetil_base);
+			int primeiro_tiro, Projetil projetil_base, int danoFisico);
 		void Distancia(Personagem p, go::GameObject base);
 		int Dropar();
 		void Draw();
 		void operator=(const Personagem &persona);
 		void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);
 		void Atirar(const Personagem &p, const go::GameObject &base);
+
+		void Mover(Player &p, Inimigo &ini);
+		void Mover(Lista<Personagem*> &list_pers, Personagem* This);
+		int VerificarColisaoInimigo(Player &p, Inimigo &ini);
+		void Mover();
 };
 
 #endif
