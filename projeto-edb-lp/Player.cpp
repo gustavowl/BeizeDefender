@@ -29,6 +29,8 @@ int Player::VerificarColisaoQuadrada(const GameObject obj) {
 		i++;
     }	
 }*/
+Player::Player()
+{}
 
 void Player::AdicionarMunicao(unsigned int qtd) { //adiciona munição ao Projétil de tipo 1
 	MunicaoAtual += qtd;
@@ -96,14 +98,14 @@ Player::Player(unsigned int posicao_x, unsigned int posicao_y) {
 }
 
 Player::Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, int municao_atual, 
-	int velocidade, int vida, int raio, int REGEM) {
+	int velocidade, int vida, int raio, int REGEM, Projetil projetil_base) {
 	SalvarAtaques();
 	Projetil *proj;
 	ataques.GetFirstElem(proj);
 	ProjetilBase = *proj; // projetil tipo 1
-
+	
 	if (max_municao > 0 && municao_atual > 0 && vida > 0) {
-		*this = Personagem(posicao_x, posicao_y, velocidade, vida, raio, SMOOTH, ProjetilBase);
+		*this = Personagem(posicao_x, posicao_y, velocidade, vida, raio, SMOOTH, projetil_base);
 		MaxMunicao = max_municao;
 		if (municao_atual > max_municao)
 			MunicaoAtual = max_municao;
@@ -112,7 +114,7 @@ Player::Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, 
 	}
 	VidaTotal = Vida;
 	regem = REGEM;
-	
+
 }
 
 void Player::operator=(const Personagem &persona){
@@ -146,13 +148,13 @@ void Player::operator=(const Personagem &persona){
 	}
 }
 
-// regenera a cada nova horda
 void Player::Regenerar(){
 	Vida += regem;
 	if(Vida > VidaTotal){
 		Vida = VidaTotal;
 	}
 }
+
 
 // avança para o proximo ataque
 void Player::ProxProjetil(){

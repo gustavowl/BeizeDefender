@@ -1,6 +1,8 @@
 #include "Base.h"
 #include <allegro5/allegro_primitives.h>
 
+Base::Base()
+{}
 
 Base::Base(unsigned int x_esq, unsigned int y_sup, unsigned int x_dir, unsigned int y_inf, int REGEM)
 {
@@ -10,7 +12,7 @@ Base::Base(unsigned int x_esq, unsigned int y_sup, unsigned int x_dir, unsigned 
     x_esquerda = x_esq;
     y_inferior = y_inf;
     x_direita = x_dir;
-    regem = REGEM; //0 enquanto não define =D =D
+    regem = 0; //0 enquanto não define =D =D
     
     FrameAtual = 0;
     TotalFrames = 0;
@@ -29,6 +31,31 @@ Base::Base(unsigned int x_esq, unsigned int y_sup, unsigned int x_dir, unsigned 
 
 Base::~Base()
 {}
+
+void Base::operator=(const Base &base)
+{
+    vida = base.vida;
+    vidaTotal = base.vida;
+    y_superior = base.y_superior;
+    x_esquerda = base.x_esquerda;
+    y_inferior = base.y_inferior;
+    x_direita = base.x_direita;
+    regem = base.regem; //0 enquanto não define =D =D
+    
+    FrameAtual = base.FrameAtual;
+    TotalFrames = base.TotalFrames;
+    XOrigem = base.XOrigem; //calcula ponto central
+    YOrigem = base.YOrigem; //calcula ponto central
+    XAtual = base.XOrigem; //garantir q fica estático
+    YAtual = base.YOrigem; //garantir q fica estático
+    XDestino = base.XOrigem; //garantir q fica estático
+    YDestino = base.YOrigem; //garantir q fica estático
+    int xe = base.x_esquerda, xd = base.x_direita; //evita erro de subtração
+    Raio = base.Raio; //+ 10 por causa da espessura
+    Velocidade = base.Velocidade;
+    TipoMovimento = STATIC;
+}
+
 
 void Base::Draw()
 {

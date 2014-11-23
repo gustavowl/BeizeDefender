@@ -6,12 +6,14 @@
 class Base: public go::GameObject{
     
     public:
+        Base();
         Base(unsigned int alt_inf, unsigned int larg_inf, unsigned int alt_sup, unsigned int larg_sup, int REGEM);  
         ~Base();
         bool LevarDano(int dano); //retorna se morreu
         void Regenerar();
         int GetVida();
         void Draw();
+        void operator=(const Base &base);
 
     private:
         int vidaTotal;
