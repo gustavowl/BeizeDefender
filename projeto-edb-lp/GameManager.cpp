@@ -52,7 +52,11 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 
 	bool close = false;
 	
-    ALLEGRO_BITMAP *background = NULL;
+    ALLEGRO_BITMAP *background1 = NULL;
+    ALLEGRO_BITMAP *background2 = NULL;
+    ALLEGRO_BITMAP *background3 = NULL;
+    ALLEGRO_BITMAP *background4 = NULL;
+
 	ALLEGRO_FONT *font = NULL;
 	ALLEGRO_SAMPLE * tiro = NULL;
 	ALLEGRO_AUDIO_STREAM * trilha = NULL;
@@ -126,8 +130,29 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 
 	//background = al_create_bitmap(1024,640);
 
+	background1 = al_load_bitmap("base_concept1.png");
+	background2 = al_load_bitmap("base_concept2.png");
+	background3 = al_load_bitmap("base_concept3.png");
+	background4 = al_load_bitmap("base_concept4.png");
 
-	if(!al_load_bitmap("base_concept.png")) {
+
+
+
+
+
+	if(!al_load_bitmap("base_concept1.png")) {
+		std::cout << "Image not loaded" << std::endl;
+		return -1;
+	}
+	if(!al_load_bitmap("base_concept2.png")) {
+		std::cout << "Image not loaded" << std::endl;
+		return -1;
+	}
+	if(!al_load_bitmap("base_concept3.png")) {
+		std::cout << "Image not loaded" << std::endl;
+		return -1;
+	}
+	if(!al_load_bitmap("base_concept4.png")) {
 		std::cout << "Image not loaded" << std::endl;
 		return -1;
 	}
@@ -145,9 +170,8 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 		return -1;
 	}*/
 
-	background = al_load_bitmap("base_concept.png");
 	
-	font = al_load_font("WEST.TTF", 40, 0);
+	font = al_load_font("PressStart2P.ttf", 15, 0);
 
 	if(!font) 
 	{
@@ -245,7 +269,16 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 					base.LevarDano( wave.VerificarColisaoProjInimObj(base) );
 
 					base.Draw();
-					al_draw_bitmap(background, 0, 0, 0);
+
+					if(base.GetVida() <= 100 && base.GetVida() > 75)
+						al_draw_bitmap(background1, 0, 0, 0);
+					else if(base.GetVida() <= 75 && base.GetVida() > 50)
+						al_draw_bitmap(background2, 0, 0, 0);
+					else if(base.GetVida() <= 50 && base.GetVida() > 25)
+						al_draw_bitmap(background3, 0, 0, 0);
+					else if(base.GetVida() <= 25 && base.GetVida() >= 0)
+						al_draw_bitmap(background4, 0, 0, 0);
+
 
 					if ( !wave.EsperandoProximaHorda() ) {
 						//só atira caso horda não tenha sido destruída
@@ -266,10 +299,10 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 					cafe.Draw(lista_cafe);
 					cafe.Pegar(player, lista_cafe);
 					wave.Draw();
-					al_draw_textf(font, al_map_rgb(0, 0, 200), max_largura, 0, ALLEGRO_ALIGN_RIGHT, "Vida: %d", player.GetVida());
-					al_draw_textf(font, al_map_rgb(0, 0, 200), max_largura, 45, ALLEGRO_ALIGN_RIGHT, "Base: %d", base.GetVida());
-					al_draw_textf(font, al_map_rgb(0, 0, 200), max_largura, 90, ALLEGRO_ALIGN_RIGHT, "Energia: %d", player.GetMunicaoAtual());
-					al_draw_textf(font, al_map_rgb(0, 0, 200), max_largura, 135, ALLEGRO_ALIGN_RIGHT, "Horda: %d", wave.GetIdHorda());
+					al_draw_textf(font, al_map_rgb(0, 0, 200), 150, 10, ALLEGRO_ALIGN_RIGHT, "Vida: %d", player.GetVida());
+					al_draw_textf(font, al_map_rgb(0, 0, 200), 300, 10, ALLEGRO_ALIGN_RIGHT, "Base: %d", base.GetVida());
+					al_draw_textf(font, al_map_rgb(0, 0, 200), 480, 10, ALLEGRO_ALIGN_RIGHT, "Energia: %d", player.GetMunicaoAtual());
+					al_draw_textf(font, al_map_rgb(0, 0, 200), 620, 10, ALLEGRO_ALIGN_RIGHT, "Horda: %d", wave.GetIdHorda());
 
 					al_flip_display();
 					al_clear_to_color(al_map_rgb(0,0,0));					
@@ -322,7 +355,11 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 		}
 	}
 
-	al_destroy_bitmap(background);
+	al_destroy_bitmap(background1);
+	al_destroy_bitmap(background2);
+	al_destroy_bitmap(background3);
+	al_destroy_bitmap(background4);
+
 	al_destroy_audio_stream(trilha);
 	al_shutdown_font_addon();
 	al_destroy_font(font);
