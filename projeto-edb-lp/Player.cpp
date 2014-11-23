@@ -119,9 +119,9 @@ void Player::AntProjetil(){
 // cria a lista com os ataques, é chamado no construtor de player
 void Player::SalvarAtaques(){
 	// x, y, velocidade, x, y, raio, dano
-	Projetil *proj_player1 = new Projetil(0, 0, 20, 1, 1, 2, 5, 1); // velocidade 20, raio 2, dano 1
-	Projetil *proj_player2 = new Projetil(0, 0, 10, 1, 1, 5, 5, 3); // velocidade 10, raio 15, dano 3
-	Projetil *proj_player3 = new Projetil(0, 0, 5, 1, 1, 10, 5, 5); // velocidade 5, raio 20, dano 5
+	Projetil *proj_player1 = new Projetil(0, 0, 20, 1, 1, 2, 1); // velocidade 20, raio 2, dano 1
+	Projetil *proj_player2 = new Projetil(0, 0, 10, 1, 1, 5, 3); // velocidade 10, raio 15, dano 3
+	Projetil *proj_player3 = new Projetil(0, 0, 5, 1, 1, 10, 5); // velocidade 5, raio 20, dano 5
 	ataques.Insert(proj_player1);
 	ataques.Insert(proj_player2);
 	ataques.Insert(proj_player3);
