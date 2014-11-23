@@ -307,6 +307,7 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	al_destroy_bitmap(background4);
 
 	al_destroy_audio_stream(trilha);
+	al_destroy_sample(tiro);
 	al_shutdown_font_addon();
 	al_destroy_font(font);
 	al_shutdown_ttf_addon();
