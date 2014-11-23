@@ -16,7 +16,6 @@ namespace SpManip {
 	class SpriteManip {
 		//vetor com ponteiros de imagens nas 8 direções
 	private:
-		DIRECAO DirecaoDestino; //aponta para onde está se movendo
 		DIRECAO DirecaoAlvo; //aponta para onde está mirando / olhando
 		ACAO AcaoAtual = PARADO;
 
@@ -40,8 +39,8 @@ namespace SpManip {
 			FilaDupl<ALLEGRO_BITMAP*> atirar[QTD_DIRECOES], 
 			FilaDupl<ALLEGRO_BITMAP*> morrer[QTD_DIRECOES] );
 		//Construtor com Direções de destino e de alvo enviados
-		SpriteManip( int x_atual, int y_atual, int x_destino, int y_destino,
-			int x_alvo, int y_alvo,	FilaDupl<ALLEGRO_BITMAP*> parado[QTD_DIRECOES], 
+		SpriteManip( int x_atual, int y_atual, int x_alvo, int y_alvo,
+			FilaDupl<ALLEGRO_BITMAP*> parado[QTD_DIRECOES], 
 			FilaDupl<ALLEGRO_BITMAP*> andar[QTD_DIRECOES], 
 			FilaDupl<ALLEGRO_BITMAP*> atirar[QTD_DIRECOES], 
 			FilaDupl<ALLEGRO_BITMAP*> morrer[QTD_DIRECOES], ACAO nova_acao );
@@ -49,8 +48,7 @@ namespace SpManip {
 		//destrutor não desaloca ponteiros de imagens
 		~SpriteManip();
 		//muda direção de destino
-		void MudarDestinoOuAlvo( int x_atual, int y_atual, int x_destino, int y_destino,
-			int x_alvo, int y_alvo );
+		void MudarAlvo( int x_atual, int y_atual, int x_alvo, int y_alvo );
 		//recalcular direcao de destino e alvo
 
 		//chamar mudar ação antes de mudar destino para mudar o sprite instantaneamente
