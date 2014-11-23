@@ -5,6 +5,7 @@
 #include "TelaInicial.h"
 #include "GameManager.h"
 #include "Instrucoes.h"
+#include "Victory.h"
 
 #define MAX_ALTURA 640
 #define MAX_LARGURA 1024
@@ -31,6 +32,7 @@ int main()
 	GameManager Jogo;
 	Instrucoes Instrucao;
 	GameOver Fim;
+	Victory Vitoria;
 
 
 	if( !al_init() )
@@ -98,7 +100,7 @@ int main()
 		}
 		else if(gameState == GAME_STATE_VICTORY)
 		{
-			gameState = GAME_STATE_CREDITOS;
+			gameState = Vitoria.Executar(display);
 		}
 		else
 		{

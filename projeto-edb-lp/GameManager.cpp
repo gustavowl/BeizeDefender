@@ -296,7 +296,7 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 
 
 					player.Draw();
-					cafe.Draw(lista_cafe);
+					cafe.Draw(lista_cafe, display);
 					cafe.Pegar(player, lista_cafe);
 					wave.Draw();
 					al_draw_textf(font, al_map_rgb(0, 0, 200), 150, 10, ALLEGRO_ALIGN_RIGHT, "Vida: %d", player.GetVida());

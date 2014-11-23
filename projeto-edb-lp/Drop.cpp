@@ -31,15 +31,22 @@ void Drop::operator=(const GameObject &GameObj) {
 	TipoMovimento = STATIC;
 }
 
-void Drop::Draw(Lista<Drop*> &lista_cafe){
+void Drop::Draw(Lista<Drop*> &lista_cafe, ALLEGRO_DISPLAY *display){
 	int i = 0;
 	Drop *cafe;
+	ALLEGRO_BITMAP *coffee = NULL;
+
 	while ( lista_cafe.GetElem( i, cafe ) ) {
 		if(cafe->PassarTempo()){
-			al_draw_filled_circle(cafe->XOrigem, cafe->YOrigem, 5, al_map_rgb(255, 255, 255));
+				//al_draw_filled_circle(cafe->XOrigem, cafe->YOrigem, 5, al_map_rgb(255, 255, 255));
+				coffee = al_load_bitmap("coffee.png");
+				al_draw_bitmap(coffee, cafe->XOrigem, cafe->YOrigem, 0);
+
+
 		}
 		else{
 			lista_cafe.Remove(i);
+			al_destroy_bitmap(coffee);
 		}
 		i++;
 	}

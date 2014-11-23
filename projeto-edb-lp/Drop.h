@@ -1,6 +1,7 @@
 #ifndef _DROP_H_
 #define _DROP_H_
 
+#include <allegro5/allegro.h> 
 #include "GameObject.h"
 #include "Player.h"
 #include "ListaEncadeada/lista.h"
@@ -49,7 +50,7 @@ class Drop : public go::GameObject{
        * Desenha a lista de drop
        * @param &lista_cafe lista que fica armazenada todos os drop
        */
-		void Draw(Lista<Drop*> &lista_cafe); 
+		void Draw(Lista<Drop*> &lista_cafe, ALLEGRO_DISPLAY *display); 
 
 		/**
        * Regenera a energia do player, caso ele colida com o drop

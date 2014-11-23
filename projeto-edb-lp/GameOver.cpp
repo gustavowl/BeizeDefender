@@ -17,7 +17,9 @@ int GameOver::Executar( ALLEGRO_DISPLAY *display )
 	al_draw_bitmap(game_over, 0, 0, 0);
 	al_flip_display();
 	al_clear_to_color(al_map_rgb(0,0,0));
-	al_rest(2);
+	al_rest(3);
+	al_destroy_bitmap(game_over);
+
 
 	return 0;
 }
