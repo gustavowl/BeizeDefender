@@ -6,47 +6,93 @@
 #include "ListaEncadeada/FilaDupl.h"
 #include "Projetil.h"
 
+/**
+* \class Player
+*
+* \brief Classe que representa o jogador. Herda Personagem
+*
+*/
+
 class Player : public Personagem {
 private:
-	//inimigo pode ter isso tb
-	//struct Municao {
-	int MaxMunicao;
-	int MunicaoAtual;
-	int regem;
-	int VidaTotal;
-	FilaDupl<Projetil*> ataques; 
 
-	//Lista<Projetil*> Projeteis; //projéteis que foram atirados e ainda estão dentro da arena
-	//};
-	//int Vida;
-	//munição do projétil do tipo 1
-	//Municao ProjT1;
+	int MaxEnergia; /**< Armazena a quantidade máxima de energia. */
+	int EnergiaAtual; /**< Armazena a quantidade atual de energia, este valor é mostrado na tela. */
+	int Regem; /**< Armazena taxa de regeneração.  */
+	int VidaTotal; /**< Armazena a vida inicial do player. Necessário para garantir que o Regem não fique maior que a vida inicial. */
+	FilaDupl<Projetil*> ataques;  /**< Armazena os diferentes tipos de ataques. */
+
 public:
-	//bool LevarDano(unsigned int dano); //retorna se morreu
-	//int VerificarColisao(const GameObject obj); //retorna dano causado pelas balas ao obj, e destrói (mas n remove)
-	//projéteis que causaram dano. Função exterior tem q tirar vida do obj
-	//int VerificarColisaoQuadrada(const GameObject obj); //retorna dano causado pelas balas ao obj, e destrói (mas n remove)
-	//projéteis que causaram dano. Função exterior tem q tirar vida do obj
-	//verifica colisão com a base (projeto final player não vai precisar dessa função, só inimigo)
-	void AdicionarMunicao(unsigned int qtd); //adiciona munição ao Projétil de tipo 1
-	void Atirar(unsigned int destino_x, unsigned int destino_y); //atira projétil de tipo 1
-	//void Mover(); //sobrescreve operação de mover. Move tanto o player quanto suas balas
-	//Lista<Projetil*> GetProjeteisToDraw(); //retorna uma lista com posição de todos os projéteis
-	//para desenhar
-	int GetMunicaoAtual();
-	void Draw();
-	//int GetVida();
-	void Regenerar();
-	void ProxProjetil(); // avança para o proximo ataque
-	void AntProjetil(); // volta para o ataque anterior
-	void SalvarAtaques(); // cria a lista com os ataques, é chamado no construtor de player
-
-
+	/**
+	* Construtor vazio
+	*/
 	Player();
-	Player(unsigned int posicao_x, unsigned int posicao_y);
-	Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, int municao_atual, 
-		int velocidade, int vida, int raio, int REGEM ,Projetil projetil_base);
+
+	/**
+	* Construtor completo
+	* @param posicao_x posição x inicial do player
+	* @param posição_y posição y inicial do player
+	* @param max_energia atribui energia maxima ao player
+	* @param energia_atual quantidade de energia a ser iniciado com o player
+	* @param velocidade velocidade em fps que o player se movimentará
+	* @param vida vida inicial do player
+	* @param raio raio do player
+	* @param regem taxa de regem que o player terá
+	* @param projetil_base é o primeiro tipo de projetil que o player terá
+	*/
+	Player(unsigned int posicao_x, unsigned int posicao_y, int max_energia, int energia_atual, 
+		int velocidade, int vida, int raio, int regem, Projetil projetil_base);
+
+	/**
+	* Sobrecarga de operador, copia os dados de persona para ele mesmo
+	* @param persona Objeto a ser copiado
+	*/
 	void operator=(const Personagem &persona);
+
+	/**
+	* Método que recebe como parametro um inteiro e adiciona este valor a EnergiaAtual.
+	* Chamado pelo método Drop.Pegar()
+	* @param qtd Valor que será adicionado na EnergiaAtual
+	*/
+	void AdicionarEnergia(unsigned int qtd);
+
+
+	/**
+	* Método que realiza o disparo de energia, recebe como parametros as posições XY e decrementa a EnergiaAtual
+	* @param destino_x posição X do mouse
+	* @param destino_y posição Y do mouse
+	*/
+	void Atirar(unsigned int destino_x, unsigned int destino_y);
+
+	/**
+	* Desenha o player, chama o metodo Draw de Personagem
+	*/
+	void Draw();
+
+	/**
+	* Aumenta o valor de Vida baseado em Regem e não deixa ser maior que VidaTotal
+	*/
+	void Regenerar();
+
+	/**
+	* Avança para o próximo tipo de ataque
+	*/
+	void ProxProjetil(); 
+
+	/**
+	* Volta para o ataque anterior
+	*/
+	void AntProjetil(); 
+
+	/**
+	* Cria a lista com os ataques do Player, é chamado no construtor de Player
+	*/
+	void SalvarAtaques(); 
+
+	/**
+	* Retorna EnergiaAtual, método chamado para mostrar na tela o valor da energia do Player
+	*/
+	int GetEnergiaAtual();
 };
 
 #endif
