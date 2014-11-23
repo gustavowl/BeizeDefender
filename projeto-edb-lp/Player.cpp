@@ -96,10 +96,14 @@ Player::Player(unsigned int posicao_x, unsigned int posicao_y) {
 }
 
 Player::Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, int municao_atual, 
-	int velocidade, int vida, int raio, Projetil projetil_base, int REGEM) {
-	
+	int velocidade, int vida, int raio, int REGEM) {
+	SalvarAtaques();
+	Projetil *proj;
+	ataques.GetFirstElem(proj);
+	ProjetilBase = *proj; // projetil tipo 1
+
 	if (max_municao > 0 && municao_atual > 0 && vida > 0) {
-		*this = Personagem(posicao_x, posicao_y, velocidade, vida, raio, SMOOTH, projetil_base);
+		*this = Personagem(posicao_x, posicao_y, velocidade, vida, raio, SMOOTH, ProjetilBase);
 		MaxMunicao = max_municao;
 		if (municao_atual > max_municao)
 			MunicaoAtual = max_municao;
@@ -108,6 +112,7 @@ Player::Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, 
 	}
 	VidaTotal = Vida;
 	regem = REGEM;
+	
 }
 
 void Player::operator=(const Personagem &persona){
@@ -141,6 +146,7 @@ void Player::operator=(const Personagem &persona){
 	}
 }
 
+// regenera a cada nova horda
 void Player::Regenerar(){
 	Vida += regem;
 	if(Vida > VidaTotal){
@@ -148,10 +154,26 @@ void Player::Regenerar(){
 	}
 }
 
-void Player::proxProjetil(){
-
+// avança para o proximo ataque
+void Player::ProxProjetil(){
+	Projetil *proj;
+	ataques.GetNextElem(proj);
+	ProjetilBase = *proj;
 }
 
-void Player::antProjetil(){
+// volta para o ataque anterior
+void Player::AntProjetil(){
+	Projetil *proj;
+	ataques.GetPrevElem(proj);
+	ProjetilBase = *proj;
+}
 
+// cria a lista com os ataques, é chamado no construtor de player
+void Player::SalvarAtaques(){
+	Projetil *proj_player1 = new Projetil(0, 0, 20, 1, 1, 2, 5);
+	Projetil *proj_player2 = new Projetil(0, 0, 20, 1, 1, 15, 5);
+	Projetil *proj_player3 = new Projetil(0, 0, 20, 1, 1, 20, 5);
+	ataques.Insert(proj_player1);
+	ataques.Insert(proj_player2);
+	ataques.Insert(proj_player3);
 }

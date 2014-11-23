@@ -47,8 +47,7 @@ int GameManager::Executar() {
 
 	GameObject arena(MAX_LARGURA, MAX_ALTURA);
 	Base base(380, 200, 620, 440, REGEM);
-	Projetil proj_player(0, 0, 20, 1, 1, 2, 5);
-	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 15, 100, 10, proj_player, REGEM);
+	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 15, 100, 10, REGEM);
 	Projetil proj_inimigo(0, 0, 20, 1, 1, 2, 1);
 	Lista<Horda*> fila_horda(FILA);
 	Lista<int> fila_tempo_espera(FILA);
@@ -192,12 +191,12 @@ int GameManager::Executar() {
 				if (tecla){
 					switch(tecla){
 						case 1:
-							std::cout << "Tecla Q" << std::endl;
+							player.ProxProjetil();
 							tecla = 0;
 							break;
 
 						case 2:
-							std::cout << "Tecla W" << std::endl;
+							player.AntProjetil();
 							tecla = 0;
 							break;
 
