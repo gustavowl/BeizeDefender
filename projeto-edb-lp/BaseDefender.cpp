@@ -4,6 +4,7 @@
 #include "GameOver.h"
 #include "TelaInicial.h"
 #include "GameManager.h"
+#include "Instrucoes.h"
 
 #define MAX_ALTURA 640
 #define MAX_LARGURA 1024
@@ -28,6 +29,7 @@ int main()
 
 	TelaInicial Menu;
 	GameManager Jogo;
+	Instrucoes Instrucao;
 	GameOver Fim;
 
 
@@ -83,7 +85,7 @@ int main()
 		else if(gameState == GAME_STATE_INSTRUCOES)
 		{
 			/* Chamar Instruções */
-			gameState = GAME_STATE_MENU;
+			gameState = Instrucao.Executar(event_queue, ev, display);
 		}
 		else if(gameState == GAME_STATE_CREDITOS)
 
