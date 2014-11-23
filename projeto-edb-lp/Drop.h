@@ -23,7 +23,7 @@ class Drop : public go::GameObject{
 	public:
 		/**
        * Construtor padrão
-       * Chamado um vez em GameManager.cpp
+       * Chamado uma vez em GameManager.cpp
        */
 		Drop();
 
