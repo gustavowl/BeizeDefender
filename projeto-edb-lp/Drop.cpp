@@ -1,10 +1,7 @@
 #include "Drop.h"
-#include "Player.h"
-#include "GameObject.h"
 #include <allegro5/allegro_primitives.h>
-#include "iostream"
-#include "ListaEncadeada/lista.h"
 #include <cmath>
+
 
 Drop::Drop(int energia, int XOrigem, int YOrigem){
 	*this = GameObject(XOrigem, YOrigem, 0, 5, STATIC);
@@ -13,6 +10,10 @@ Drop::Drop(int energia, int XOrigem, int YOrigem){
 }
 
 Drop::Drop(){
+	
+}
+
+Drop::~Drop(){
 	
 }
 
@@ -30,28 +31,27 @@ void Drop::operator=(const GameObject &GameObj) {
 	TipoMovimento = STATIC;
 }
 
-void Drop::Draw(Lista<Drop*> &fila_cafe){
+void Drop::Draw(Lista<Drop*> &lista_cafe){
 	int i = 0;
 	Drop *cafe;
-	while ( fila_cafe.GetElem( i, cafe ) ) {
+	while ( lista_cafe.GetElem( i, cafe ) ) {
 		if(cafe->PassarTempo()){
 			al_draw_filled_circle(cafe->XOrigem, cafe->YOrigem, 5, al_map_rgb(255, 255, 255));
 		}
 		else{
-			fila_cafe.Remove(i);
+			lista_cafe.Remove(i);
 		}
 		i++;
 	}
 }
 
-void Drop::Pegar(Player &p, Lista<Drop*> &fila_cafe){
+void Drop::Pegar(Player &p, Lista<Drop*> &lista_cafe){
 	int i = 0;
 	Drop *cafe;
-	while ( fila_cafe.GetElem( i, cafe ) ) {
-
+	while ( lista_cafe.GetElem( i, cafe ) ) {
 		if(cafe->VerificarColisao(p, *cafe)){
 			p.AdicionarMunicao(cafe->GetEnergia());
-			fila_cafe.Remove(i);
+			lista_cafe.Remove(i);
 			delete cafe;
 			i = 0;
 		}
