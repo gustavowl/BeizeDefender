@@ -12,9 +12,10 @@ private:
 	//struct Municao {
 	int MaxMunicao;
 	int MunicaoAtual;
-	int VidaTotal;
 	int regem;
+	int VidaTotal;
 	FilaDupl<Projetil*> ataques; 
+
 	//Lista<Projetil*> Projeteis; //projéteis que foram atirados e ainda estão dentro da arena
 	//};
 	//int Vida;
@@ -35,15 +36,16 @@ public:
 	int GetMunicaoAtual();
 	void Draw();
 	//int GetVida();
-	void Regenerar(); // regenera a cada nova horda
+	void Regenerar();
 	void ProxProjetil(); // avança para o proximo ataque
 	void AntProjetil(); // volta para o ataque anterior
 	void SalvarAtaques(); // cria a lista com os ataques, é chamado no construtor de player
 
 
+	Player();
 	Player(unsigned int posicao_x, unsigned int posicao_y);
 	Player(unsigned int posicao_x, unsigned int posicao_y, int max_municao, int municao_atual, 
-		int velocidade, int vida, int raio, int REGEM);
+		int velocidade, int vida, int raio, int REGEM ,Projetil projetil_base);
 	void operator=(const Personagem &persona);
 };
 
