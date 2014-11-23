@@ -55,7 +55,7 @@ void Player::operator=(const Personagem &persona){
 	}
 }
 
-void Player::AdicionarMunicao(unsigned int qtd) { 
+void Player::AdicionarEnergia(unsigned int qtd) { 
 	EnergiaAtual += qtd;
 	if (EnergiaAtual > MaxEnergia)
 		EnergiaAtual = MaxEnergia;
