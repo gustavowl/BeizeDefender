@@ -12,7 +12,7 @@ Base::Base(unsigned int x_esq, unsigned int y_sup, unsigned int x_dir, unsigned 
     x_esquerda = x_esq;
     y_inferior = y_inf;
     x_direita = x_dir;
-    regem = 0; //0 enquanto não define =D =D
+    regem = REGEM;
     
     FrameAtual = 0;
     TotalFrames = 0;
@@ -35,7 +35,7 @@ Base::~Base()
 void Base::operator=(const Base &base)
 {
     vida = base.vida;
-    vidaTotal = base.vida;
+    vidaTotal = base.vidaTotal;
     y_superior = base.y_superior;
     x_esquerda = base.x_esquerda;
     y_inferior = base.y_inferior;
