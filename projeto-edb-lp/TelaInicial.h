@@ -22,7 +22,7 @@ public:
 	*/
 
 	TelaInicial();
-	//~TelaInicial();
+	~TelaInicial();
 
 	/**
 	* Executa a tela de Menu

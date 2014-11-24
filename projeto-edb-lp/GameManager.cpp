@@ -538,28 +538,28 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	/**********************************
 	********SPRITES DROP***************
 	**********************************/
-	al_bmp_drop = al_load_bitmap("coffee.png");
+	al_bmp_drop = al_load_bitmap("Sprites/Drop/coffee.png");
 	drop_parado[CIMA].Insert( al_bmp_drop );
 
-	al_bmp_drop = al_load_bitmap("coffee.png");
+	al_bmp_drop = al_load_bitmap("Sprites/Drop/coffee.png");
 	drop_parado[CIMADIR].Insert( al_bmp_drop );
 
-	al_bmp_drop = al_load_bitmap("coffee.png");
+	al_bmp_drop = al_load_bitmap("Sprites/Drop/coffee.png");
 	drop_parado[DIREITA].Insert( al_bmp_drop );
 
-	al_bmp_drop = al_load_bitmap("coffee.png");
+	al_bmp_drop = al_load_bitmap("Sprites/Drop/coffee.png");
 	drop_parado[BAIXODIR].Insert( al_bmp_drop );
 
-	al_bmp_drop = al_load_bitmap("coffee.png");
+	al_bmp_drop = al_load_bitmap("Sprites/Drop/coffee.png");
 	drop_parado[BAIXO].Insert( al_bmp_drop );
 
-	al_bmp_drop = al_load_bitmap("coffee.png");
+	al_bmp_drop = al_load_bitmap("Sprites/Drop/coffee.png");
 	drop_parado[BAIXOESQ].Insert( al_bmp_drop );
 
-	al_bmp_drop = al_load_bitmap("coffee.png");
+	al_bmp_drop = al_load_bitmap("Sprites/Drop/coffee.png");
 	drop_parado[ESQUERDA].Insert( al_bmp_drop );
 
-	al_bmp_drop = al_load_bitmap("coffee.png");
+	al_bmp_drop = al_load_bitmap("Sprites/Drop/coffee.png");
 	drop_parado[CIMAESQ].Insert( al_bmp_drop );
 
 	SpriteManip sp_drop(drop_parado, drop_parado, drop_parado);
@@ -571,35 +571,35 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	checkExpression(!al_install_keyboard(), "Problema ao iniciar o teclado");
 	//checkExpression(!al_init_reserve_sample(1), "Problemas ao iniciar os canais de audio. Abortar!");
 
-	trilha = al_load_audio_stream("die_motherfucker_die.wav", 5, 1024);
+	trilha = al_load_audio_stream("Music/die_motherfucker_die.wav", 5, 1024);
 	checkExpression(!trilha, "Música não Carregada");
 
-	tiro = al_load_sample("pistol.wav");
+	tiro = al_load_sample("Music/pistol.wav");
 
 	al_attach_audio_stream_to_mixer(trilha, al_get_default_mixer());
 	al_set_audio_stream_playmode(trilha, ALLEGRO_PLAYMODE_LOOP);
 
 	//background = al_create_bitmap(1024,640);
 
-	background1 = al_load_bitmap("base_concept1.png");
-	background2 = al_load_bitmap("base_concept2.png");
-	background3 = al_load_bitmap("base_concept3.png");
-	background4 = al_load_bitmap("base_concept4.png");
+	background1 = al_load_bitmap("Sprites/Base/base_concept1.png");
+	background2 = al_load_bitmap("Sprites/Base/base_concept2.png");
+	background3 = al_load_bitmap("Sprites/Base/base_concept3.png");
+	background4 = al_load_bitmap("Sprites/Base/base_concept4.png");
 
 
-	if(!al_load_bitmap("base_concept1.png")) {
+	if(!al_load_bitmap("Sprites/Base/base_concept1.png")) {
 		std::cout << "Image not loaded" << std::endl;
 		return -1;
 	}
-	if(!al_load_bitmap("base_concept2.png")) {
+	if(!al_load_bitmap("Sprites/Base/base_concept2.png")) {
 		std::cout << "Image not loaded" << std::endl;
 		return -1;
 	}
-	if(!al_load_bitmap("base_concept3.png")) {
+	if(!al_load_bitmap("Sprites/Base/base_concept3.png")) {
 		std::cout << "Image not loaded" << std::endl;
 		return -1;
 	}
-	if(!al_load_bitmap("base_concept4.png")) {
+	if(!al_load_bitmap("Sprites/Base/base_concept4.png")) {
 		std::cout << "Image not loaded" << std::endl;
 		return -1;
 	}
@@ -618,7 +618,7 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	}*/
 
 	
-	font = al_load_font("PressStart2P.ttf", 15, 0);
+	font = al_load_font("Font/PressStart2P.ttf", 15, 0);
 
 	if(!font) 
 	{

@@ -16,7 +16,7 @@ int GameOver::Executar( ALLEGRO_DISPLAY *display )
 
 	al_flip_display();
 	al_clear_to_color(al_map_rgb(0,0,0));
-	game_over = al_load_bitmap("GameOver.png");
+	game_over = al_load_bitmap("Menu/GameOver.png");
 	al_draw_bitmap(game_over, 0, 0, 0);
 	al_flip_display();
 	al_clear_to_color(al_map_rgb(0,0,0));

@@ -23,7 +23,7 @@ int TelaInicial::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
     //creditos = al_load_bitmap("mnuHighscoresM.bmp");
     //sair = al_load_bitmap("mnuExit.bmp");
 
-    menu = al_load_bitmap("Menu.png");
+    menu = al_load_bitmap("Menu/Menu.png");
 
     //al_draw_bitmap(novo_jogo, 384, 160, 0);
     //al_draw_bitmap(instrucoes, 384, 240, 0);

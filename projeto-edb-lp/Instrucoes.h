@@ -22,6 +22,10 @@ public:
 
 	Instrucoes();
 
+	~Instrucoes();
+
+
+
 	/**
 	* Executa a tela de instruções
 	* @param event_queue ponteiro que recebe a "fila do evento"

@@ -23,6 +23,8 @@ public:
 
 	GameOver();
 
+	~GameOver();
+
 	/**
 	* Gera a tela de GameOver
 	* @param display ponteiro que representa uma janela aberta. Recebido para que a tela de GameOver seja desenhada
