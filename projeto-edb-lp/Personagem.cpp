@@ -55,7 +55,7 @@ int Personagem::VerificarColisaoQuadrada(const GameObject obj) {
 
 void Personagem::Atirar(unsigned int destino_x, unsigned int destino_y) { //atira projétil de tipo 1
 	Projetil *novo_projetil = new Projetil( XAtual, YAtual, ProjetilBase.GetVelocidade(),
-		destino_x, destino_y, ProjetilBase.GetRaio(), ProjetilBase.GetDano() );
+		destino_x, destino_y, ProjetilBase.GetRaio(), ProjetilBase.GetDano(), ProjetilBase.GetSpriteManip() );
 	Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
 }
 

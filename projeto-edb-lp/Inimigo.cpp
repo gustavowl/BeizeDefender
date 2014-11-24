@@ -146,12 +146,12 @@ void Inimigo::Atirar(const Personagem &p, const go::GameObject &base)
 		Projetil *novo_projetil;
 		if (dist_jogador > dist_base) {
 			novo_projetil = new Projetil(XAtual, YAtual, ProjetilBase.GetVelocidade(), base_x, base_y,
-				ProjetilBase.GetRaio(), ProjetilBase.GetDano() );
+				ProjetilBase.GetRaio(), ProjetilBase.GetDano(), ProjetilBase.GetSpriteManip() );
 			spPlayer.MudarAlvo(XAtual, YAtual, base_x, base_y);
 		}
 		else {
 			novo_projetil = new Projetil(XAtual, YAtual, ProjetilBase.GetVelocidade(), px_atual, py_atual,
-				ProjetilBase.GetRaio(), ProjetilBase.GetDano() );
+				ProjetilBase.GetRaio(), ProjetilBase.GetDano(), ProjetilBase.GetSpriteManip() );
 			spPlayer.MudarAlvo(XAtual, YAtual, px_atual, py_atual);
 		}
 

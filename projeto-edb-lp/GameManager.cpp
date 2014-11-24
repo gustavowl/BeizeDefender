@@ -80,13 +80,13 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 		
 
 	Base base(380, 200, 620, 440, REGEM);
-	Projetil proj_player(0, 0, 20, 1, 1, 2, 5);
 	/******************************
 	*****INICIALIZA PLAYER*********
 	*******************************/
 	//bitmap para carregar imagens de player
 	ALLEGRO_BITMAP *al_bmp_player = NULL;
 	ALLEGRO_BITMAP *al_bmp_inim = NULL;
+	ALLEGRO_BITMAP *al_bmp_proj = NULL;
 	//para iniciar sprite manip
 	FilaDupl<ALLEGRO_BITMAP*> player_parado[8];
 	FilaDupl<ALLEGRO_BITMAP*> player_andar[8];
@@ -94,6 +94,7 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	FilaDupl<ALLEGRO_BITMAP*> inim_parado[8];
 	FilaDupl<ALLEGRO_BITMAP*> inim_andar[8];
 	FilaDupl<ALLEGRO_BITMAP*> inim_atirar[8];
+	FilaDupl<ALLEGRO_BITMAP*> proj_andar[8];
 	//FilaDupl<ALLEGRO_BITMAP*> player_morrer[8];
 	//CARREGA SPRITES
 	//PARADO
@@ -147,6 +148,18 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	player_atirar[CIMAESQ].Insert( al_bmp_player );
 
 	SpriteManip sp_player(player_parado, player_andar, player_atirar);
+
+	/******************************
+	*****INICIALIZA SPRITES PROJÉTEIS PLAYER*********
+	*******************************/
+	al_bmp_proj = al_load_bitmap("Sprites/ProjAmarelo1Menor.png");
+	for (int i = 0; i < 8; i++) {
+		proj_andar[i].Insert( al_bmp_proj );
+	}
+
+	SpriteManip sp_proj(proj_andar, proj_andar, proj_andar);
+
+	Projetil proj_player(0, 0, 20, 1, 1, 2, 5, sp_proj);
 	//LEMBRAR DE DESALOCAR MANUALMENTE SP_PLAYER E SEUS VALORES
 	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 15, 100, 10, REGEM, proj_player, sp_player);
 	/******************************
@@ -206,7 +219,7 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	/******************************
 	*****INICIALIZA PROJÉTEIS INIMIGO*********
 	*******************************/
-	Projetil proj_inimigo(0, 0, 20, 1, 1, 2, 1);
+	Projetil proj_inimigo(0, 0, 20, 1, 1, 2, 1, sp_proj);
 
 	/*Gera 3 "Fases" e 3 Boss*/
 	/*Também aumenta a vida dos Inimigo e dos Boss*/

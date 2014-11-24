@@ -6,6 +6,7 @@ Player::Player(){}
 
 Player::Player(unsigned int posicao_x, unsigned int posicao_y, int max_energia, int energia_atual, 
 	int velocidade, int vida, int raio, int regem, Projetil projetil_base, SpriteManip sp_player) {
+
 	SalvarAtaques();
 	Projetil *proj;
 	ataques.GetFirstElem(proj);
@@ -19,6 +20,7 @@ Player::Player(unsigned int posicao_x, unsigned int posicao_y, int max_energia, 
 		else
 			EnergiaAtual = energia_atual;
 	}
+
 	VidaTotal = Vida;
 	Regem = regem;
 	danoFisico = 10;
@@ -66,7 +68,7 @@ void Player::AdicionarEnergia(unsigned int qtd) {
 void Player::Atirar(unsigned int destino_x, unsigned int destino_y) {
 	if ( EnergiaAtual > 0 ) { //verifica se tem munição
 		Projetil *novo_projetil = new Projetil(XAtual, YAtual, ProjetilBase.GetVelocidade(),
-			destino_x, destino_y, ProjetilBase.GetRaio(), ProjetilBase.GetDano() );
+			destino_x, destino_y, ProjetilBase.GetRaio(), ProjetilBase.GetDano(), ProjetilBase.GetSpriteManip() );
 		Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
 		spPlayer.MudarAlvo(XAtual, YAtual, destino_x, destino_y);
 		spPlayer.MudarAcaoAtual(ATIRAR);
@@ -101,9 +103,12 @@ void Player::AntProjetil(){
 
 void Player::SalvarAtaques(){
 	// x, y, velocidade, x, y, raio, dano
-	Projetil *proj_player1 = new Projetil(0, 0, 20, 1, 1, 2, 1); // velocidade 20, raio 2, dano 1
-	Projetil *proj_player2 = new Projetil(0, 0, 10, 1, 1, 5, 3); // velocidade 10, raio 5, dano 3
-	Projetil *proj_player3 = new Projetil(0, 0, 5, 1, 1, 10, 5); // velocidade 5, raio 10, dano 5
+	// velocidade 20, raio 2, dano 1
+	Projetil *proj_player1 = new Projetil(0, 0, 20, 1, 1, 2, 1, ProjetilBase.GetSpriteManip() );
+	// velocidade 10, raio 5, dano 3
+	Projetil *proj_player2 = new Projetil(0, 0, 10, 1, 1, 5, 3, ProjetilBase.GetSpriteManip() );
+	 // velocidade 5, raio 10, dano 5
+	Projetil *proj_player3 = new Projetil(0, 0, 5, 1, 1, 10, 5, ProjetilBase.GetSpriteManip() );
 	ataques.Insert(proj_player1);
 	ataques.Insert(proj_player2);
 	ataques.Insert(proj_player3);

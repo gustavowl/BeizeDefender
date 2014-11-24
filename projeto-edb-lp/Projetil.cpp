@@ -23,7 +23,7 @@ unsigned int DestinoY) {
 }
 
 Projetil::Projetil(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, 
-unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, unsigned int Dano) {
+unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, unsigned int Dano, SpManip::SpriteManip sp_proj) {
 	if (MaxX > 0 && MaxY > 0 && PositionX <= MaxX && PositionY <= MaxY &&
 	DestinoX <= MaxX && DestinoY <= MaxY && Raio > 0 && Dano > 0) { //verifica se valor é válido
 		//calcula coordenada de destino em que sairá da arena
@@ -33,6 +33,8 @@ unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, unsigned int Da
 		*this =  temp; //copia os valores de pai para filho (tava dando erro ao fazer direto)
 		this->Dano = Dano; //atualiza dano com valor de entrada
 		Destruido = false;
+		spProj = sp_proj;
+		spProj.MudarAcaoAtual(SpManip::ATIRAR);
 	}
 }
 
@@ -68,6 +70,7 @@ void Projetil::operator=(const Projetil &proj) { //faz cópia profunda
 	this->TipoMovimento = proj.TipoMovimento;
 	this->Dano = proj.Dano;
 	this->Destruido = proj.Destruido;
+	this->spProj = proj.spProj;
 }
 
 void Projetil::Mover() {
@@ -83,6 +86,7 @@ void Projetil::Destruir() {
 
 void Projetil::Draw() {
 	if ( !Destruido ) {
+		spProj.AvancarSprite(XAtual, YAtual);
 		al_draw_filled_circle(XAtual, YAtual, Raio, al_map_rgb(0, 0, 0));
 	}
 }
@@ -93,6 +97,10 @@ bool Projetil::GetDesruido() {
 
 unsigned int Projetil::GetDano() {
 	return Dano;
+}
+
+SpManip::SpriteManip Projetil::GetSpriteManip() const {
+	return spProj;
 }
 
 int Projetil::VerificarColisao(const GameObject obj) { //retorna dano causado pela bala ao obj, e destrói
