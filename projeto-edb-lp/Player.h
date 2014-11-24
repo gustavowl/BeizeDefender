@@ -44,7 +44,8 @@ public:
 	* @param projetil_base é o primeiro tipo de projetil que o player terá
 	*/
 	Player(unsigned int posicao_x, unsigned int posicao_y, int max_energia, int energia_atual, 
-		int velocidade, int vida, int raio, int regem, Projetil projetil_base, SpriteManip sp_player);
+		int velocidade, int vida, int raio, int regem, Projetil projetil_base, SpriteManip sp_player,
+		SpriteManip sp_proj1, SpriteManip sp_proj2, SpriteManip sp_proj3);
 
 	/**
 	* Sobrecarga de operador, copia os dados de persona para ele mesmo
@@ -90,7 +91,7 @@ public:
 	/**
 	* Cria a lista com os ataques do Player, é chamado no construtor de Player
 	*/
-	void SalvarAtaques(); 
+	void SalvarAtaques(SpriteManip sp_proj1, SpriteManip sp_proj2, SpriteManip sp_proj3); 
 
 	/**
 	* Retorna EnergiaAtual, método chamado para mostrar na tela o valor da energia do Player

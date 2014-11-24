@@ -160,7 +160,7 @@ void Inimigo::Atirar(const Personagem &p, const go::GameObject &base)
 
 		atirando = true;
 		Sprites.MudarAcaoAtual(ATIRAR);
-		Sprites.SetTempoProxSprite(MAX_TEMPO_ESPERA * 3);
+		Sprites.SetTempoProxSprite(INTERVALO_ENTRE_SPRITES * 3);
 
 		Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
 		//zera a contagem dos intervalos

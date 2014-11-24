@@ -154,7 +154,7 @@ void SpriteManip::AvancarSprite(unsigned int x, unsigned int y) {
 		//muda de sprite
 		if (TempoProxSprite <= 0) {
 			Parado[DirecaoAlvo].GetPrevElem(teste);
-			TempoProxSprite = MAX_TEMPO_ESPERA;
+			TempoProxSprite = INTERVALO_ENTRE_SPRITES;
 		}
 		//desenha o mesmo sprite novamente
 		else {
@@ -170,7 +170,7 @@ void SpriteManip::AvancarSprite(unsigned int x, unsigned int y) {
 	else if ( AcaoAtual == ANDAR ) {
 		if (TempoProxSprite <= 0) {
 			Andar[DirecaoAlvo].GetPrevElem(teste);
-			TempoProxSprite = MAX_TEMPO_ESPERA;		
+			TempoProxSprite = INTERVALO_ENTRE_SPRITES;		
 		}
 		else {
 			Andar[DirecaoAlvo].GetLastGetElem(teste);
@@ -185,7 +185,7 @@ void SpriteManip::AvancarSprite(unsigned int x, unsigned int y) {
 	else { //AcaoAtual == ATIRAR
 		if (TempoProxSprite <= 0) {
 			Atirar[DirecaoAlvo].GetPrevElem(teste);
-			TempoProxSprite = MAX_TEMPO_ESPERA;
+			TempoProxSprite = INTERVALO_ENTRE_SPRITES;
 		}
 		else {
 			Atirar[DirecaoAlvo].GetLastGetElem(teste);
@@ -215,7 +215,7 @@ void SpriteManip::RetrocederSprite(unsigned int x, unsigned int y) {
 		//muda de sprite
 		if (TempoProxSprite <= 0) {
 			Parado[DirecaoAlvo].GetNextElem(teste);
-			TempoProxSprite = MAX_TEMPO_ESPERA;
+			TempoProxSprite = INTERVALO_ENTRE_SPRITES;
 		}
 		//desenha o mesmo sprite novamente
 		else {
@@ -231,7 +231,7 @@ void SpriteManip::RetrocederSprite(unsigned int x, unsigned int y) {
 	else if ( AcaoAtual == ANDAR ) {
 		if (TempoProxSprite <= 0) {
 			Andar[DirecaoAlvo].GetNextElem(teste);
-			TempoProxSprite = MAX_TEMPO_ESPERA;		
+			TempoProxSprite = INTERVALO_ENTRE_SPRITES;		
 		}
 		else {
 			Andar[DirecaoAlvo].GetLastGetElem(teste);
@@ -246,7 +246,7 @@ void SpriteManip::RetrocederSprite(unsigned int x, unsigned int y) {
 	else { //AcaoAtual == ATIRAR
 		if (TempoProxSprite <= 0) {
 			Atirar[DirecaoAlvo].GetNextElem(teste);
-			TempoProxSprite = MAX_TEMPO_ESPERA;
+			TempoProxSprite = INTERVALO_ENTRE_SPRITES;
 		}
 		else {
 			Atirar[DirecaoAlvo].GetLastGetElem(teste);
@@ -275,4 +275,14 @@ void SpriteManip::operator=(const SpriteManip &spm) {
 		Atirar[i] = spm.Atirar[i];
 		//Morrer[i] = morrer[i]; //cria fulas duplas vazias
 	}
+}
+
+int SpriteManip::GetTempoProxSprite() {
+	return TempoProxSprite;
+}
+
+void SpriteManip::SetTempoProxSprite(int novoTempo) {
+	//não verifica se eh < que o intervalo propositalmente (por causa do tiro)
+	if (novoTempo >= 0)
+		TempoProxSprite = novoTempo;
 }

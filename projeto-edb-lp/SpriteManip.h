@@ -7,7 +7,7 @@
 namespace SpManip {
 	#define QTD_DIRECOES 8
 	#define PI 3.1415926535897932
-	#define MAX_TEMPO_ESPERA 2
+	#define INTERVALO_ENTRE_SPRITES 2
 	//CIMA = 0, CIMADIR = 1....
 	enum DIRECAO {CIMA = 0, CIMADIR, DIREITA, BAIXODIR,
 		BAIXO, BAIXOESQ, ESQUERDA, CIMAESQ};
@@ -56,8 +56,8 @@ namespace SpManip {
 		//chamar mudar ação antes de mudar destino para mudar o sprite instantaneamente
 		void MudarAcaoAtual( ACAO nova_acao );
 
-		int GetTempoProxSprite() { return TempoProxSprite; }
-		void SetTempoProxSprite(int novoTempo) { TempoProxSprite = novoTempo; }
+		int GetTempoProxSprite();
+		void SetTempoProxSprite(int novoTempo);
 
 		//ao chamar MudarDestinoOuAlvo(), não precisa chamar AvancarSprite()
 		//avança sprite levando em conta alvo e destino, pode mudar o sentido de execução dependendo deles também
