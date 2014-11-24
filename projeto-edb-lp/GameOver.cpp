@@ -6,6 +6,9 @@
 GameOver::GameOver()
 {}
 
+GameOver::~GameOver()
+{}
+
 int GameOver::Executar( ALLEGRO_DISPLAY *display )
 {
 

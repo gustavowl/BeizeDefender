@@ -6,6 +6,9 @@
 Victory::Victory()
 {}
 
+Victory::~Victory()
+{}
+
 int Victory::Executar( ALLEGRO_DISPLAY *display )
 {
 

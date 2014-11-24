@@ -23,10 +23,15 @@ public:
 	Victory();
 
 	/**
+	* Destrutor padrão
+	*
+	*/
+	~Victory();
+
+	/**
    * Gera a tela de Vitória
    * @param display ponteiro que representa uma janela aberta. Recebido para que a tela de Vitória seja desenhada
    */
-
 	int Executar( ALLEGRO_DISPLAY *display );
 
 
