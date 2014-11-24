@@ -6,44 +6,114 @@
 #include "GameObject.h"
 #include "Personagem.h"
 
+/**
+* \class Waves
+*
+* \brief Classe responsável por gerencia as Hordas
+* 
+*
+*
+*
+*/
+
 class Waves {
 
 	private:
-		//aponta pra horda que está no campo de batalha
-		Horda* hordaAtual;
-		//necessário que o comportamento seja fila, requerido no construtor
-		//é ponteiro para alterar valor da lista do local onde foi chamado,
-		//fazendo mudança nos dois locais
-		Lista<Horda*> *filaHorda;
-		//tempo de espera é medido em frames. Espera por = tempoEspera + 1 frames
-		//tempo de espera para próxima horda. Se 0, horda está na arena
-		int tempoEspera;
-		//armazena tempo de espera para aparecimento das próximas hordas (contidas na fila)
-		//tempo de espera é medido em frames
-		//é ponteiro para alterar valor da lista do local onde foi chamado,
-		//fazendo mudança nos dois locais
-		Lista<int> *filaTempoEspera; //necessário que o comportamento seja fila também
+		//
+		Horda* hordaAtual; /**< Aponta para a horda que está no campo de batalha */
+
+		Lista<Horda*> *filaHorda; /**< É ponteiro para alterar valor da lista do local onde foi chamado,
+		/* fazendo assim uma mudança nos dois locais. É necessário que o comportamento seja fila, 
+		/* pelo fato de ser requerido no construtor */
+
+
+		int tempoEspera; /**< É tempo de espera para a próxima horda, sendo medido em frames. 
+		/* Se zero, a horda está na arena */
+
+
+		Lista<int> *filaTempoEspera; /**< É ponteiro para alterar valor da lista do local onde foi chamado,
+		/* fazendo assim uma mudança nos dois locais. É necessário que o comportamento seja fila, 
+		/* pelo fato de ser requerido no construtor.
+		/* Tal ponteiro armazena tempo de espera para aparecimento das próximas hordas (contidas na fila) */
 
 	public:
-		//exige fila de horda e de tempo de espera com o mesmo tamanho
+
+		/**
+		* Construtor padrão
+		* 
+		* Verifica se as duas listas se comportam como fila, se ambas tẽm o mesmo tamanho e se possuem algum elemento 
+		* Além de salvar as filas nos ponteiros, atribui valor à variável "tempoEspera", e inicializar hordaAtual
+		* O construtor exige que a fila de horda e a fila de tempo de espera tenham o mesmo tamanho
+		*
+		* @param fila_horda fila das hordas 
+		* @param fila_tempo_espera  fila do tempo de espera
+		*/
 		Waves( Lista<Horda*> &fila_horda, Lista<int> &fila_tempo_espera );
+
+		/**
+		* Destrutor padrão
+		*
+		*
+		*/
 		~Waves();
-		//reduz tempo de espera, se tempo = 0 adiciona horda no campo de batalha
-		//retorna true caso esteja esperando e false caso horda esteja no campo de batalha
+
+
+		/**
+		* Reduz tempo de espera, se o tempo for nulo será adicionada uma horda no campo de batalha
+		* Retorna true caso esteja esperando, e false caso a horda esteja no campo de batalha
+		*/
 		bool EsperandoProximaHorda();
-		bool Destruida(); //retorna se a wave foi destruída
-		//faz com que inimigos da horda atual se movam
+
+		/**
+		* Retorna hordaAtual == NULL, caso a wave seja destruída
+		* Assim, se hordaAtual apontar para nulo, significa que todas as hordas foram destruídas
+		*/
+		bool Destruida();
+
+		/**
+		* Movimenta os inimigos da horda atual, ou seja, da horda que estiver no campo de batalha
+		*
+		* @param p "player" ou jogdor
+		* @param base "base" do jogo
+		*/
 		void Mover(Player &p, go::GameObject base);
-		//Faz com que inimigos da horda atual atirem
+
+		/**
+		*  Faz com que inimigos da horda atual disparem
+		*
+		* @param p "personagem"
+		* @param base "base" do jogo
+		*/
 		void Atirar(Personagem p, go::GameObject base);
-		//Desenha inimigos da horda
+
+
+		/**
+		* Desenha os inimigos da horda, caso haja alguma horda no campo de batalha
+		*
+		*/
 		void Draw();
-		//retorna dano causado pelos projéteis dos inimigos em obj
+
+		/**
+		* Retorna o dano causado pelos projéteis dos inimigos com o objeto enviado por parâmetro
+		*
+		*
+		* @param obj objeto
+		*/
 		int VerificarColisaoProjInimObj(const go::GameObject obj);
-		/*Faz colisão dos projéteis de persona com Inimigos, calcula dano
-		e remove inimigos derrotados*/
-		void VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila_cafe);
-		int GetIdHorda(); // Retorna o id da horda atual
+
+		/**
+		* Faz colisão dos projéteis do player com os Inimigos, além de calcular o dano e remover os Inimigos derrotados
+		*
+		* @param persona "personagem"
+		* @param lista_cafe lista que contêm os drops dos inimigos
+		*/
+		void VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &lista_cafe);
+
+		/**
+		* Retorna o id da horda atual
+		*
+		*/
+		int GetIdHorda(); 
 
 };
 
