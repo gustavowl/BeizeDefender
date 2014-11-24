@@ -1,7 +1,4 @@
-#include "Drop.h"
 #include "Horda.h"
-#include "Inimigo.h"
-#include "GameObject.h"
 #include <cstdlib>
 #include <ctime>
 

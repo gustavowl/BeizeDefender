@@ -1,5 +1,5 @@
 #include "Personagem.h"
-#include <math.h>
+#include <cmath>
 #include <allegro5/allegro_primitives.h>
 
 void Personagem::Draw(unsigned int red, unsigned int green, unsigned int blue) {
