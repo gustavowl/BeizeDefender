@@ -40,7 +40,7 @@ void Base::operator=(const Base &base)
     x_esquerda = base.x_esquerda;
     y_inferior = base.y_inferior;
     x_direita = base.x_direita;
-    regem = base.regem; //0 enquanto não define =D =D
+    regem = base.regem; 
     
     FrameAtual = base.FrameAtual;
     TotalFrames = base.TotalFrames;

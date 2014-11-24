@@ -22,6 +22,13 @@ public:
 	Instrucoes();
 
 	/**
+	* Destrutor Padrão
+	*
+	*/
+	~Instrucoes();
+
+
+	/**
 	* Executa a tela de instruções
 	* @param event_queue ponteiro que recebe a "fila do evento"
 	* @param ev objeto passado por referência para manter os dados de qualquer tipo de eventos

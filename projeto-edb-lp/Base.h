@@ -25,7 +25,7 @@ class Base: public go::GameObject{
         Base();
 
         /**
-        * Construtor padrão
+        * Construtor que inicializa a base com atributos específicos
         *
         * @param alt_inf altura inferior da base
         * @param larg_inf largura inferior da base
