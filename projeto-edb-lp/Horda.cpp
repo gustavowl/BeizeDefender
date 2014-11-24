@@ -91,7 +91,7 @@ int Horda::VerificarColisaoProjInimObj(const go::GameObject obj) {
 	int i = 0;
 	int dano_total = 0;
 	while(listaInimigos.GetElem(i, ini_temp)){
-		dano_total += ini_temp->VerificarColisao(obj);
+		dano_total += ini_temp->VerificarColisaoRetangular(obj);
 		i++;
 	}
     return dano_total;
@@ -104,7 +104,7 @@ void Horda::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila
 	int i = 0;
 	int dano_total = 0;
 	while (listaInimigos.GetElem(i, ini_temp)) {
-		ini_temp->LevarDano( persona.VerificarColisao(*ini_temp) );
+		ini_temp->LevarDano( persona.VerificarColisaoRetangular(*ini_temp) );
 		//Se não foi totalmente destruído (ele e projéteis)
 		if ( !ini_temp->PersonagemEProjeteisDestruidos() )
 			i++; //Verifica colisão com próximo inimigo

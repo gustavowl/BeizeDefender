@@ -91,7 +91,7 @@ void Projetil::Draw() {
 	if ( !Destruido ) {
 		//Sprites.AvancarSprite(XAtual, YAtual);
 		GameObject::Draw();
-		al_draw_filled_circle(XAtual, YAtual, Raio, al_map_rgb(0, 0, 0));
+		//al_draw_filled_circle(XAtual, YAtual, Raio, al_map_rgb(0, 0, 0));
 	}
 }
 
@@ -204,19 +204,6 @@ int Projetil::VerificarColisaoRetangular(const GameObject obj) {//retorna dano c
 			}
 		}
 	}
-
-	/*************************************
-	VerificarColisaoQuadrada
-	********************************/
-	/*int x_atual = XAtual, y_atual = YAtual; //evita erro de subtração
-	//coordenadas de obj
-	int objx = obj.GetXAtual(), objy = obj.GetYAtual(), obj_raio = obj.GetRaio();
-	//primeiramente calcula se não está colidindo diretamente
-	if ( x_atual + Raio > objx - obj_raio && x_atual - Raio < objx + obj_raio &&
-		y_atual + Raio > objy - obj_raio && y_atual - Raio < objy + obj_raio ) {
-		Destruir();
-		return Dano;
-	}*/
 	return 0;
 }
 

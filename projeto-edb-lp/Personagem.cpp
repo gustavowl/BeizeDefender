@@ -2,7 +2,7 @@
 #include <math.h>
 #include <allegro5/allegro_primitives.h>
 
-void Personagem::Draw(unsigned int red, unsigned int green, unsigned int blue) {
+void Personagem::Draw() {
 	//Desenha projéteis independentemente do inimigo ter sido destruído
 	Projetil *temp; //ponteiro para pegar valores da lista
 	int i = 0;
@@ -20,7 +20,8 @@ void Personagem::Draw(unsigned int red, unsigned int green, unsigned int blue) {
 	}
 	//se não estiver destruído, o desenha
 	if (Vida > 0) {
-		al_draw_filled_circle(XAtual, YAtual, Raio, al_map_rgb(red % 256, green % 256, blue % 256));
+		//al_draw_filled_circle(XAtual, YAtual, Raio, al_map_rgb(red % 256, green % 256, blue % 256));
+		GameObject::Draw();
 	}
 }
 
@@ -50,7 +51,8 @@ int Personagem::VerificarColisaoRetangular(const GameObject obj) {
     	//verifica colisão de uma bala com obj e atualiza dano causado
 		dano_total += temp->VerificarColisaoRetangular(obj);
 		i++;
-    }	
+    }
+    return dano_total;
 }
 
 void Personagem::Atirar(unsigned int destino_x, unsigned int destino_y) { //atira projétil de tipo 1

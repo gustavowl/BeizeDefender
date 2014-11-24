@@ -66,7 +66,7 @@ class Drop : public go::GameObject{
        * @param cafe um nó da lista_cafe
        * @return retorna 1 se ocorreu a colisão e 0 se não ocorreu
        */
-		int VerificarColisao(Player &p, Drop &cafe); 
+		int VerificarColisaoQuadrada(Player &p, Drop &cafe); 
 
 		/**
        * Retorna o valor da energia do drop

@@ -26,7 +26,7 @@ protected:
 	* @param green quantidade de verde (RGB) da cor do personagem
 	* @param blue quantidade de azul (RGB) da cor do personagem
 	*/
-	void Draw(unsigned int red, unsigned int green, unsigned int blue);
+	virtual void Draw();
 public:
 	/**
 	* Faz com que o personagem leve o dano especificado
