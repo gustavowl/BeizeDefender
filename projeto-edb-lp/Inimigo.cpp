@@ -68,7 +68,7 @@ void Inimigo::Distancia(Personagem p, go::GameObject base)
 	else {
 		if ((px_orig == px_atual && py_orig == py_atual) || /*personagem mudou de rota, recalcula*/
 		(x_atual == XDestino && y_atual == YDestino) || /*Inimigo atingiu destino, recalcula*/
-		(px_atual == p.GetXDestino() && py_atual == p.GetYDestino()) /*Personagem atingiu destino, recalcula*/
+		(px_atual == p.GetXDestino() && py_atual == p.GetYDestino())) /*Personagem atingiu destino, recalcula*/
 			CalcularProxDest = true;
 
 		if (CalcularProxDest) {
