@@ -81,7 +81,6 @@ class Inimigo : public Personagem{
 		*/
 		void Mover();
 
-
 		/**
 		* Sobrescreve operação de mover. Move tanto o player quanto suas balas
 		*/

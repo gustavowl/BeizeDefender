@@ -40,6 +40,52 @@ class GameObject {
 		WalkType TipoMovimento; /**< Armazena o tipo de movimento do objeto. Os 3 tipos de movimentos estão presentes no enum*/
 
 	public:
+
+		/**
+		* Construtor padrão. Cria "objeto vazio".
+		*/
+		GameObject();
+		/**
+		* Construtor que deve ser chamado antes da construção de qualquer outro GameObject.
+		* Inicializa as dimensões da arena. Só permite a inicialização, sem possibilidade de alteração.
+		* @param MaximoX largura da arena
+		* @param MaximoY altura da arena
+		*/
+		GameObject(unsigned int MaximoX, unsigned int MaximoY);
+		/**
+		* Construtor utilizado pelos inimigos.
+		* Gera posição inicial aleatória nas bordas da arena e cria um objeto com os parâmetros enviados
+		* @param Velocidade velocidade do objeto
+		* @param Raio raio utilizado para detecção de colisão
+		* @param TipoMov tipo de movimento que será feito pelo objeto
+		*/
+		GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov);
+		/**
+		* Construtor utilizado pelo player.
+		* @param PositionX coordenada X de origem do objeto
+		* @param PositionY coordenada X de origem do objeto
+		* @param Velocidade velocidade do objeto
+		* @param Raio raio utilizado para detecção de colisão
+		* @param TipoMov tipo de movimento que será feito pelo objeto
+		*/
+		GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, unsigned int Raio, WalkType TipoMov);
+		/**
+		* Construtor utilizado pelo projétil.
+		* @param PositionX coordenada X de origem do objeto
+		* @param PositionY coordenada X de origem do objeto
+		* @param Velocidade velocidade do objeto
+		* @param DestinoX coordenada X do destino do objeto
+		* @param DestinoY coordenada Y do destino do objeto
+		* @param Raio raio utilizado para detecção de colisão
+		* @param TipoMov tipo de movimento que será feito pelo objeto
+		*/
+		GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, 
+			unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, WalkType TipoMov);
+		/**
+		* Destrutor
+		*/
+		~GameObject();
+
 		/**
 		* Atualiza a posição atual de acordo com a interpolação linear.
 		* Para calcular a posição leva em conta a velocidade.
@@ -110,51 +156,6 @@ class GameObject {
 		* Retorna tipo do movimento do objeto. Utilizado em construtores das classes filhas
 		*/
 		WalkType GetTipoMovimento() const;
-
-		/**
-		* Construtor padrão. Cria "objeto vazio".
-		*/
-		GameObject();
-		/**
-		* Construtor que deve ser chamado antes da construção de qualquer outro GameObject.
-		* Inicializa as dimensões da arena. Só permite a inicialização, sem possibilidade de alteração.
-		* @param MaximoX largura da arena
-		* @param MaximoY altura da arena
-		*/
-		GameObject(unsigned int MaximoX, unsigned int MaximoY);
-		/**
-		* Construtor utilizado pelos inimigos.
-		* Gera posição inicial aleatória nas bordas da arena e cria um objeto com os parâmetros enviados
-		* @param Velocidade velocidade do objeto
-		* @param Raio raio utilizado para detecção de colisão
-		* @param TipoMov tipo de movimento que será feito pelo objeto
-		*/
-		GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov);
-		/**
-		* Construtor utilizado pelo player.
-		* @param PositionX coordenada X de origem do objeto
-		* @param PositionY coordenada X de origem do objeto
-		* @param Velocidade velocidade do objeto
-		* @param Raio raio utilizado para detecção de colisão
-		* @param TipoMov tipo de movimento que será feito pelo objeto
-		*/
-		GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, unsigned int Raio, WalkType TipoMov);
-		/**
-		* Construtor utilizado pelo projétil.
-		* @param PositionX coordenada X de origem do objeto
-		* @param PositionY coordenada X de origem do objeto
-		* @param Velocidade velocidade do objeto
-		* @param DestinoX coordenada X do destino do objeto
-		* @param DestinoY coordenada Y do destino do objeto
-		* @param Raio raio utilizado para detecção de colisão
-		* @param TipoMov tipo de movimento que será feito pelo objeto
-		*/
-		GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, 
-			unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, WalkType TipoMov);
-		/**
-		* Destrutor
-		*/
-		~GameObject();
 };
 
 }
