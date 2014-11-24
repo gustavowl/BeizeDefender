@@ -5,6 +5,9 @@
 TelaInicial::TelaInicial()
 {}
 
+TelaInicial::~TelaInicial()
+{}
+
 int TelaInicial::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev, ALLEGRO_DISPLAY *display)
 {
     //ALLEGRO_BITMAP *game_over = NULL;

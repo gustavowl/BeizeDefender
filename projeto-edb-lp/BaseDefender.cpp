@@ -6,6 +6,7 @@
 #include "GameManager.h"
 #include "Instrucoes.h"
 #include "Victory.h"
+#include "Creditos.h"
 
 #define MAX_ALTURA 640
 #define MAX_LARGURA 1024
@@ -33,6 +34,7 @@ int main()
 	Instrucoes Instrucao;
 	GameOver Fim;
 	Victory Vitoria;
+	Creditos Credito;
 
 
 	if( !al_init() )
@@ -89,11 +91,14 @@ int main()
 			/* Chamar Instruções */
 			gameState = Instrucao.Executar(event_queue, ev, display);
 		}
-		else if(gameState == GAME_STATE_CREDITOS)
-
+		else if(gameState == GAME_STATE_CREDITOS){
 			/* Chamar Créditos */
 			gameState = GAME_STATE_MENU;
 
+			gameState = Credito.Executar(display);
+			gameState = Menu.Executar(event_queue, ev, display);
+			gameState = 0;
+		}	
 		else if(gameState == GAME_STATE_GAMEOVER)
 		{
 			gameState = Fim.Executar(display);

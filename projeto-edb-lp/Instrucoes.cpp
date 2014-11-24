@@ -6,6 +6,9 @@
 Instrucoes::Instrucoes()
 {}
 
+Instrucoes::~Instrucoes()
+{}
+
 int Instrucoes::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev, ALLEGRO_DISPLAY *display)
 {
    

@@ -6,6 +6,9 @@
 Victory::Victory()
 {}
 
+Victory::~Victory()
+{}
+
 int Victory::Executar( ALLEGRO_DISPLAY *display )
 {
 
@@ -20,5 +23,5 @@ int Victory::Executar( ALLEGRO_DISPLAY *display )
 	al_rest(3);
 	al_destroy_bitmap(victory);
 
-	return 0;
+	return 3;
 }
