@@ -11,7 +11,7 @@ namespace SpManip {
 	enum DIRECAO {CIMA = 0, CIMADIR, DIREITA, BAIXODIR,
 		BAIXO, BAIXOESQ, ESQUERDA, CIMAESQ};
 
-	enum ACAO { PARADO = 0, ANDAR, ATIRAR, MORRER };
+	enum ACAO { PARADO = 0, ANDAR, ATIRAR/*, MORRER */};
 
 	class SpriteManip {
 		//vetor com ponteiros de imagens nas 8 direções
@@ -26,7 +26,7 @@ namespace SpManip {
 		//sprites que serão movidos quando objeto estiver atirando
 		FilaDupl<ALLEGRO_BITMAP*> Atirar[QTD_DIRECOES];
 		//sprites que serão movidos quando objeto estiver morrendo
-		FilaDupl<ALLEGRO_BITMAP*> Morrer[QTD_DIRECOES];
+		//FilaDupl<ALLEGRO_BITMAP*> Morrer[QTD_DIRECOES];
 	public:
 		//COSTRUTORES
 		//Construtor vazio
@@ -36,14 +36,14 @@ namespace SpManip {
 		//Construtor com Direções de destino e de alvo padrões
 		SpriteManip( FilaDupl<ALLEGRO_BITMAP*> parado[QTD_DIRECOES], 
 			FilaDupl<ALLEGRO_BITMAP*> andar[QTD_DIRECOES], 
-			FilaDupl<ALLEGRO_BITMAP*> atirar[QTD_DIRECOES], 
-			FilaDupl<ALLEGRO_BITMAP*> morrer[QTD_DIRECOES] );
+			FilaDupl<ALLEGRO_BITMAP*> atirar[QTD_DIRECOES]/*, 
+			FilaDupl<ALLEGRO_BITMAP*> morrer[QTD_DIRECOES]*/ );
 		//Construtor com Direções de destino e de alvo enviados
 		SpriteManip( int x_atual, int y_atual, int x_alvo, int y_alvo,
 			FilaDupl<ALLEGRO_BITMAP*> parado[QTD_DIRECOES], 
 			FilaDupl<ALLEGRO_BITMAP*> andar[QTD_DIRECOES], 
-			FilaDupl<ALLEGRO_BITMAP*> atirar[QTD_DIRECOES], 
-			FilaDupl<ALLEGRO_BITMAP*> morrer[QTD_DIRECOES], ACAO nova_acao );
+			FilaDupl<ALLEGRO_BITMAP*> atirar[QTD_DIRECOES]/*, 
+			FilaDupl<ALLEGRO_BITMAP*> morrer[QTD_DIRECOES]*/, ACAO nova_acao );
 		//DESTRUTOR
 		//destrutor não desaloca ponteiros de imagens
 		~SpriteManip();
@@ -56,7 +56,10 @@ namespace SpManip {
 
 		//ao chamar MudarDestinoOuAlvo(), não precisa chamar AvancarSprite()
 		//avança sprite levando em conta alvo e destino, pode mudar o sentido de execução dependendo deles também
-		void AvancarSprite();
+		void AvancarSprite(unsigned int x, unsigned int y);
+		//sobrecarga de operador
+		void operator=(const SpriteManip &spm);
+
 	};
 
 }

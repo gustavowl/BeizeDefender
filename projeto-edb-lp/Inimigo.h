@@ -6,6 +6,7 @@
 #include "Projetil.h"
 #include "Personagem.h"
 #include "Player.h"
+#include "SpriteManip.h"
 
 /**
 * \class Inimigo
@@ -42,7 +43,7 @@ class Inimigo : public Personagem{
 		* @param danoFisico Dano que será dado no Player caso se encostem
 		*/
 		Inimigo(int velocidade, int vida, int raio, int intervalo_tiro,
-			int primeiro_tiro, Projetil projetil_base, int danoFisico);
+			int primeiro_tiro, Projetil projetil_base, int danoFisico, SpManip::SpriteManip sp_inim);
 
 		/**
 		* Calcula se é o Player o Base que está mais proximo, e se move nessa direção;

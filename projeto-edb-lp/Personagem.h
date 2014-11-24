@@ -4,6 +4,9 @@
 #include "GameObject.h"
 #include "ListaEncadeada/lista.h"
 #include "Projetil.h"
+#include "SpriteManip.h"
+
+using namespace SpManip;
 
 /**
 * \class Personagem
@@ -16,6 +19,7 @@ protected:
 	Lista<Projetil*> Projeteis; /**< Lista simplesmente encadeada que contém os projéteis no campo de batalha (arena)*/
 	int Vida; /**< Armazena a vida atual do personagem. Vida <= 0: personagem morreu*/
 	int danoFisico; /**< Dano causado a outros personagens ao se colidir com eles*/
+	SpriteManip spPlayer; /**< Ponteiro para objeto de classe manipulador dos sprites do personagem*/
 	/**
 	* Desenha Personagem na tela. Leva em conta atributos de GO
 	* @param red quantidade de vermelho (RGB) da cor do personagem
@@ -77,6 +81,10 @@ public:
 	*/
 	int GetVida() const;
 	/**
+	* \return Retorna o ponteiro spPlayer
+	*/
+	SpriteManip GetSpriteManip() const;
+	/**
 	* \return retorna se o personagem E os projéteis dele foram destruídos. Caso verdadeiro, 
 	* pode remover o Personagem do jogo, caso falso, tem que esperar as balas do personagem
 	* serem destruídas (saírem do jogo).
@@ -115,7 +123,8 @@ public:
 	* @param walk_type tipo de movimento que será feito pelo personagem
 	* @param projetil_base Projétil que será atirado pelo personagem
 	*/
-	Personagem(int velocidade, int vida, int raio, WalkType walk_type, Projetil projetil_base);
+	Personagem(int velocidade, int vida, int raio, WalkType walk_type, Projetil projetil_base,
+		SpriteManip sp_inim);
 	/**
 	* Construtor utilizado pelo Player
 	* Chama construtor equivalente de GameObject
@@ -128,7 +137,7 @@ public:
 	* @param projetil_base Projétil que será atirado pelo personagem
 	*/
 	Personagem(unsigned int posicao_x, unsigned int posicao_y, int velocidade, int vida, int raio,
-		WalkType walk_type, Projetil projetil_base);
+		WalkType walk_type, Projetil projetil_base, SpriteManip sp_player);
 	/**
 	* Construtor de cópia
 	* Realiza cópia profunda do personagem enviado por referência

@@ -132,6 +132,10 @@ int Personagem::GetVida() const {
 	return Vida;
 }
 
+SpriteManip Personagem::GetSpriteManip() const {
+	return spPlayer;
+}
+
 bool Personagem::PersonagemEProjeteisDestruidos() {
 	return ( Vida <= 0 && Projeteis.Size() == 0 );
 }
@@ -156,20 +160,23 @@ Personagem::Personagem(unsigned int posicao_x, unsigned int posicao_y, WalkType 
 }
 
  //gera posição inicial randômicamente (nas bordas)
-Personagem::Personagem(int velocidade, int vida, int raio, WalkType walk_type, Projetil projetil_base) {
-	if (vida > 0 && velocidade > 0 && raio > 0) {
+Personagem::Personagem(int velocidade, int vida, int raio, WalkType walk_type, Projetil projetil_base,
+		SpriteManip sp_inim) {
+	if (vida > 0 && velocidade > 0 && raio > 0) { // verificar se sp_inim válido?
 		*this = GameObject(velocidade, raio, walk_type);
 		Vida = vida;
 		ProjetilBase = projetil_base;
+		spPlayer = sp_inim;
 	}	
 }
 
 Personagem::Personagem(unsigned int posicao_x, unsigned int posicao_y, int velocidade, int vida,
-	int raio, WalkType walk_type, Projetil projetil_base) {
+	int raio, WalkType walk_type, Projetil projetil_base, SpriteManip sp_player) {
 
 	if (vida > 0 && velocidade > 0 && raio > 0) {
 		*this = GameObject(posicao_x, posicao_y, velocidade, raio, walk_type);
 		Vida = vida;
+		spPlayer = sp_player;
 		ProjetilBase = projetil_base;
 	}
 }

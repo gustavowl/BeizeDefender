@@ -17,12 +17,12 @@ Horda::Horda(int quantidade) {
 }
 
 Horda::Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, int municao, int intervalo_tiro,
-	int primeiro_tiro, Projetil projetil_base, int danoFisico) {
+	int primeiro_tiro, Projetil projetil_base, int danoFisico, SpManip::SpriteManip sp_inim) {
 	id = idHorda;
 	if (quantidade > 0) {
 		for (int i = 0; i < quantidade; ++i){
 			Inimigo *enemy = new Inimigo(velocidade, vida, raio, intervalo_tiro,
-				primeiro_tiro, projetil_base, danoFisico);
+				primeiro_tiro, projetil_base, danoFisico, sp_inim);
 			listaInimigos.Insert(0, enemy);
 		}
 	}

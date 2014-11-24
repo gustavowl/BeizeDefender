@@ -5,6 +5,7 @@
 #include "ListaEncadeada/lista.h"
 #include "ListaEncadeada/FilaDupl.h"
 #include "Projetil.h"
+#include "SpriteManip.h"
 
 /**
 * \class Player
@@ -12,6 +13,8 @@
 * \brief Classe que representa o jogador. Herda Personagem
 *
 */
+
+using namespace SpManip;
 
 class Player : public Personagem {
 private:
@@ -41,7 +44,7 @@ public:
 	* @param projetil_base é o primeiro tipo de projetil que o player terá
 	*/
 	Player(unsigned int posicao_x, unsigned int posicao_y, int max_energia, int energia_atual, 
-		int velocidade, int vida, int raio, int regem, Projetil projetil_base);
+		int velocidade, int vida, int raio, int regem, Projetil projetil_base, SpriteManip sp_player);
 
 	/**
 	* Sobrecarga de operador, copia os dados de persona para ele mesmo

@@ -10,6 +10,8 @@
 #include <string>
 #include "GameObject.h"
 #include "ListaEncadeada/lista.h"
+#include "ListaEncadeada/FilaDupl.h"
+#include "SpriteManip.h"
 #include "Projetil.h"
 #include "Base.h"
 #include "Player.h"
@@ -22,6 +24,7 @@
 #define MAX_TIME 86400
 
 using namespace go;
+using namespace SpManip;
 
 /*
 #define GAME_STATE_MENU		 0
@@ -78,7 +81,131 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 
 	Base base(380, 200, 620, 440, REGEM);
 	Projetil proj_player(0, 0, 20, 1, 1, 2, 5);
-	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 15, 100, 10,REGEM, proj_player);
+	/******************************
+	*****INICIALIZA PLAYER*********
+	*******************************/
+	//bitmap para carregar imagens de player
+	ALLEGRO_BITMAP *al_bmp_player = NULL;
+	ALLEGRO_BITMAP *al_bmp_inim = NULL;
+	//para iniciar sprite manip
+	FilaDupl<ALLEGRO_BITMAP*> player_parado[8];
+	FilaDupl<ALLEGRO_BITMAP*> player_andar[8];
+	FilaDupl<ALLEGRO_BITMAP*> player_atirar[8];
+	FilaDupl<ALLEGRO_BITMAP*> inim_parado[8];
+	FilaDupl<ALLEGRO_BITMAP*> inim_andar[8];
+	FilaDupl<ALLEGRO_BITMAP*> inim_atirar[8];
+	//FilaDupl<ALLEGRO_BITMAP*> player_morrer[8];
+	//CARREGA SPRITES
+	//PARADO
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Parado/Cima/0.png");
+	player_parado[CIMA].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Parado/Cima e Direita/0.png");
+	player_parado[CIMADIR].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Parado/Direita/0.png");
+	player_parado[DIREITA].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Parado/Baixo e Direita/0.png");
+	player_parado[BAIXODIR].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Parado/Baixo/0.png");
+	player_parado[BAIXO].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Parado/Baixo e Esquerda/0.png");
+	player_parado[BAIXOESQ].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Parado/Esquerda/0.png");
+	player_parado[ESQUERDA].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Parado/Cima e Esquerda/0.png");
+	player_parado[CIMAESQ].Insert( al_bmp_player );
+
+	//ATIRANDO
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Atirar/Cima/0.png");
+	player_atirar[CIMA].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Atirar/Cima e Direita/0.png");
+	player_atirar[CIMADIR].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Atirar/Direita/0.png");
+	player_atirar[DIREITA].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Atirar/Baixo e Direita/0.png");
+	player_atirar[BAIXODIR].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Atirar/Baixo/0.png");
+	player_atirar[BAIXO].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Atirar/Baixo e Esquerda/0.png");
+	player_atirar[BAIXOESQ].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Atirar/Esquerda/0.png");
+	player_atirar[ESQUERDA].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Atirar/Cima e Esquerda/0.png");
+	player_atirar[CIMAESQ].Insert( al_bmp_player );
+
+	SpriteManip sp_player(player_parado, player_andar, player_atirar);
+	//LEMBRAR DE DESALOCAR MANUALMENTE SP_PLAYER E SEUS VALORES
+	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 15, 100, 10, REGEM, proj_player, sp_player);
+	/******************************
+	*****INICIALIZA SPRITES INIMIGO*********
+	*******************************/
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Parado/Cima/0.png");
+	inim_parado[CIMA].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Parado/Cima e Direita/0.png");
+	inim_parado[CIMADIR].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Parado/Direita/0.png");
+	inim_parado[DIREITA].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Parado/Baixo e Direita/0.png");
+	inim_parado[BAIXODIR].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Parado/Baixo/0.png");
+	inim_parado[BAIXO].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Parado/Baixo e Esquerda/0.png");
+	inim_parado[BAIXOESQ].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Parado/Esquerda/0.png");
+	inim_parado[ESQUERDA].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Parado/Cima e Esquerda/0.png");
+	inim_parado[CIMAESQ].Insert( al_bmp_inim );
+
+	//ATIRANDO
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Atirar/Cima/0.png");
+	inim_atirar[CIMA].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Atirar/Cima e Direita/0.png");
+	inim_atirar[CIMADIR].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Atirar/Direita/0.png");
+	inim_atirar[DIREITA].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Atirar/Baixo e Direita/0.png");
+	inim_atirar[BAIXODIR].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Atirar/Baixo/0.png");
+	inim_atirar[BAIXO].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Atirar/Baixo e Esquerda/0.png");
+	inim_atirar[BAIXOESQ].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Atirar/Esquerda/0.png");
+	inim_atirar[ESQUERDA].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Atirar/Cima e Esquerda/0.png");
+	inim_atirar[CIMAESQ].Insert( al_bmp_inim );
+
+	SpriteManip sp_inim(inim_parado, inim_andar, inim_atirar);
+
+	/******************************
+	*****INICIALIZA PROJÉTEIS INIMIGO*********
+	*******************************/
 	Projetil proj_inimigo(0, 0, 20, 1, 1, 2, 1);
 
 	/*Gera 3 "Fases" e 3 Boss*/
@@ -87,7 +214,7 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	{
 		//gera horda para wave
 		for (int i = 2; i <= 8; i+=2) {
-			Horda* nova_horda = new Horda(idHorda, i, 2, 5*j, 10, 10, 30, 60, proj_inimigo, 5);
+			Horda* nova_horda = new Horda(idHorda, i, 2, 5*j, 10, 10, 30, 60, proj_inimigo, 5, sp_inim);
 			fila_horda.Insert( nova_horda );
 			fila_tempo_espera.Insert( i * 15 ); //espera 1, 2 e 3 segundos
 			idHorda++;
@@ -96,13 +223,13 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 		Horda * boss;
 		switch(j){
 			case 1:
-				boss = new Horda(idHorda, 1, 3, 50*j, 10, 10, 7, 15, proj_inimigo, 100);
+				boss = new Horda(idHorda, 1, 3, 50*j, 10, 10, 7, 15, proj_inimigo, 100, sp_inim);
 				break;
 			case 2:
-				boss = new Horda(idHorda, 1, 3, 50*j, 10, 15, 5, 15, proj_inimigo, 100);
+				boss = new Horda(idHorda, 1, 3, 50*j, 10, 15, 5, 15, proj_inimigo, 100, sp_inim);
 				break;
 			case 3: 
-				boss = new Horda(idHorda, 1, 3, 50*j, 4, 10, 7, 15, proj_inimigo, 100);
+				boss = new Horda(idHorda, 1, 3, 50*j, 4, 10, 7, 15, proj_inimigo, 100, sp_inim);
 				break;
 		}
 		fila_horda.Insert(boss);

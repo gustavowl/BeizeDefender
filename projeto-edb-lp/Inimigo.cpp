@@ -3,7 +3,8 @@
 #include <cstdlib>
 
 Inimigo::Inimigo(int velocidade, int vida) { //gera posição inicial randômicamente (nas bordas)
-	*this = Personagem(velocidade, vida, 10, LINEAR, Projetil(0, 0, 1, 1)); //cria projétil padrão 
+	SpManip::SpriteManip vazio;
+	*this = Personagem(velocidade, vida, 10, LINEAR, Projetil(0, 0, 1, 1), vazio); //cria projétil padrão 
 	Drop = 15;
 	danoFisico = 4;
 	CalcularProxDest =  false;
@@ -13,11 +14,11 @@ Inimigo::Inimigo(int velocidade, int vida) { //gera posição inicial randômica
 
  //gera posição inicial randômicamente (nas bordas)
 Inimigo::Inimigo(int velocidade, int vida, int raio, int intervaloTiro,
-	int primeiro_tiro, Projetil projetil_base, int danoFisico) 
+	int primeiro_tiro, Projetil projetil_base, int danoFisico, SpManip::SpriteManip sp_inim) 
 {
 	Drop = 15;
 	this->danoFisico = danoFisico;
-	*this = Personagem(velocidade, vida, raio, LINEAR, projetil_base);
+	*this = Personagem(velocidade, vida, raio, LINEAR, projetil_base, sp_inim);
 	
 	if (intervaloTiro > 0)
 		IntervaloTiro = intervaloTiro;
@@ -68,7 +69,7 @@ void Inimigo::Distancia(Personagem p, go::GameObject base)
 	else {
 		if ((px_orig == px_atual && py_orig == py_atual) || /*personagem mudou de rota, recalcula*/
 		(x_atual == XDestino && y_atual == YDestino) || /*Inimigo atingiu destino, recalcula*/
-		(px_atual == p.GetXDestino() && py_atual == p.GetYDestino()) /*Personagem atingiu destino, recalcula*/
+		(px_atual == p.GetXDestino() && py_atual == p.GetYDestino()) ) /*Personagem atingiu destino, recalcula*/
 			CalcularProxDest = true;
 
 		if (CalcularProxDest) {
@@ -91,6 +92,7 @@ void Inimigo::Distancia(Personagem p, go::GameObject base)
 
 void Inimigo::Draw()
 {
+	spPlayer.AvancarSprite(XAtual, YAtual);
 	Personagem::Draw(255, 0, 0);
 }
 
@@ -108,6 +110,7 @@ void Inimigo::operator=(const Personagem &persona) {
 	this->TipoMovimento = persona.GetTipoMovimento();
 	this->Vida = persona.GetVida();
 	this->ProjetilBase = persona.GetProjetilBase();
+	this->spPlayer = persona.GetSpriteManip();
 
 	Lista<Projetil*> proj_persona = persona.GetProjeteis();
 	Projetil *temp; int i = 0;
@@ -139,13 +142,21 @@ void Inimigo::Atirar(const Personagem &p, const go::GameObject &base)
 		float dist_jogador = sqrt( pow(x_atual - px_atual, 2) + pow(y_atual - py_atual, 2) );
 		float dist_base = sqrt( pow(x_atual - base_x, 2) + pow(y_atual - base_y, 2) );
 		
+
 		Projetil *novo_projetil;
-		if (dist_jogador > dist_base)
+		if (dist_jogador > dist_base) {
 			novo_projetil = new Projetil(XAtual, YAtual, ProjetilBase.GetVelocidade(), base_x, base_y,
 				ProjetilBase.GetRaio(), ProjetilBase.GetDano() );
-		else
+			spPlayer.MudarAlvo(XAtual, YAtual, base_x, base_y);
+		}
+		else {
 			novo_projetil = new Projetil(XAtual, YAtual, ProjetilBase.GetVelocidade(), px_atual, py_atual,
 				ProjetilBase.GetRaio(), ProjetilBase.GetDano() );
+			spPlayer.MudarAlvo(XAtual, YAtual, px_atual, py_atual);
+		}
+
+		spPlayer.MudarAcaoAtual(ATIRAR);
+
 		Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
 		//zera a contagem dos intervalos
 		//+1 evita que ProxTiro = 0, o que faria que o inimigo parasse de atirar

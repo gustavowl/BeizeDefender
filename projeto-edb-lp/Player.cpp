@@ -1,17 +1,18 @@
 #include "Player.h"
+#include <allegro5/allegro_image.h>
 #include <cmath>
 
 Player::Player(){}
 
 Player::Player(unsigned int posicao_x, unsigned int posicao_y, int max_energia, int energia_atual, 
-	int velocidade, int vida, int raio, int regem, Projetil projetil_base) {
+	int velocidade, int vida, int raio, int regem, Projetil projetil_base, SpriteManip sp_player) {
 	SalvarAtaques();
 	Projetil *proj;
 	ataques.GetFirstElem(proj);
 	ProjetilBase = *proj;
 	
 	if (max_energia > 0 && energia_atual > 0 && vida > 0) {
-		*this = Personagem(posicao_x, posicao_y, velocidade, vida, raio, SMOOTH, projetil_base);
+		*this = Personagem(posicao_x, posicao_y, velocidade, vida, raio, SMOOTH, projetil_base, sp_player);
 		MaxEnergia = max_energia;
 		if (energia_atual > max_energia)
 			EnergiaAtual = max_energia;
@@ -38,6 +39,7 @@ void Player::operator=(const Personagem &persona){
 	this->TipoMovimento = persona.GetTipoMovimento();
 	this->Vida = persona.GetVida();
 	this->ProjetilBase = persona.GetProjetilBase();
+	this->spPlayer = persona.GetSpriteManip();
 
 	Lista<Projetil*> proj_persona = persona.GetProjeteis();
 	Projetil *temp; int i = 0;
@@ -66,11 +68,14 @@ void Player::Atirar(unsigned int destino_x, unsigned int destino_y) {
 		Projetil *novo_projetil = new Projetil(XAtual, YAtual, ProjetilBase.GetVelocidade(),
 			destino_x, destino_y, ProjetilBase.GetRaio(), ProjetilBase.GetDano() );
 		Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
+		spPlayer.MudarAlvo(XAtual, YAtual, destino_x, destino_y);
+		spPlayer.MudarAcaoAtual(ATIRAR);
 		EnergiaAtual--; //decrementa da munição
 	}
 }
 
 void Player::Draw() {
+	spPlayer.AvancarSprite(XAtual, YAtual);
 	Personagem::Draw(0, 255, 0);
 }
 
