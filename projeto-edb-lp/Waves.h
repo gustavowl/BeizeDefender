@@ -19,7 +19,6 @@
 class Waves {
 
 	private:
-		//
 		Horda* hordaAtual; /**< Aponta para a horda que está no campo de batalha */
 
 		Lista<Horda*> *filaHorda; /**< É ponteiro para alterar valor da lista do local onde foi chamado,
@@ -52,8 +51,6 @@ class Waves {
 
 		/**
 		* Destrutor padrão
-		*
-		*
 		*/
 		~Waves();
 
@@ -86,16 +83,13 @@ class Waves {
 		*/
 		void Atirar(Personagem p, go::GameObject base);
 
-
 		/**
 		* Desenha os inimigos da horda, caso haja alguma horda no campo de batalha
-		*
 		*/
 		void Draw();
 
 		/**
 		* Retorna o dano causado pelos projéteis dos inimigos com o objeto enviado por parâmetro
-		*
 		*
 		* @param obj objeto
 		*/
@@ -111,7 +105,6 @@ class Waves {
 
 		/**
 		* Retorna o id da horda atual
-		*
 		*/
 		int GetIdHorda(); 
 };
