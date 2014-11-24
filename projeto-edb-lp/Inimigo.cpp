@@ -155,6 +155,7 @@ void Inimigo::Atirar(const Personagem &p, const go::GameObject &base)
 			Sprites.MudarAlvo(XAtual, YAtual, px_atual, py_atual);
 		}
 
+		atirando = true;
 		Sprites.MudarAcaoAtual(ATIRAR);
 
 		Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista

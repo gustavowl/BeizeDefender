@@ -124,6 +124,147 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	al_bmp_player = al_load_bitmap("Sprites/Beize/Parado/Cima e Esquerda/0.png");
 	player_parado[CIMAESQ].Insert( al_bmp_player );
 
+	/**************
+	CARREGA SPRITES DO PLAYER SE MOVENDO
+	**************/
+	//ANDANDO
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima/0.png");
+	player_andar[CIMA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima/1.png");
+	player_andar[CIMA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima/2.png");
+	player_andar[CIMA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima/3.png");
+	player_andar[CIMA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima/4.png");
+	player_andar[CIMA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima/5.png");
+	player_andar[CIMA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima/6.png");
+	player_andar[CIMA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima/7.png");
+	player_andar[CIMA].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima e Direita/0.png");
+	player_andar[CIMADIR].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima e Direita/1.png");
+	player_andar[CIMADIR].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima e Direita/2.png");
+	player_andar[CIMADIR].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima e Direita/3.png");
+	player_andar[CIMADIR].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima e Direita/4.png");
+	player_andar[CIMADIR].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima e Direita/5.png");
+	player_andar[CIMADIR].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima e Direita/6.png");
+	player_andar[CIMADIR].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima e Direita/7.png");
+	player_andar[CIMADIR].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Direita/0.png");
+	player_andar[DIREITA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Direita/1.png");
+	player_andar[DIREITA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Direita/2.png");
+	player_andar[DIREITA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Direita/3.png");
+	player_andar[DIREITA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Direita/4.png");
+	player_andar[DIREITA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Direita/5.png");
+	player_andar[DIREITA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Direita/6.png");
+	player_andar[DIREITA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Direita/7.png");
+	player_andar[DIREITA].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo e Direita/0.png");
+	player_andar[BAIXODIR].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo e Direita/1.png");
+	player_andar[BAIXODIR].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo e Direita/2.png");
+	player_andar[BAIXODIR].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo e Direita/3.png");
+	player_andar[BAIXODIR].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo e Direita/4.png");
+	player_andar[BAIXODIR].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo e Direita/5.png");
+	player_andar[BAIXODIR].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo e Direita/6.png");
+	player_andar[BAIXODIR].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo e Direita/7.png");
+	player_andar[BAIXODIR].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo/0.png");
+	player_andar[BAIXO].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo/1.png");
+	player_andar[BAIXO].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo/2.png");
+	player_andar[BAIXO].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo/3.png");
+	player_andar[BAIXO].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo/4.png");
+	player_andar[BAIXO].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo/5.png");
+	player_andar[BAIXO].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo/6.png");
+	player_andar[BAIXO].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo/7.png");
+	player_andar[BAIXO].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo e Esquerda/0.png");
+	player_andar[BAIXOESQ].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo e Esquerda/1.png");
+	player_andar[BAIXOESQ].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo e Esquerda/2.png");
+	player_andar[BAIXOESQ].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo e Esquerda/3.png");
+	player_andar[BAIXOESQ].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo e Esquerda/4.png");
+	player_andar[BAIXOESQ].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo e Esquerda/5.png");
+	player_andar[BAIXOESQ].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo e Esquerda/6.png");
+	player_andar[BAIXOESQ].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Baixo e Esquerda/7.png");
+	player_andar[BAIXOESQ].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Esquerda/0.png");
+	player_andar[ESQUERDA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Esquerda/1.png");
+	player_andar[ESQUERDA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Esquerda/2.png");
+	player_andar[ESQUERDA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Esquerda/3.png");
+	player_andar[ESQUERDA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Esquerda/4.png");
+	player_andar[ESQUERDA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Esquerda/5.png");
+	player_andar[ESQUERDA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Esquerda/6.png");
+	player_andar[ESQUERDA].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Esquerda/7.png");
+	player_andar[ESQUERDA].Insert( al_bmp_player );
+
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima e Esquerda/0.png");
+	player_andar[CIMAESQ].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima e Esquerda/1.png");
+	player_andar[CIMAESQ].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima e Esquerda/2.png");
+	player_andar[CIMAESQ].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima e Esquerda/3.png");
+	player_andar[CIMAESQ].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima e Esquerda/4.png");
+	player_andar[CIMAESQ].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima e Esquerda/5.png");
+	player_andar[CIMAESQ].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima e Esquerda/6.png");
+	player_andar[CIMAESQ].Insert( al_bmp_player );
+	al_bmp_player = al_load_bitmap("Sprites/Beize/Andar/Cima e Esquerda/7.png");
+	player_andar[CIMAESQ].Insert( al_bmp_player );
+
+
 	//ATIRANDO
 	al_bmp_player = al_load_bitmap("Sprites/Beize/Atirar/Cima/0.png");
 	player_atirar[CIMA].Insert( al_bmp_player );
@@ -190,6 +331,31 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 
 	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Parado/Cima e Esquerda/0.png");
 	inim_parado[CIMAESQ].Insert( al_bmp_inim );
+	//ANDANDO
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Andar/Cima/0.png");
+	inim_andar[CIMA].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Andar/Cima e Direita/0.png");
+	inim_andar[CIMADIR].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Andar/Direita/0.png");
+	inim_andar[DIREITA].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Andar/Baixo e Direita/0.png");
+	inim_andar[BAIXODIR].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Andar/Baixo/0.png");
+	inim_andar[BAIXO].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Andar/Baixo e Esquerda/0.png");
+	inim_andar[BAIXOESQ].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Andar/Esquerda/0.png");
+	inim_andar[ESQUERDA].Insert( al_bmp_inim );
+
+	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Andar/Cima e Esquerda/0.png");
+	inim_andar[CIMAESQ].Insert( al_bmp_inim );
+
 
 	//ATIRANDO
 	al_bmp_inim = al_load_bitmap("Sprites/Inimigo/Atirar/Cima/0.png");

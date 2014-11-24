@@ -72,6 +72,7 @@ void Player::Atirar(unsigned int destino_x, unsigned int destino_y) {
 		Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
 		Sprites.MudarAlvo(XAtual, YAtual, destino_x, destino_y);
 		Sprites.MudarAcaoAtual(ATIRAR);
+		atirando = true;
 		EnergiaAtual--; //decrementa da munição
 	}
 }

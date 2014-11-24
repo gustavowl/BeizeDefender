@@ -61,6 +61,19 @@ void Personagem::Atirar(unsigned int destino_x, unsigned int destino_y) { //atir
 
 void Personagem::Mover() { //sobrescreve operação de mover. Move tanto o player quanto suas balas
 	if (Vida > 0) { //só move se ainda estiver vivo
+		if (!atirando) {
+			//detectar se está andando
+			if ( (XAtual != XOrigem || YAtual != YOrigem) && (XAtual != XDestino || YAtual != YDestino) ) {
+				//só muda alvo quando estiver se movendo, pois quando está parado a direção do antigo
+				//alvo não muda
+				Sprites.MudarAlvo(XAtual, YAtual, XDestino, YDestino);
+				Sprites.MudarAcaoAtual(SpManip::ANDAR);
+			}
+			//está parado
+			else {
+				Sprites.MudarAcaoAtual(SpManip::PARADO);
+			}
+		}
 		GameObject::Mover(); //chama mover original
 	}
 	//chama mover para os projéteis
@@ -148,6 +161,7 @@ Personagem::Personagem() {
 	SpManip::SpriteManip sptemp; //manipulador de sprites vazio
 	*this = GameObject(0, 0, 5, 10, LINEAR, sptemp);
 	Vida = 10;
+	atirando = false;
 }
 
 Personagem::Personagem(unsigned int posicao_x, unsigned int posicao_y, WalkType walk_type) {
@@ -155,6 +169,7 @@ Personagem::Personagem(unsigned int posicao_x, unsigned int posicao_y, WalkType 
 	*this = GameObject(posicao_x, posicao_y, 5, 10, walk_type, sptemp);
 	Vida = 10;
 	ProjetilBase = Projetil(0, 0, 1, 1);
+	atirando = false;
 }
 
  //gera posição inicial randômicamente (nas bordas)
@@ -164,6 +179,7 @@ Personagem::Personagem(int velocidade, int vida, int raio, WalkType walk_type, P
 		*this = GameObject(velocidade, raio, walk_type, sp_inim);
 		Vida = vida;
 		ProjetilBase = projetil_base;
+		atirando = false;
 		//spPlayer = sp_inim;
 	}	
 }
@@ -176,6 +192,7 @@ Personagem::Personagem(unsigned int posicao_x, unsigned int posicao_y, int veloc
 		Vida = vida;
 		//spPlayer = sp_player;
 		ProjetilBase = projetil_base;
+		atirando = false;
 	}
 }
 
@@ -196,6 +213,7 @@ void Personagem::operator=(const GameObject &game_obj) {
 	Velocidade = game_obj.GetVelocidade();
 	TipoMovimento = game_obj.GetTipoMovimento();
 	Sprites = game_obj.GetSprites();
+	atirando = false;
 }
 
 void Personagem::operator=(const Personagem &persona) {//faz cópia profunda
@@ -213,6 +231,7 @@ void Personagem::operator=(const Personagem &persona) {//faz cópia profunda
 	this->Vida = persona.Vida;
 	this->ProjetilBase = persona.ProjetilBase;
 	this->Sprites = persona.Sprites;
+	this->atirando = persona.atirando;
 
 	Projetil *temp; int i = 0;
 	while ( Projeteis.GetElem(0, temp) ) { //deleta todos os projéteis dinamicamente alocados

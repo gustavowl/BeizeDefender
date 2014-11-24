@@ -19,6 +19,7 @@ protected:
 	Lista<Projetil*> Projeteis; /**< Lista simplesmente encadeada que contém os projéteis no campo de batalha (arena)*/
 	int Vida; /**< Armazena a vida atual do personagem. Vida <= 0: personagem morreu*/
 	int danoFisico; /**< Dano causado a outros personagens ao se colidir com eles*/
+	bool atirando; /**< Utilizado para desenhar sprites, e mudar ação.*/
 	/**
 	* Desenha Personagem na tela. Leva em conta atributos de GO
 	* @param red quantidade de vermelho (RGB) da cor do personagem

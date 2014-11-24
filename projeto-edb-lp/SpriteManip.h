@@ -7,6 +7,7 @@
 namespace SpManip {
 	#define QTD_DIRECOES 8
 	#define PI 3.1415926535897932
+	#define MAX_TEMPO_ESPERA 2
 	//CIMA = 0, CIMADIR = 1....
 	enum DIRECAO {CIMA = 0, CIMADIR, DIREITA, BAIXODIR,
 		BAIXO, BAIXOESQ, ESQUERDA, CIMAESQ};
@@ -16,6 +17,7 @@ namespace SpManip {
 	class SpriteManip {
 		//vetor com ponteiros de imagens nas 8 direções
 	private:
+		int TempoProxSprite;
 		DIRECAO DirecaoAlvo; //aponta para onde está mirando / olhando
 		ACAO AcaoAtual = PARADO;
 
@@ -57,6 +59,7 @@ namespace SpManip {
 		//ao chamar MudarDestinoOuAlvo(), não precisa chamar AvancarSprite()
 		//avança sprite levando em conta alvo e destino, pode mudar o sentido de execução dependendo deles também
 		void AvancarSprite(unsigned int x, unsigned int y);
+		void RetrocederSprite(unsigned int x, unsigned int y);
 		//sobrecarga de operador
 		void operator=(const SpriteManip &spm);
 
