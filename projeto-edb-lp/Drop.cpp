@@ -57,7 +57,7 @@ void Drop::Pegar(Player &p, Lista<Drop*> &lista_cafe){
 	Drop *cafe;
 	while ( lista_cafe.GetElem( i, cafe ) ) {
 		if(cafe->VerificarColisao(p, *cafe)){
-			p.AdicionarMunicao(cafe->GetEnergia());
+			p.AdicionarEnergia(cafe->GetEnergia());
 			lista_cafe.Remove(i);
 			delete cafe;
 			i = 0;

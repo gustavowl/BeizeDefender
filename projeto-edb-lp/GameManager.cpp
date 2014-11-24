@@ -253,7 +253,7 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 					wave.Draw();
 					al_draw_textf(font, al_map_rgb(0, 0, 200), 150, 10, ALLEGRO_ALIGN_RIGHT, "Vida: %d", player.GetVida());
 					al_draw_textf(font, al_map_rgb(0, 0, 200), 300, 10, ALLEGRO_ALIGN_RIGHT, "Base: %d", base.GetVida());
-					al_draw_textf(font, al_map_rgb(0, 0, 200), 480, 10, ALLEGRO_ALIGN_RIGHT, "Energia: %d", player.GetMunicaoAtual());
+					al_draw_textf(font, al_map_rgb(0, 0, 200), 480, 10, ALLEGRO_ALIGN_RIGHT, "Energia: %d", player.GetEnergiaAtual());
 					al_draw_textf(font, al_map_rgb(0, 0, 200), 620, 10, ALLEGRO_ALIGN_RIGHT, "Horda: %d", wave.GetIdHorda());
 
 					al_flip_display();
