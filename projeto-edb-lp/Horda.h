@@ -24,7 +24,6 @@ class Horda {
 		int id; /**< Identifica o número da horda atual */ 
 		Lista<Inimigo*> listaInimigos; /**< Lista simplesmente encadeada de inimigos */ 
 
-
 	public:
 
 		/**
@@ -51,7 +50,7 @@ class Horda {
 		* @param projetil_base projetil a ser disparado pelo inimigo
 		* @param danoFisico  dano físico de cada disparo
 		*/
-		Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, int municao, int intervalo_tiro,
+		Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, int intervalo_tiro,
 			int primeiro_tiro, Projetil projetil_base, int danoFisico);
 
 		/**

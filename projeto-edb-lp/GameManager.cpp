@@ -71,7 +71,7 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	{
 		//gera horda para wave
 		for (int i = 2; i <= 8; i+=2) {
-			Horda* nova_horda = new Horda(idHorda, i, 2, 5*j, 10, 10, 30, 60, proj_inimigo, 5);
+			Horda* nova_horda = new Horda(idHorda, i, 2, 5*j, 10, 10, 60, proj_inimigo, 5);
 			fila_horda.Insert( nova_horda );
 			fila_tempo_espera.Insert( i * 15 ); //espera 1, 2 e 3 segundos
 			idHorda++;
@@ -80,13 +80,13 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 		Horda * boss;
 		switch(j){
 			case 1:
-				boss = new Horda(idHorda, 1, 3, 50*j, 10, 10, 7, 15, proj_inimigo, 100);
+				boss = new Horda(idHorda, 1, 3, 50*j, 10, 7, 15, proj_inimigo, 100);
 				break;
 			case 2:
-				boss = new Horda(idHorda, 1, 3, 50*j, 10, 15, 5, 15, proj_inimigo, 100);
+				boss = new Horda(idHorda, 1, 3, 50*j, 10, 5, 15, proj_inimigo, 100);
 				break;
 			case 3: 
-				boss = new Horda(idHorda, 1, 3, 50*j, 4, 10, 7, 15, proj_inimigo, 100);
+				boss = new Horda(idHorda, 1, 3, 50*j, 4, 7, 15, proj_inimigo, 100);
 				break;
 		}
 		fila_horda.Insert(boss);
