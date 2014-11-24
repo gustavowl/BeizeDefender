@@ -36,6 +36,8 @@ class GameObject {
 		unsigned int YDestino; /**< Armeza posição Y em que movimento será finalizado. Necessário para calcular interpolação linear*/
 
 		unsigned int Raio; /**< Raio do objeto. É utilizado para detectar colisões*/
+		unsigned int Largura; /**< Largura do sprite atual. É utilizado para detectar colisões */
+		unsigned int Altura; /**< Largura do sprite atual. É utilizado para detectar colisões */
 		unsigned int Velocidade; /**<  Velocidade do objeto. A quantidade Total de frames da interpolação será calculada pela
 		distância entre o ponto de origem ao ponto de destino dividido pela Velocidade */
 
@@ -55,6 +57,10 @@ class GameObject {
 		* @param DestinoY coordenada Y de destino
 		*/
 		virtual void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);
+		/**
+		* Desenha objeto na posição atual, leva em conta imagens em SpManip::SpriteManip Sprites
+		*/
+		virtual void Draw();
 		/**
 		* Retorna largura da arena, é utilizado para verificação de valores válidos em classes filhas.
 		*/
@@ -108,6 +114,8 @@ class GameObject {
 		/**
 		* Retorna velocidade do objeto. Utilizado em construtores das classes filhas
 		*/
+		unsigned int GetLargura() const;
+		unsigned int GetAltura() const;
 		unsigned int GetVelocidade() const;
 		/**
 		* Retorna tipo do movimento do objeto. Utilizado em construtores das classes filhas

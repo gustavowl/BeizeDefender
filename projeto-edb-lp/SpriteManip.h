@@ -61,8 +61,8 @@ namespace SpManip {
 
 		//ao chamar MudarDestinoOuAlvo(), não precisa chamar AvancarSprite()
 		//avança sprite levando em conta alvo e destino, pode mudar o sentido de execução dependendo deles também
-		void AvancarSprite(unsigned int x, unsigned int y);
-		void RetrocederSprite(unsigned int x, unsigned int y);
+		bool AvancarSprite(unsigned int x, unsigned int y, unsigned int &larg, unsigned int &alt);
+		bool RetrocederSprite(unsigned int x, unsigned int y, unsigned int &larg, unsigned int &alt);
 		//sobrecarga de operador
 		void operator=(const SpriteManip &spm);
 

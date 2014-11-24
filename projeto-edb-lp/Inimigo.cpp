@@ -95,8 +95,9 @@ void Inimigo::Draw()
 	//próxima iteração ele vai voltar a andar
 	if ( Sprites.GetTempoProxSprite() == 0 && atirando )
 		atirando = false;
-	Sprites.AvancarSprite(XAtual, YAtual);
+	//Sprites.AvancarSprite(XAtual, YAtual);
 	Personagem::Draw(255, 0, 0);
+	GameObject::Draw();
 }
 
 void Inimigo::operator=(const Personagem &persona) {

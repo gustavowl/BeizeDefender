@@ -115,7 +115,7 @@ class Projetil : public go::GameObject {
 		* \return Retorna dano causado pelo projétil no obj ( se 0, não colidiu, caso contrário, colidiu e causou dano)
 		* @param obj GameObject com o qual será verificada a colisão do projétil atual
 		*/
-		int VerificarColisaoQuadrada(const GameObject obj);
+		int VerificarColisaoRetangular(const GameObject obj);
 
 };
 

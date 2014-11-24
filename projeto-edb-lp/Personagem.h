@@ -46,7 +46,7 @@ public:
 	* \return retorna o dano causado ao objeto
 	* @param obj recebe objeto com o qual serão verificadas as colisões dos projéteis do personagem
 	*/
-	int VerificarColisaoQuadrada(const GameObject obj);
+	int VerificarColisaoRetangular(const GameObject obj);
 	/**
 	* Atira projétil base
 	* @param destino_x posição X de destino do projétil

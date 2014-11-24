@@ -159,6 +159,13 @@ void GameObject::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY) 
 	}
 }
 
+void GameObject::Draw() {
+	//fazer para atualizar dimensões
+	if ( Sprites.AvancarSprite(XAtual, YAtual, Largura, Altura) )
+		//média do "raio" da largura e do "raio" da altura
+		Raio = (Largura / 2 + Altura / 2) / 2;
+}
+
 unsigned int GameObject::GetMaxX() const {
 	return MaxX;
 }
@@ -205,6 +212,14 @@ unsigned int GameObject::GetYDestino() const {
 
 unsigned int GameObject::GetRaio() const {
 	return Raio;
+}
+
+unsigned int GameObject::GetLargura() const {
+	return Largura;
+}
+
+unsigned int GameObject::GetAltura() const {
+	return Altura;
 }
 
 unsigned int GameObject::GetVelocidade() const {

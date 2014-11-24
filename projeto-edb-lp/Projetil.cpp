@@ -89,7 +89,8 @@ void Projetil::Destruir() {
 
 void Projetil::Draw() {
 	if ( !Destruido ) {
-		Sprites.AvancarSprite(XAtual, YAtual);
+		//Sprites.AvancarSprite(XAtual, YAtual);
+		GameObject::Draw();
 		al_draw_filled_circle(XAtual, YAtual, Raio, al_map_rgb(0, 0, 0));
 	}
 }
@@ -150,19 +151,24 @@ int Projetil::VerificarColisao(const GameObject obj) { //retorna dano causado pe
 	return 0;
 }
 
-int Projetil::VerificarColisaoQuadrada(const GameObject obj) {//retorna dano causado pelas balas ao obj, e destrói (mas n remove)
+int Projetil::VerificarColisaoRetangular(const GameObject obj) {//retorna dano causado pelas balas ao obj, e destrói (mas n remove)
 //projéteis que causaram dano. Função exterior tem q tirar vida do obj
 //verifica colisão com a base, considera raio como metade da largura
+
 	int x_atual = XAtual, y_atual = YAtual; //evita erro de subtração
 	//coordenadas de obj
-	int objx = obj.GetXAtual(), objy = obj.GetYAtual(), obj_raio = obj.GetRaio();
+	int objx = obj.GetXAtual(), objy = obj.GetYAtual();
+	int obj_larg = obj.GetLargura(), obj_alt = obj.GetAltura();
+
+	//float dist = sqrt( pow( objx - x_atual, 2 ) + pow( objy - y_atual, 2 ) );
 	//primeiramente calcula se não está colidindo diretamente
-	if ( x_atual + Raio > objx - obj_raio && x_atual - Raio < objx + obj_raio &&
-		y_atual + Raio > objy - obj_raio && y_atual - Raio < objy + obj_raio ) {
+	if ( x_atual + Raio > objx - obj_larg / 2 && x_atual - Raio < objx + obj_larg / 2 &&
+		y_atual + Raio > objy - obj_alt / 2 && y_atual - Raio < objy + obj_alt / 2  ) {
+
 		Destruir();
 		return Dano;
 	}
-	/*else if (FrameAtual > 0) { //cálculo de "leap" ("bug noturno")
+	else if (FrameAtual > 0) { //cálculo de "leap" ("bug noturno")
 		//calcula t da equação vetorial das retas para a variação das coordenadas
 		float ta = (float)(FrameAtual - 1) / TotalFrames;
 		float tb = (float) FrameAtual / TotalFrames;
@@ -173,9 +179,9 @@ int Projetil::VerificarColisaoQuadrada(const GameObject obj) {//retorna dano cau
 		float coef_ang_proj = (float)(y_destino - y_origem) / (x_destino - x_origem);
 		//calcula coeficiente linear da reta do projétil
 		float coef_lin_proj = y_destino - coef_ang_proj * x_destino;
-		//calcula coeficiente angular da reta perpendicular à do projétil que passa pela origem do círculo
+		//calcula coeficiente angular da reta perpendicular à do projétil que passa pela origem de obj
 		float coef_ang_perp = - (1 / coef_ang_proj);
-		//calcula coeficiente linear da reta perpendicular à do projétil que passa pela origem do círculo
+		//calcula coeficiente linear da reta perpendicular à do projétil que passa pela origem de obj
 		float coef_lin_perp = objy - coef_ang_perp * objx;
 		//acha ponto x da intersecção entre as duas retas
 		float inters_x = (coef_lin_perp - coef_lin_proj) / (coef_ang_proj - coef_ang_perp);
@@ -185,15 +191,31 @@ int Projetil::VerificarColisaoQuadrada(const GameObject obj) {//retorna dano cau
 		if ( ti >= ta && ti <= tb ) {
 			//acha ponto y da intersecção entre as duas retas
 			float inters_y = coef_ang_proj * inters_x + coef_lin_proj;
-			//calcula distância entre intersecção e origem do objeto
-			float dist = sqrt( pow( inters_x - objx, 2 ) + pow( inters_y - objy, 2 ) );
+			////calcula distância entre intersecção e origem do objeto
+			//dist = sqrt( pow( inters_x - objx, 2 ) + pow( inters_y - objy, 2 ) );
 			//verifica se distância é menor do que a soma dos raios (colisão)
 			//se for == tangencia, não colide
-			if ( dist < Raio + obj.GetRaio() ) {
+
+			//verifica se o objeto está colidingo com o ponto de intersecção
+			if ( inters_x + Raio > objx - obj_larg / 2 && inters_x - Raio < objx + obj_larg / 2 &&
+				inters_y + Raio > objy - obj_alt / 2 && inters_y - Raio < objy + obj_alt / 2 ) {
 				Destruir();
 				return Dano;
 			}
 		}
+	}
+
+	/*************************************
+	VerificarColisaoQuadrada
+	********************************/
+	/*int x_atual = XAtual, y_atual = YAtual; //evita erro de subtração
+	//coordenadas de obj
+	int objx = obj.GetXAtual(), objy = obj.GetYAtual(), obj_raio = obj.GetRaio();
+	//primeiramente calcula se não está colidindo diretamente
+	if ( x_atual + Raio > objx - obj_raio && x_atual - Raio < objx + obj_raio &&
+		y_atual + Raio > objy - obj_raio && y_atual - Raio < objy + obj_raio ) {
+		Destruir();
+		return Dano;
 	}*/
 	return 0;
 }

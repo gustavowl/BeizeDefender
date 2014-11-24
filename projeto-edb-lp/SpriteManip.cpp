@@ -148,7 +148,8 @@ void SpriteManip::MudarAcaoAtual( ACAO nova_acao ) {
 
 //avançar sprite não muda automaticamente quando a ação muda
 //avança sprite levando em conta alvo e destino, pode mudar o sentido de execução dependendo deles também
-void SpriteManip::AvancarSprite(unsigned int x, unsigned int y) {
+bool SpriteManip::AvancarSprite(unsigned int x, unsigned int y, unsigned int &larg, unsigned int &alt) {
+	bool to_return = false;
 	ALLEGRO_BITMAP *teste;
 	if ( AcaoAtual == PARADO ) {
 		//muda de sprite
@@ -161,8 +162,10 @@ void SpriteManip::AvancarSprite(unsigned int x, unsigned int y) {
 			Parado[DirecaoAlvo].GetLastGetElem(teste);
 		}
 		if (teste != NULL) {
-			al_draw_bitmap(teste, x - al_get_bitmap_width(teste) / 2,
-				y - al_get_bitmap_height(teste) / 2, 0);
+			larg = al_get_bitmap_width(teste);
+			alt = al_get_bitmap_height(teste);
+			to_return = true;
+			al_draw_bitmap(teste, x - larg / 2, y - alt / 2, 0);
 			//al_flip_display();
 			//al_clear_to_color(al_map_rgb(0,0,0));
 		}
@@ -176,8 +179,10 @@ void SpriteManip::AvancarSprite(unsigned int x, unsigned int y) {
 			Andar[DirecaoAlvo].GetLastGetElem(teste);
 		}
 		if (teste != NULL) {
-			al_draw_bitmap(teste, x - al_get_bitmap_width(teste) / 2,
-				y - al_get_bitmap_height(teste) / 2, 0);
+			larg = al_get_bitmap_width(teste);
+			alt = al_get_bitmap_height(teste);
+			to_return = true;
+			al_draw_bitmap(teste, x - larg / 2, y - alt / 2, 0);
 			//al_flip_display();
 			//al_clear_to_color(al_map_rgb(0,0,0));
 		}
@@ -191,25 +196,31 @@ void SpriteManip::AvancarSprite(unsigned int x, unsigned int y) {
 			Atirar[DirecaoAlvo].GetLastGetElem(teste);
 		}
 		if (teste != NULL) {
-			al_draw_bitmap(teste, x - al_get_bitmap_width(teste) / 2,
-				y - al_get_bitmap_height(teste) / 2, 0);
+			larg = al_get_bitmap_width(teste);
+			alt = al_get_bitmap_height(teste);
+			to_return = true;
+			al_draw_bitmap(teste, x - larg / 2, y - alt / 2, 0);
 			//al_flip_display();
 			//al_clear_to_color(al_map_rgb(0,0,0));
 		}
 	}
 
 	TempoProxSprite--;
+	return to_return;
 	/*else { //AcaoAtual == MORRER
 		Morrer[DirecaoAlvo].GetPrevElem(teste);
 		if (teste != NULL) {
-			al_draw_bitmap(teste, 0, 0, 0);
-			al_flip_display();
-			al_clear_to_color(al_map_rgb(0,0,0));
+			larg = al_get_bitmap_width(teste);
+			alt = al_get_bitmap_height(teste);
+			to_return = true;
+			al_draw_bitmap(teste, 0largy();
+		 _rgbalt,0));
 		}
 	}*/
 }
 
-void SpriteManip::RetrocederSprite(unsigned int x, unsigned int y) {
+bool SpriteManip::RetrocederSprite(unsigned int x, unsigned int y, unsigned int &larg, unsigned int &alt) {
+	bool to_return = false;
 	ALLEGRO_BITMAP *teste;
 	if ( AcaoAtual == PARADO ) {
 		//muda de sprite
@@ -222,8 +233,10 @@ void SpriteManip::RetrocederSprite(unsigned int x, unsigned int y) {
 			Parado[DirecaoAlvo].GetLastGetElem(teste);
 		}
 		if (teste != NULL) {
-			al_draw_bitmap(teste, x - al_get_bitmap_width(teste) / 2,
-				y - al_get_bitmap_height(teste) / 2, 0);
+			larg = al_get_bitmap_width(teste);
+			alt = al_get_bitmap_height(teste);
+			to_return = true;
+			al_draw_bitmap(teste, x - larg / 2, y - alt / 2, 0);
 			//al_flip_display();
 			//al_clear_to_color(al_map_rgb(0,0,0));
 		}
@@ -237,8 +250,10 @@ void SpriteManip::RetrocederSprite(unsigned int x, unsigned int y) {
 			Andar[DirecaoAlvo].GetLastGetElem(teste);
 		}
 		if (teste != NULL) {
-			al_draw_bitmap(teste, x - al_get_bitmap_width(teste) / 2,
-				y - al_get_bitmap_height(teste) / 2, 0);
+			larg = al_get_bitmap_width(teste);
+			alt = al_get_bitmap_height(teste);
+			to_return = true;
+			al_draw_bitmap(teste, x - larg / 2, y - alt / 2, 0);
 			//al_flip_display();
 			//al_clear_to_color(al_map_rgb(0,0,0));
 		}
@@ -252,13 +267,16 @@ void SpriteManip::RetrocederSprite(unsigned int x, unsigned int y) {
 			Atirar[DirecaoAlvo].GetLastGetElem(teste);
 		}
 		if (teste != NULL) {
-			al_draw_bitmap(teste, x - al_get_bitmap_width(teste) / 2,
-				y - al_get_bitmap_height(teste) / 2, 0);
+			larg = al_get_bitmap_width(teste);
+			alt = al_get_bitmap_height(teste);
+			to_return = true;
+			al_draw_bitmap(teste, x - larg / 2, y - alt / 2, 0);
 			//al_flip_display();
 			//al_clear_to_color(al_map_rgb(0,0,0));
 		}
 	}
 	TempoProxSprite--;
+	return to_return;
 }
 
 SpriteManip::~SpriteManip() {

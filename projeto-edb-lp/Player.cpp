@@ -83,8 +83,9 @@ void Player::Draw() {
 	//próxima iteração ele vai voltar a andar
 	if ( Sprites.GetTempoProxSprite() == 0 && atirando )
 		atirando = false;
-	Sprites.AvancarSprite(XAtual, YAtual);
 	Personagem::Draw(0, 255, 0);
+	GameObject::Draw();
+	//Sprites.AvancarSprite(XAtual, YAtual);
 }
 
 void Player::Regenerar(){

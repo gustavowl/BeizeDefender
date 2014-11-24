@@ -42,7 +42,8 @@ void Drop::Draw(Lista<Drop*> &lista_cafe, ALLEGRO_DISPLAY *display){
 		if(cafe->PassarTempo()){
 				//al_draw_filled_circle(cafe->XOrigem, cafe->YOrigem, 5, al_map_rgb(255, 255, 255));
 				//coffee = al_load_bitmap("coffee.png");
-				cafe->Sprites.AvancarSprite(cafe->XOrigem, cafe->YOrigem);
+				//cafe->Sprites.AvancarSprite(cafe->XOrigem, cafe->YOrigem);
+				cafe->GameObject::Draw();
 				//al_draw_bitmap(coffee, cafe->XOrigem, cafe->YOrigem, 0);
 
 

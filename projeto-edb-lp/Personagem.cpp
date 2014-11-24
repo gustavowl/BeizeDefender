@@ -43,12 +43,12 @@ int Personagem::VerificarColisao(const GameObject obj) { //retorna dano causado 
     return dano_total;
 }
 
-int Personagem::VerificarColisaoQuadrada(const GameObject obj) {
+int Personagem::VerificarColisaoRetangular(const GameObject obj) {
 	Projetil *temp; int i = 0, dano_total = 0;
 	//pega informações para calcular colisão de objeto
     while ( Projeteis.GetElem(i, temp) ) {
     	//verifica colisão de uma bala com obj e atualiza dano causado
-		dano_total += temp->VerificarColisaoQuadrada(obj);
+		dano_total += temp->VerificarColisaoRetangular(obj);
 		i++;
     }	
 }
