@@ -90,6 +90,7 @@ public:
 
 	/**
 	* Retorna EnergiaAtual, método chamado para mostrar na tela o valor da energia do Player
+	* \return EnergiaAtual
 	*/
 	int GetEnergiaAtual();
 };

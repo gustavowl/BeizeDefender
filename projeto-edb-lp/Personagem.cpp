@@ -53,7 +53,7 @@ int Personagem::VerificarColisaoQuadrada(const GameObject obj) {
     }	
 }
 
-void Personagem::Atirar(unsigned int destino_x, unsigned int destino_y) { //atira projétil de tipo 1
+void Personagem::Atirar(unsigned int destino_x, unsigned int destino_y) { 
 	Projetil *novo_projetil = new Projetil( XAtual, YAtual, ProjetilBase.GetVelocidade(),
 		destino_x, destino_y, ProjetilBase.GetRaio(), ProjetilBase.GetDano() );
 	Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
@@ -81,8 +81,6 @@ void Personagem::Mover(Lista<Personagem*> &list_pers, Personagem* This) {
 		prox_x = round( XDestino * t + XOrigem * (1 - t) );
 		prox_y = round( YDestino * t + YOrigem * (1 - t) );
 
-
-		//prox_x = XAtual; prox_y = YAtual;
 		float dist;
 		bool colindo = false;
 

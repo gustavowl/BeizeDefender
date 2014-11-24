@@ -99,11 +99,13 @@ class Inimigo : public Personagem{
 		* Verifica colisão entre Player e Inimigo, caso tenha o return 1, se não return 0
 		* @param p Player a ser enviado
 		* @param ini Inimigo a ser enviado
+		* \return retorna 1 caso tenha colisão e 0 caso não tenha
 		*/
 		int VerificarColisaoInimigo(Player &p, Inimigo &ini);
 
 		/**
 		* Envia o valor do drop para Horda::VerificarColisaoProjPersInim()
+		* \return Drop
 		*/
 		int Dropar();
 };
