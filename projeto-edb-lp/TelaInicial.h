@@ -22,7 +22,12 @@ public:
 	*/
 
 	TelaInicial();
-	//~TelaInicial();
+
+	/**
+	* Destrutor padrão
+	*
+	*/
+	~TelaInicial();
 
 	/**
 	* Executa a tela de Menu
