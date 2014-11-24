@@ -16,7 +16,7 @@ Horda::Horda(int quantidade) {
 
 }
 
-Horda::Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, int municao, int intervalo_tiro,
+Horda::Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, int intervalo_tiro,
 	int primeiro_tiro, Projetil projetil_base, int danoFisico, SpManip::SpriteManip sp_inim) {
 	id = idHorda;
 	Inimigo *enemy;

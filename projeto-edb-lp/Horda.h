@@ -52,7 +52,7 @@ class Horda {
 		* @param projetil_base projetil a ser disparado pelo inimigo
 		* @param danoFisico  dano físico de cada disparo
 		*/
-		Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, int municao, int intervalo_tiro,
+		Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, int intervalo_tiro,
 			int primeiro_tiro, Projetil projetil_base, int danoFisico, SpManip::SpriteManip sp_inim);
 
 		/**
