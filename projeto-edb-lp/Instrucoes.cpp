@@ -12,7 +12,7 @@ int Instrucoes::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev, 
     ALLEGRO_BITMAP *instrucao = NULL;
 
    
-    instrucao = al_load_bitmap("instrucoes.png");
+    instrucao = al_load_bitmap("Menu/instrucoes.png");
 
     al_draw_bitmap(instrucao, 0, 0, 0);
 
