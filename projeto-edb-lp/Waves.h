@@ -114,7 +114,6 @@ class Waves {
 		*
 		*/
 		int GetIdHorda(); 
-
 };
 
 #endif

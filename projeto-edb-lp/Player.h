@@ -38,10 +38,9 @@ public:
 	* @param vida vida inicial do player
 	* @param raio raio do player
 	* @param regem taxa de regem que o player terá
-	* @param projetil_base é o primeiro tipo de projetil que o player terá
 	*/
 	Player(unsigned int posicao_x, unsigned int posicao_y, int max_energia, int energia_atual, 
-		int velocidade, int vida, int raio, int regem, Projetil projetil_base);
+		int velocidade, int vida, int raio, int regem);
 
 	/**
 	* Sobrecarga de operador, copia os dados de persona para ele mesmo

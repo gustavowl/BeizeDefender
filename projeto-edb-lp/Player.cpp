@@ -4,14 +4,14 @@
 Player::Player(){}
 
 Player::Player(unsigned int posicao_x, unsigned int posicao_y, int max_energia, int energia_atual, 
-	int velocidade, int vida, int raio, int regem, Projetil projetil_base) {
+	int velocidade, int vida, int raio, int regem) {
 	SalvarAtaques();
 	Projetil *proj;
 	ataques.GetFirstElem(proj);
 	ProjetilBase = *proj;
 	
 	if (max_energia > 0 && energia_atual > 0 && vida > 0) {
-		*this = Personagem(posicao_x, posicao_y, velocidade, vida, raio, SMOOTH, projetil_base);
+		*this = Personagem(posicao_x, posicao_y, velocidade, vida, raio, SMOOTH, ProjetilBase);
 		MaxEnergia = max_energia;
 		if (energia_atual > max_energia)
 			EnergiaAtual = max_energia;

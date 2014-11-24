@@ -23,15 +23,6 @@
 
 using namespace go;
 
-/*
-#define GAME_STATE_MENU		 0
-#define GAME_STATE_MAINGAME  1
-#define GAME_STATE_GAMEOVER  2
-#define GAME_STATE_FINISH    3
-*/
-
-#define MAX_HORDAS 15 // quantidade total das hordas
-#define HORDA_BOSS 5 // quantidade de repetições para aparecer um boss
 #define REGEM 15
 
 GameManager::GameManager()
@@ -44,8 +35,6 @@ void  GameManager::checkExpression (bool expression, std::string message)
 		exit(1);
 	}
 }
-
-
 
 int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev, ALLEGRO_DISPLAY *display,
 	ALLEGRO_TIMER *timer, int max_largura, int max_altura) {
@@ -65,7 +54,6 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
     int hordaAtual = 1;
 	int idHorda = 1;
 
-
 	GameObject arena(max_largura, max_altura);
 	
 	Lista<Horda*> fila_horda(FILA);
@@ -73,15 +61,11 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	Lista<Drop*> lista_cafe(LISTASIMPLES);
 	Drop cafe;
 
-
-		
-
 	Base base(380, 200, 620, 440, REGEM);
-	Projetil proj_player(0, 0, 20, 1, 1, 2, 5);
-	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 15, 100, 10,REGEM, proj_player);
+	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 15, 100, 10,REGEM);
 	Projetil proj_inimigo(0, 0, 20, 1, 1, 2, 1);
 
-	/*Gera 3 "Fases" e 3 Boss*/
+	/*Gera 15 "Hordas" e 3 Boss*/
 	/*Também aumenta a vida dos Inimigo e dos Boss*/
 	for(int j = 1; j <= 3; ++j)
 	{
@@ -110,15 +94,13 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 		idHorda++;
 	}
 	
-	/*  Múltiplas Waves */
+	/*  Criação da Wave*/
 	Waves wave = Waves( fila_horda, fila_tempo_espera);
-   
 	
 	checkExpression(!al_install_audio(), "Problemas ao iniciar o plugin de audio. Abortar!");
 	al_reserve_samples(5);
 	checkExpression(!al_init_acodec_addon(), "Problemas ao iniciar o plugin adicional de audio. Abortar!");
 	checkExpression(!al_install_keyboard(), "Problema ao iniciar o teclado");
-	//checkExpression(!al_init_reserve_sample(1), "Problemas ao iniciar os canais de audio. Abortar!");
 
 	trilha = al_load_audio_stream("die_motherfucker_die.wav", 5, 1024);
 	checkExpression(!trilha, "Música não Carregada");
@@ -127,8 +109,6 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 
 	al_attach_audio_stream_to_mixer(trilha, al_get_default_mixer());
 	al_set_audio_stream_playmode(trilha, ALLEGRO_PLAYMODE_LOOP);
-
-	//background = al_create_bitmap(1024,640);
 
 	background1 = al_load_bitmap("base_concept1.png");
 	background2 = al_load_bitmap("base_concept2.png");
@@ -159,13 +139,6 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 		std::cout << "Error: Font format not loaded" << std::endl;
 		return -1;
 	}
-
-	/*if(!al_init_ttf_addon()) {
-		std::cout << "Font not loaded" << std::endl;
-
-		return -1;
-	}*/
-
 	
 	font = al_load_font("PressStart2P.ttf", 15, 0);
 
@@ -173,8 +146,6 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	{
 		return -1;
 	}
-
-	//al_init_primitives_addon();	
 
     al_register_event_source(event_queue, al_get_keyboard_event_source());
 
@@ -191,25 +162,21 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 				close = true;
 			}
 
-
 			if ( player.GetVida() > 0 && base.GetVida() > 0 && !wave.Destruida() ) 
   			{
 				if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 				{
-						
-						if(ev.mouse.button & 2) {
-		          			player.AtualizarDestino(ev.mouse.x, ev.mouse.y);
-						}
+					if(ev.mouse.button & 2) {
+	          			player.AtualizarDestino(ev.mouse.x, ev.mouse.y);
+					}
 
-						else if(ev.mouse.button & 1)
-						{
-		          			player.Atirar(ev.mouse.x, ev.mouse.y); //oks
-		          			al_play_sample(tiro, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+					else if(ev.mouse.button & 1)
+					{
+	          			player.Atirar(ev.mouse.x, ev.mouse.y); 
+	          			al_play_sample(tiro, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
-						}
+					}
 				}
-
-
 				
 				else if (ev.type == ALLEGRO_EVENT_TIMER) 
 				{
@@ -245,7 +212,6 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 							hordaAtual++;
 						}
 					}
-
 
 					player.Draw();
 					cafe.Draw(lista_cafe, display);
@@ -290,8 +256,6 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 								break;
 						}
 					}
-					
-
 				}
 			}
 			else
@@ -324,9 +288,6 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	else {
 		return 6;
 	}
-
-
-	
 
 	return 0;
 }
