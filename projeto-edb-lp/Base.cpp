@@ -56,19 +56,6 @@ void Base::operator=(const Base &base)
     TipoMovimento = STATIC;
 }
 
-
-void Base::Draw()
-{
-    if(vida > 0) {
-        al_draw_rectangle(x_esquerda, y_superior, x_direita, y_inferior, al_map_rgb(255, 0, 255), 10);    
-    }
-}
-
-int Base::GetVida() 
-{
-    return vida;
-}
-
 bool Base::LevarDano(int dano) 
 {
   vida -= dano;
@@ -77,9 +64,23 @@ bool Base::LevarDano(int dano)
   return false;
 }
 
-void Base::Regenerar(){
+void Base::Regenerar()
+{
     vida += regem;
     if(vida > vidaTotal){
         vida = vidaTotal;
+    }
+}
+
+int Base::GetVida() 
+{
+    return vida;
+}
+
+
+void Base::Draw()
+{
+    if(vida > 0) {
+        al_draw_rectangle(x_esquerda, y_superior, x_direita, y_inferior, al_map_rgb(255, 0, 255), 10);    
     }
 }

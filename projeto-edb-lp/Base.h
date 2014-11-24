@@ -41,6 +41,12 @@ class Base: public go::GameObject{
         */
         ~Base();
 
+        /**
+        * Sobrecarga do operador "=" copia os valores de GameObj para Base
+        * @param base objeto a ser copiado
+        */
+        void operator=(const Base &base);
+
          /**
         * Retorna true caso os pontos de vida da base sejam zerados, ou false caso a base ainda tenha pontos de vida.
         * Além disso, essa função decremeta os pontos de vida da base de acordo com o dano recebido.
@@ -63,11 +69,7 @@ class Base: public go::GameObject{
         */
         void Draw();
 
-        /**
-        * Sobrecarga do operador "=" copia os valores de GameObj para Base
-        * @param base objeto a ser copiado
-        */
-        void operator=(const Base &base);
+        
 
     private:
         int vidaTotal;  /**< Valor que contém o total de pontos de vida da base */ 
