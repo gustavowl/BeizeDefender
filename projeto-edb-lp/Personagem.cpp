@@ -113,6 +113,20 @@ void Personagem::Mover(Lista<Personagem*> &list_pers, Personagem* This) {
 			}
 			i++;
 		}
+		
+		if (!atirando) {
+			//detectar se está andando
+			if ( (XAtual != XOrigem || YAtual != YOrigem) && (XAtual != XDestino || YAtual != YDestino) ) {
+				//só muda alvo quando estiver se movendo, pois quando está parado a direção do antigo
+				//alvo não muda
+				Sprites.MudarAlvo(XAtual, YAtual, XDestino, YDestino);
+				Sprites.MudarAcaoAtual(SpManip::ANDAR);
+			}
+			//está parado
+			else {
+				Sprites.MudarAcaoAtual(SpManip::PARADO);
+			}
+		}
 
 		if (!colindo) {
 			GameObject::Mover(); //chama mover original

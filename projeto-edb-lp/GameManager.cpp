@@ -304,7 +304,7 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 
 	Projetil proj_player(0, 0, 20, 1, 1, 2, 5, sp_proj);
 	//LEMBRAR DE DESALOCAR MANUALMENTE SP_PLAYER E SEUS VALORES
-	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 15, 100, 10, REGEM, proj_player, sp_player);
+	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 12, 100, 10, REGEM, proj_player, sp_player);
 	/******************************
 	*****INICIALIZA SPRITES INIMIGO*********
 	*******************************/

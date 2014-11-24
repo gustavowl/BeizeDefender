@@ -92,6 +92,9 @@ void Inimigo::Distancia(Personagem p, go::GameObject base)
 
 void Inimigo::Draw()
 {
+	//próxima iteração ele vai voltar a andar
+	if ( Sprites.GetTempoProxSprite() == 0 && atirando )
+		atirando = false;
 	Sprites.AvancarSprite(XAtual, YAtual);
 	Personagem::Draw(255, 0, 0);
 }
@@ -157,6 +160,7 @@ void Inimigo::Atirar(const Personagem &p, const go::GameObject &base)
 
 		atirando = true;
 		Sprites.MudarAcaoAtual(ATIRAR);
+		Sprites.SetTempoProxSprite(MAX_TEMPO_ESPERA * 3);
 
 		Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
 		//zera a contagem dos intervalos

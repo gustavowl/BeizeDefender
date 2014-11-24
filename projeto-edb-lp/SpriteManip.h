@@ -56,6 +56,9 @@ namespace SpManip {
 		//chamar mudar ação antes de mudar destino para mudar o sprite instantaneamente
 		void MudarAcaoAtual( ACAO nova_acao );
 
+		int GetTempoProxSprite() { return TempoProxSprite; }
+		void SetTempoProxSprite(int novoTempo) { TempoProxSprite = novoTempo; }
+
 		//ao chamar MudarDestinoOuAlvo(), não precisa chamar AvancarSprite()
 		//avança sprite levando em conta alvo e destino, pode mudar o sentido de execução dependendo deles também
 		void AvancarSprite(unsigned int x, unsigned int y);

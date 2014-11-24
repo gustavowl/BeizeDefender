@@ -13,7 +13,7 @@ Player::Player(unsigned int posicao_x, unsigned int posicao_y, int max_energia, 
 	ProjetilBase = *proj;
 	
 	if (max_energia > 0 && energia_atual > 0 && vida > 0) {
-		*this = Personagem(posicao_x, posicao_y, velocidade, vida, raio, SMOOTH, projetil_base, sp_player);
+		*this = Personagem(posicao_x, posicao_y, velocidade, vida, raio, LINEAR, projetil_base, sp_player);
 		MaxEnergia = max_energia;
 		if (energia_atual > max_energia)
 			EnergiaAtual = max_energia;
@@ -72,12 +72,16 @@ void Player::Atirar(unsigned int destino_x, unsigned int destino_y) {
 		Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
 		Sprites.MudarAlvo(XAtual, YAtual, destino_x, destino_y);
 		Sprites.MudarAcaoAtual(ATIRAR);
+		Sprites.SetTempoProxSprite(MAX_TEMPO_ESPERA * 3);
 		atirando = true;
 		EnergiaAtual--; //decrementa da munição
 	}
 }
 
 void Player::Draw() {
+	//próxima iteração ele vai voltar a andar
+	if ( Sprites.GetTempoProxSprite() == 0 && atirando )
+		atirando = false;
 	Sprites.AvancarSprite(XAtual, YAtual);
 	Personagem::Draw(0, 255, 0);
 }
