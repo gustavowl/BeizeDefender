@@ -28,7 +28,9 @@ GameObject::GameObject(unsigned int MaximoX, unsigned int MaximoY) { //inicializ
 }
 
 //gera posição inicial randômica nas bordas
-GameObject::GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov) {
+GameObject::GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov, 
+	SpManip::SpriteManip sprites) {
+
 	if (MaxX > 0 && MaxY > 0 && Raio > 0) {
 		//0: borda sup | 1: borda dir | 2: borda inf | 3: borda esq
 		 
@@ -62,11 +64,12 @@ GameObject::GameObject(unsigned int Velocidade, unsigned int Raio, WalkType Tipo
 		this->Raio = Raio;
 		TipoMovimento = TipoMov;
 		FrameAtual = TotalFrames = 0;
+		Sprites = sprites;
 	}
 }
 
 GameObject::GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade,
-	unsigned int Raio, WalkType TipoMov) {
+	unsigned int Raio, WalkType TipoMov, SpManip::SpriteManip sprites) {
 	//verifica se valores de entrada são válidos
 	if (MaxX > 0 && MaxY > 0 && PositionX <= MaxX && PositionY <= MaxY && Raio > 0) {
 		XOrigem = PositionX;
@@ -79,10 +82,12 @@ GameObject::GameObject(unsigned int PositionX, unsigned int PositionY, unsigned 
 		this->Raio = Raio;
 		TipoMovimento = TipoMov;
 		FrameAtual = TotalFrames = 0;
+		Sprites = sprites;
 	}
 }
 GameObject::GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, 
-	unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, WalkType TipoMov) {
+	unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, WalkType TipoMov,
+	SpManip::SpriteManip sprites) {
 
 	//verifica se valores de entrada são válidos
 	if (MaxX > 0 && MaxY > 0 && PositionX <= MaxX && PositionY <= MaxY &&
@@ -110,6 +115,7 @@ GameObject::GameObject(unsigned int PositionX, unsigned int PositionY, unsigned 
 			TotalFrames = 0;
 		//zera frame atual
 		FrameAtual = 0;
+		Sprites = sprites;
 	}
 }
 	
@@ -207,4 +213,8 @@ unsigned int GameObject::GetVelocidade() const {
 
 WalkType GameObject::GetTipoMovimento() const {
 	return TipoMovimento;
+}
+
+SpManip::SpriteManip GameObject::GetSprites() const {
+	return Sprites;
 }

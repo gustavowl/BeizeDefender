@@ -92,7 +92,7 @@ void Inimigo::Distancia(Personagem p, go::GameObject base)
 
 void Inimigo::Draw()
 {
-	spPlayer.AvancarSprite(XAtual, YAtual);
+	Sprites.AvancarSprite(XAtual, YAtual);
 	Personagem::Draw(255, 0, 0);
 }
 
@@ -110,7 +110,7 @@ void Inimigo::operator=(const Personagem &persona) {
 	this->TipoMovimento = persona.GetTipoMovimento();
 	this->Vida = persona.GetVida();
 	this->ProjetilBase = persona.GetProjetilBase();
-	this->spPlayer = persona.GetSpriteManip();
+	this->Sprites = persona.GetSprites();
 
 	Lista<Projetil*> proj_persona = persona.GetProjeteis();
 	Projetil *temp; int i = 0;
@@ -146,16 +146,16 @@ void Inimigo::Atirar(const Personagem &p, const go::GameObject &base)
 		Projetil *novo_projetil;
 		if (dist_jogador > dist_base) {
 			novo_projetil = new Projetil(XAtual, YAtual, ProjetilBase.GetVelocidade(), base_x, base_y,
-				ProjetilBase.GetRaio(), ProjetilBase.GetDano(), ProjetilBase.GetSpriteManip() );
-			spPlayer.MudarAlvo(XAtual, YAtual, base_x, base_y);
+				ProjetilBase.GetRaio(), ProjetilBase.GetDano(), ProjetilBase.GetSprites() );
+			Sprites.MudarAlvo(XAtual, YAtual, base_x, base_y);
 		}
 		else {
 			novo_projetil = new Projetil(XAtual, YAtual, ProjetilBase.GetVelocidade(), px_atual, py_atual,
-				ProjetilBase.GetRaio(), ProjetilBase.GetDano(), ProjetilBase.GetSpriteManip() );
-			spPlayer.MudarAlvo(XAtual, YAtual, px_atual, py_atual);
+				ProjetilBase.GetRaio(), ProjetilBase.GetDano(), ProjetilBase.GetSprites() );
+			Sprites.MudarAlvo(XAtual, YAtual, px_atual, py_atual);
 		}
 
-		spPlayer.MudarAcaoAtual(ATIRAR);
+		Sprites.MudarAcaoAtual(ATIRAR);
 
 		Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
 		//zera a contagem dos intervalos

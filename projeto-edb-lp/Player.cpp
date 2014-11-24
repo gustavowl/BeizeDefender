@@ -41,7 +41,7 @@ void Player::operator=(const Personagem &persona){
 	this->TipoMovimento = persona.GetTipoMovimento();
 	this->Vida = persona.GetVida();
 	this->ProjetilBase = persona.GetProjetilBase();
-	this->spPlayer = persona.GetSpriteManip();
+	this->Sprites = persona.GetSprites();
 
 	Lista<Projetil*> proj_persona = persona.GetProjeteis();
 	Projetil *temp; int i = 0;
@@ -68,16 +68,16 @@ void Player::AdicionarEnergia(unsigned int qtd) {
 void Player::Atirar(unsigned int destino_x, unsigned int destino_y) {
 	if ( EnergiaAtual > 0 ) { //verifica se tem munição
 		Projetil *novo_projetil = new Projetil(XAtual, YAtual, ProjetilBase.GetVelocidade(),
-			destino_x, destino_y, ProjetilBase.GetRaio(), ProjetilBase.GetDano(), ProjetilBase.GetSpriteManip() );
+			destino_x, destino_y, ProjetilBase.GetRaio(), ProjetilBase.GetDano(), ProjetilBase.GetSprites() );
 		Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
-		spPlayer.MudarAlvo(XAtual, YAtual, destino_x, destino_y);
-		spPlayer.MudarAcaoAtual(ATIRAR);
+		Sprites.MudarAlvo(XAtual, YAtual, destino_x, destino_y);
+		Sprites.MudarAcaoAtual(ATIRAR);
 		EnergiaAtual--; //decrementa da munição
 	}
 }
 
 void Player::Draw() {
-	spPlayer.AvancarSprite(XAtual, YAtual);
+	Sprites.AvancarSprite(XAtual, YAtual);
 	Personagem::Draw(0, 255, 0);
 }
 
@@ -104,11 +104,11 @@ void Player::AntProjetil(){
 void Player::SalvarAtaques(){
 	// x, y, velocidade, x, y, raio, dano
 	// velocidade 20, raio 2, dano 1
-	Projetil *proj_player1 = new Projetil(0, 0, 20, 1, 1, 2, 1, ProjetilBase.GetSpriteManip() );
+	Projetil *proj_player1 = new Projetil(0, 0, 20, 1, 1, 2, 1, ProjetilBase.GetSprites() );
 	// velocidade 10, raio 5, dano 3
-	Projetil *proj_player2 = new Projetil(0, 0, 10, 1, 1, 5, 3, ProjetilBase.GetSpriteManip() );
+	Projetil *proj_player2 = new Projetil(0, 0, 10, 1, 1, 5, 3, ProjetilBase.GetSprites() );
 	 // velocidade 5, raio 10, dano 5
-	Projetil *proj_player3 = new Projetil(0, 0, 5, 1, 1, 10, 5, ProjetilBase.GetSpriteManip() );
+	Projetil *proj_player3 = new Projetil(0, 0, 5, 1, 1, 10, 5, ProjetilBase.GetSprites() );
 	ataques.Insert(proj_player1);
 	ataques.Insert(proj_player2);
 	ataques.Insert(proj_player3);

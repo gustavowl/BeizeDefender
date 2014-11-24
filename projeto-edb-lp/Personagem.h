@@ -19,7 +19,6 @@ protected:
 	Lista<Projetil*> Projeteis; /**< Lista simplesmente encadeada que contém os projéteis no campo de batalha (arena)*/
 	int Vida; /**< Armazena a vida atual do personagem. Vida <= 0: personagem morreu*/
 	int danoFisico; /**< Dano causado a outros personagens ao se colidir com eles*/
-	SpriteManip spPlayer; /**< Ponteiro para objeto de classe manipulador dos sprites do personagem*/
 	/**
 	* Desenha Personagem na tela. Leva em conta atributos de GO
 	* @param red quantidade de vermelho (RGB) da cor do personagem
@@ -80,10 +79,6 @@ public:
 	* \return retorna vida atual do personagem
 	*/
 	int GetVida() const;
-	/**
-	* \return Retorna o ponteiro spPlayer
-	*/
-	SpriteManip GetSpriteManip() const;
 	/**
 	* \return retorna se o personagem E os projéteis dele foram destruídos. Caso verdadeiro, 
 	* pode remover o Personagem do jogo, caso falso, tem que esperar as balas do personagem

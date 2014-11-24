@@ -97,7 +97,8 @@ class Horda {
 		* @param obj personagem
 		* @param base base do jogo
 		*/
-		void VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila_cafe);
+		void VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila_cafe,
+			SpManip::SpriteManip sp_drop);
 
 		/**
 		* Retorna se todos os inimigos e projéteis da Horda foram destruídos

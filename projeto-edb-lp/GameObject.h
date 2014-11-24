@@ -1,5 +1,7 @@
 #ifndef _GAMEOBJECT_H_
 #define _GAMEOBJECT_H_
+
+#include "SpriteManip.h"
 /**
 Enum que amazena os 3 tipos de movimentos: estático, linear ou smoothstep
 */
@@ -38,6 +40,7 @@ class GameObject {
 		distância entre o ponto de origem ao ponto de destino dividido pela Velocidade */
 
 		WalkType TipoMovimento; /**< Armazena o tipo de movimento do objeto. Os 3 tipos de movimentos estão presentes no enum*/
+		SpManip::SpriteManip Sprites; /**< Armazena ponteiros para as imagens (sprites) do objeto*/
 
 	public:
 		/**
@@ -110,7 +113,10 @@ class GameObject {
 		* Retorna tipo do movimento do objeto. Utilizado em construtores das classes filhas
 		*/
 		WalkType GetTipoMovimento() const;
-
+		/**
+		* \return Retorna instância de objeto manipulador de sprites. Utilizado em construtores de classes filhas
+		*/
+		SpManip::SpriteManip GetSprites() const;
 		/**
 		* Construtor padrão. Cria "objeto vazio".
 		*/
@@ -129,7 +135,7 @@ class GameObject {
 		* @param Raio raio utilizado para detecção de colisão
 		* @param TipoMov tipo de movimento que será feito pelo objeto
 		*/
-		GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov);
+		GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov, SpManip::SpriteManip sprites);
 		/**
 		* Construtor utilizado pelo player.
 		* @param PositionX coordenada X de origem do objeto
@@ -138,7 +144,8 @@ class GameObject {
 		* @param Raio raio utilizado para detecção de colisão
 		* @param TipoMov tipo de movimento que será feito pelo objeto
 		*/
-		GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, unsigned int Raio, WalkType TipoMov);
+		GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, unsigned int Raio, WalkType TipoMov,
+			SpManip::SpriteManip sprites);
 		/**
 		* Construtor utilizado pelo projétil.
 		* @param PositionX coordenada X de origem do objeto
@@ -150,7 +157,8 @@ class GameObject {
 		* @param TipoMov tipo de movimento que será feito pelo objeto
 		*/
 		GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, 
-			unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, WalkType TipoMov);
+			unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, WalkType TipoMov,
+			SpManip::SpriteManip sprites);
 		/**
 		* Destrutor
 		*/

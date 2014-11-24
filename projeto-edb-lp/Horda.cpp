@@ -96,7 +96,9 @@ int Horda::VerificarColisaoProjInimObj(const go::GameObject obj) {
     return dano_total;
 }
 
-void Horda::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila_cafe) {
+void Horda::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila_cafe,
+	SpManip::SpriteManip sp_drop) {
+
 	Inimigo *ini_temp;
 	int i = 0;
 	int dano_total = 0;
@@ -109,9 +111,9 @@ void Horda::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila
 			 //Remove inimigo da lista, não incrementa o i pois verifica próximo inimigo
 			srand (time (NULL)); // Gera uma 'random seed' baseada no retorno da funcao time()
 			int numero;
-			numero = (rand () % 3) + 1; // Retorna um numero aleatorio entre 1 e 4
+			numero = (rand () % 4) + 1; // Retorna um numero aleatorio entre 1 e 4
 			if(numero == 1){ // Chance de 25% para realizar o drop
-				Drop *cafe_temp = new Drop(ini_temp->Dropar(), ini_temp->GetXAtual(), ini_temp->GetYAtual());
+				Drop *cafe_temp = new Drop(ini_temp->Dropar(), ini_temp->GetXAtual(), ini_temp->GetYAtual(), sp_drop);
 				fila_cafe.Insert(0, cafe_temp);	
 			}
 			listaInimigos.Remove(i);

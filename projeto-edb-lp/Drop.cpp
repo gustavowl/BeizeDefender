@@ -3,8 +3,9 @@
 #include <cmath>
 
 
-Drop::Drop(int energia, int XOrigem, int YOrigem){
-	*this = GameObject(XOrigem, YOrigem, 0, 5, STATIC);
+Drop::Drop(int energia, int XOrigem, int YOrigem, SpManip::SpriteManip sp_drop){
+
+	*this = GameObject(XOrigem, YOrigem, 0, 5, STATIC, sp_drop);
 	this->energia = energia;
 	tempoEspera = 150; // 5 segundos
 }
@@ -29,24 +30,26 @@ void Drop::operator=(const GameObject &GameObj) {
 	Raio = GameObj.GetRaio();
 	Velocidade = GameObj.GetVelocidade();
 	TipoMovimento = STATIC;
+	Sprites = GameObj.GetSprites();
 }
 
 void Drop::Draw(Lista<Drop*> &lista_cafe, ALLEGRO_DISPLAY *display){
 	int i = 0;
 	Drop *cafe;
-	ALLEGRO_BITMAP *coffee = NULL;
+	//ALLEGRO_BITMAP *coffee = NULL;
 
 	while ( lista_cafe.GetElem( i, cafe ) ) {
 		if(cafe->PassarTempo()){
 				//al_draw_filled_circle(cafe->XOrigem, cafe->YOrigem, 5, al_map_rgb(255, 255, 255));
-				coffee = al_load_bitmap("coffee.png");
-				al_draw_bitmap(coffee, cafe->XOrigem, cafe->YOrigem, 0);
+				//coffee = al_load_bitmap("coffee.png");
+				cafe->Sprites.AvancarSprite(cafe->XOrigem, cafe->YOrigem);
+				//al_draw_bitmap(coffee, cafe->XOrigem, cafe->YOrigem, 0);
 
 
 		}
 		else{
 			lista_cafe.Remove(i);
-			al_destroy_bitmap(coffee);
+			//al_destroy_bitmap(coffee);
 		}
 		i++;
 	}

@@ -17,7 +17,6 @@ class Projetil : public go::GameObject {
 	private:
 		unsigned int Dano; /**< Armazena dano que será causado pelo projétil*/
 		bool Destruido; /**< Armazena se projétil foi destruído para que possa ser removido da lista que o contém*/
-		SpManip::SpriteManip spProj;
 
 		/**
 		* Calcula coordenada de destino do projétil, ou seja, a coordena na qual ele sairá da arena, retornando
@@ -101,7 +100,6 @@ class Projetil : public go::GameObject {
 		* \return Retorna dano causado pelo projétil (atributo dano)
 		*/
 		unsigned int GetDano();
-		SpManip::SpriteManip GetSpriteManip() const;
 		/**
 		* Identifica colisão do projétil com o obj circular enviado por parâmetro. Geralmente do tipo Personagem.
 		* Retorna dano causado pelo projétil ao obj e destrói (altera valor do atributo "Destruido") projétil atual.

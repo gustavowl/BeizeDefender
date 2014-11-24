@@ -3,7 +3,8 @@
 #include <allegro5/allegro_primitives.h>
 
 Projetil::Projetil() {
-	*this = GameObject(0, 0, 30, 0, 0, 2, LINEAR);
+	SpManip::SpriteManip sptemp; //manipulador de sprites vazio
+	*this = GameObject(0, 0, 30, 0, 0, 2, LINEAR, sptemp);
 	Dano = 2;
 	Destruido = true;
 }
@@ -14,8 +15,9 @@ unsigned int DestinoY) {
 	DestinoX <= MaxX && DestinoY <= MaxY) { //verifica se valor é válido
 		//calcula coordenada de destino em que sairá da arena
 		CalcularCoordenadasFinais(PositionX, PositionY, DestinoX, DestinoY);
+		SpManip::SpriteManip sptemp; //manipulador de sprites vazio
 		//chama o construtor da classe pai
-		GameObject temp = GameObject(PositionX, PositionY, 30, DestinoX, DestinoY, 2, LINEAR);
+		GameObject temp = GameObject(PositionX, PositionY, 20, DestinoX, DestinoY, 2, LINEAR, sptemp);
 		*this =  temp; //copia os valores de pai para filho (tava dando erro ao fazer direto)
 		Dano = 2;
 		Destruido = false;
@@ -29,12 +31,12 @@ unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, unsigned int Da
 		//calcula coordenada de destino em que sairá da arena
 		CalcularCoordenadasFinais(PositionX, PositionY, DestinoX, DestinoY);
 		//chama o construtor da classe pai
-		GameObject temp = GameObject(PositionX, PositionY, Velocidade, DestinoX, DestinoY, Raio, LINEAR);
+		GameObject temp = GameObject(PositionX, PositionY, Velocidade, DestinoX, DestinoY, Raio, LINEAR, sp_proj);
 		*this =  temp; //copia os valores de pai para filho (tava dando erro ao fazer direto)
 		this->Dano = Dano; //atualiza dano com valor de entrada
 		Destruido = false;
-		spProj = sp_proj;
-		spProj.MudarAcaoAtual(SpManip::ATIRAR);
+		Sprites = sp_proj;
+		Sprites.MudarAcaoAtual(SpManip::ANDAR);
 	}
 }
 
@@ -53,6 +55,7 @@ void Projetil::operator=(const GameObject &GameObj) {
 	YDestino = GameObj.GetYDestino();
 	Raio = GameObj.GetRaio();
 	Velocidade = GameObj.GetVelocidade();
+	Sprites = GameObj.GetSprites();
 	TipoMovimento = LINEAR;
 }
 
@@ -70,7 +73,7 @@ void Projetil::operator=(const Projetil &proj) { //faz cópia profunda
 	this->TipoMovimento = proj.TipoMovimento;
 	this->Dano = proj.Dano;
 	this->Destruido = proj.Destruido;
-	this->spProj = proj.spProj;
+	this->Sprites = proj.Sprites;
 }
 
 void Projetil::Mover() {
@@ -86,7 +89,7 @@ void Projetil::Destruir() {
 
 void Projetil::Draw() {
 	if ( !Destruido ) {
-		spProj.AvancarSprite(XAtual, YAtual);
+		Sprites.AvancarSprite(XAtual, YAtual);
 		al_draw_filled_circle(XAtual, YAtual, Raio, al_map_rgb(0, 0, 0));
 	}
 }
@@ -97,10 +100,6 @@ bool Projetil::GetDesruido() {
 
 unsigned int Projetil::GetDano() {
 	return Dano;
-}
-
-SpManip::SpriteManip Projetil::GetSpriteManip() const {
-	return spProj;
 }
 
 int Projetil::VerificarColisao(const GameObject obj) { //retorna dano causado pela bala ao obj, e destrói

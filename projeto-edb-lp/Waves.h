@@ -5,6 +5,7 @@
 #include "ListaEncadeada/lista.h"
 #include "GameObject.h"
 #include "Personagem.h"
+#include "SpriteManip.h"
 
 /**
 * \class Waves
@@ -107,7 +108,7 @@ class Waves {
 		* @param persona "personagem"
 		* @param lista_cafe lista que contêm os drops dos inimigos
 		*/
-		void VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &lista_cafe);
+		void VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &lista_cafe, SpManip::SpriteManip sp_drop);
 
 		/**
 		* Retorna o id da horda atual

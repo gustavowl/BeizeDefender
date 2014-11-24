@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Player.h"
 #include "ListaEncadeada/lista.h"
+#include "SpriteManip.h"
 
 /**
 * \class Drop
@@ -33,7 +34,7 @@ class Drop : public go::GameObject{
        * @param XOrigem posição X em que ele aparecerá
        * @param YOrigem posição Y em que ele aparecerá
        */
-		Drop(int energia, int XOrigem, int YOrigem);
+		Drop(int energia, int XOrigem, int YOrigem, SpManip::SpriteManip sp_drop);
 
 		/**
 		* Destrutor

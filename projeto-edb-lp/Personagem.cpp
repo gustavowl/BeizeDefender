@@ -55,7 +55,7 @@ int Personagem::VerificarColisaoQuadrada(const GameObject obj) {
 
 void Personagem::Atirar(unsigned int destino_x, unsigned int destino_y) { //atira projétil de tipo 1
 	Projetil *novo_projetil = new Projetil( XAtual, YAtual, ProjetilBase.GetVelocidade(),
-		destino_x, destino_y, ProjetilBase.GetRaio(), ProjetilBase.GetDano(), ProjetilBase.GetSpriteManip() );
+		destino_x, destino_y, ProjetilBase.GetRaio(), ProjetilBase.GetDano(), ProjetilBase.GetSprites() );
 	Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
 }
 
@@ -132,10 +132,6 @@ int Personagem::GetVida() const {
 	return Vida;
 }
 
-SpriteManip Personagem::GetSpriteManip() const {
-	return spPlayer;
-}
-
 bool Personagem::PersonagemEProjeteisDestruidos() {
 	return ( Vida <= 0 && Projeteis.Size() == 0 );
 }
@@ -149,12 +145,14 @@ int Personagem::GetDanoFisico(){
 }
 
 Personagem::Personagem() {
-	*this = GameObject(0, 0, 5, 10, LINEAR);
+	SpManip::SpriteManip sptemp; //manipulador de sprites vazio
+	*this = GameObject(0, 0, 5, 10, LINEAR, sptemp);
 	Vida = 10;
 }
 
 Personagem::Personagem(unsigned int posicao_x, unsigned int posicao_y, WalkType walk_type) {
-	*this = GameObject(posicao_x, posicao_y, 5, 10, walk_type);
+	SpManip::SpriteManip sptemp; //manipulador de sprites vazio
+	*this = GameObject(posicao_x, posicao_y, 5, 10, walk_type, sptemp);
 	Vida = 10;
 	ProjetilBase = Projetil(0, 0, 1, 1);
 }
@@ -163,10 +161,10 @@ Personagem::Personagem(unsigned int posicao_x, unsigned int posicao_y, WalkType 
 Personagem::Personagem(int velocidade, int vida, int raio, WalkType walk_type, Projetil projetil_base,
 		SpriteManip sp_inim) {
 	if (vida > 0 && velocidade > 0 && raio > 0) { // verificar se sp_inim válido?
-		*this = GameObject(velocidade, raio, walk_type);
+		*this = GameObject(velocidade, raio, walk_type, sp_inim);
 		Vida = vida;
 		ProjetilBase = projetil_base;
-		spPlayer = sp_inim;
+		//spPlayer = sp_inim;
 	}	
 }
 
@@ -174,9 +172,9 @@ Personagem::Personagem(unsigned int posicao_x, unsigned int posicao_y, int veloc
 	int raio, WalkType walk_type, Projetil projetil_base, SpriteManip sp_player) {
 
 	if (vida > 0 && velocidade > 0 && raio > 0) {
-		*this = GameObject(posicao_x, posicao_y, velocidade, raio, walk_type);
+		*this = GameObject(posicao_x, posicao_y, velocidade, raio, walk_type, sp_player);
 		Vida = vida;
-		spPlayer = sp_player;
+		//spPlayer = sp_player;
 		ProjetilBase = projetil_base;
 	}
 }
@@ -197,6 +195,7 @@ void Personagem::operator=(const GameObject &game_obj) {
 	Raio = game_obj.GetRaio();
 	Velocidade = game_obj.GetVelocidade();
 	TipoMovimento = game_obj.GetTipoMovimento();
+	Sprites = game_obj.GetSprites();
 }
 
 void Personagem::operator=(const Personagem &persona) {//faz cópia profunda
@@ -213,6 +212,7 @@ void Personagem::operator=(const Personagem &persona) {//faz cópia profunda
 	this->TipoMovimento = persona.GetTipoMovimento();
 	this->Vida = persona.Vida;
 	this->ProjetilBase = persona.ProjetilBase;
+	this->Sprites = persona.Sprites;
 
 	Projetil *temp; int i = 0;
 	while ( Projeteis.GetElem(0, temp) ) { //deleta todos os projéteis dinamicamente alocados

@@ -87,6 +87,7 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	ALLEGRO_BITMAP *al_bmp_player = NULL;
 	ALLEGRO_BITMAP *al_bmp_inim = NULL;
 	ALLEGRO_BITMAP *al_bmp_proj = NULL;
+	ALLEGRO_BITMAP *al_bmp_drop = NULL;
 	//para iniciar sprite manip
 	FilaDupl<ALLEGRO_BITMAP*> player_parado[8];
 	FilaDupl<ALLEGRO_BITMAP*> player_andar[8];
@@ -95,6 +96,7 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	FilaDupl<ALLEGRO_BITMAP*> inim_andar[8];
 	FilaDupl<ALLEGRO_BITMAP*> inim_atirar[8];
 	FilaDupl<ALLEGRO_BITMAP*> proj_andar[8];
+	FilaDupl<ALLEGRO_BITMAP*> drop_parado[8];
 	//FilaDupl<ALLEGRO_BITMAP*> player_morrer[8];
 	//CARREGA SPRITES
 	//PARADO
@@ -252,6 +254,34 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	
 	/*  Múltiplas Waves */
 	Waves wave = Waves( fila_horda, fila_tempo_espera);
+	/**********************************
+	********SPRITES DROP***************
+	**********************************/
+	al_bmp_drop = al_load_bitmap("coffee.png");
+	drop_parado[CIMA].Insert( al_bmp_drop );
+
+	al_bmp_drop = al_load_bitmap("coffee.png");
+	drop_parado[CIMADIR].Insert( al_bmp_drop );
+
+	al_bmp_drop = al_load_bitmap("coffee.png");
+	drop_parado[DIREITA].Insert( al_bmp_drop );
+
+	al_bmp_drop = al_load_bitmap("coffee.png");
+	drop_parado[BAIXODIR].Insert( al_bmp_drop );
+
+	al_bmp_drop = al_load_bitmap("coffee.png");
+	drop_parado[BAIXO].Insert( al_bmp_drop );
+
+	al_bmp_drop = al_load_bitmap("coffee.png");
+	drop_parado[BAIXOESQ].Insert( al_bmp_drop );
+
+	al_bmp_drop = al_load_bitmap("coffee.png");
+	drop_parado[ESQUERDA].Insert( al_bmp_drop );
+
+	al_bmp_drop = al_load_bitmap("coffee.png");
+	drop_parado[CIMAESQ].Insert( al_bmp_drop );
+
+	SpriteManip sp_drop(drop_parado, drop_parado, drop_parado);
    
 	
 	checkExpression(!al_install_audio(), "Problemas ao iniciar o plugin de audio. Abortar!");
@@ -376,7 +406,7 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 						//só atira caso horda não tenha sido destruída
 						wave.Atirar(player, base);
 						//verifica dano nos inimigos da horda
-						wave.VerificarColisaoProjPersInim(player, lista_cafe);
+						wave.VerificarColisaoProjPersInim(player, lista_cafe, sp_drop);
 					}
 					else{
 						if(wave.GetIdHorda() != hordaAtual){

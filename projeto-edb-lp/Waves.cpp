@@ -84,10 +84,12 @@ int Waves::VerificarColisaoProjInimObj(const go::GameObject obj) {
 }
 
 
-void Waves::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &lista_cafe) {
+void Waves::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &lista_cafe,
+	SpManip::SpriteManip sp_drop) {
+
 	if ( hordaAtual != NULL && tempoEspera == 0 ) {
 		//Calcula todo o dano
-		hordaAtual->VerificarColisaoProjPersInim(persona, lista_cafe);
+		hordaAtual->VerificarColisaoProjPersInim(persona, lista_cafe, sp_drop);
 		//Verifica se horda foi destruída
 		if ( hordaAtual->Destruida() ) { 
 			delete hordaAtual; //Deleta horda dinamicamente alocada
