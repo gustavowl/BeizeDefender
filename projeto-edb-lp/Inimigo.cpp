@@ -1,43 +1,36 @@
 #include "Inimigo.h"
-#include <math.h>
+#include <cmath>
 #include <cstdlib>
 
 Inimigo::Inimigo(int velocidade, int vida) { //gera posição inicial randômicamente (nas bordas)
 	*this = Personagem(velocidade, vida, 10, LINEAR, Projetil(0, 0, 1, 1)); //cria projétil padrão 
-	Municao = 10;
 	Drop = 15;
 	danoFisico = 4;
 	CalcularProxDest =  false;
-	InterveloTiro = INTERVALOTIROPADRAO;
-	ProxTiro = InterveloTiro;
+	IntervaloTiro = INTERVALOTIROPADRAO;
+	ProxTiro = IntervaloTiro;
 }
 
  //gera posição inicial randômicamente (nas bordas)
-Inimigo::Inimigo(int velocidade, int vida, int raio, int municao, int intervelo_tiro,
-	int primeiro_tiro, Projetil projetil_base, int danoFisico) {
+Inimigo::Inimigo(int velocidade, int vida, int raio, int intervaloTiro,
+	int primeiro_tiro, Projetil projetil_base, int danoFisico) 
+{
 	Drop = 15;
 	this->danoFisico = danoFisico;
 	*this = Personagem(velocidade, vida, raio, LINEAR, projetil_base);
-	if (municao >= 0)
-		Municao = municao;
+	
+	if (intervaloTiro > 0)
+		IntervaloTiro = intervaloTiro;
 	else
-		Municao = 0;
-	if (intervelo_tiro > 0)
-		InterveloTiro = intervelo_tiro;
-	else
-		InterveloTiro = INTERVALOTIROPADRAO;
+		IntervaloTiro = INTERVALOTIROPADRAO;
 	if (primeiro_tiro >= 0)
 		ProxTiro = primeiro_tiro;
 	else
-		ProxTiro = rand() % (InterveloTiro + 1);
+		ProxTiro = rand() % (IntervaloTiro + 1);
 	CalcularProxDest =  false;
 }
 
-// Envia o valor do drop para Horda.VerificarColisaoProjPersInim()
-int Inimigo::Dropar()
-{
-	return Drop;
-}
+
 
 void Inimigo::Distancia(Personagem p, go::GameObject base)
 {
@@ -76,15 +69,13 @@ void Inimigo::Distancia(Personagem p, go::GameObject base)
 		if ((px_orig == px_atual && py_orig == py_atual) || /*personagem mudou de rota, recalcula*/
 		(x_atual == XDestino && y_atual == YDestino) || /*Inimigo atingiu destino, recalcula*/
 		(px_atual == p.GetXDestino() && py_atual == p.GetYDestino()) /*Personagem atingiu destino, recalcula*/
-		/*|| p.GetFrameAtual() <= 1*/) //saiu da inércia
 			CalcularProxDest = true;
 
 		if (CalcularProxDest) {
 			if (px_orig != px_atual && px_atual != p.GetXDestino() &&
 			py_atual != py_orig && py_atual != p.GetYDestino()) { //está se movimentando
 				//vai para metade do caminho
-				/*this->AtualizarDestino( (px_atual + p.GetXDestino()) / 2,
-				(py_atual + p.GetYDestino()) / 2);*/
+
 				this->AtualizarDestino( (px_orig + p.GetXDestino()) / 2,
 				(py_orig + p.GetYDestino()) / 2);
 				CalcularProxDest = false;
@@ -133,6 +124,11 @@ void Inimigo::operator=(const Personagem &persona) {
 	}
 }
 
+void Inimigo::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY)
+{
+	GameObject::AtualizarDestino(DestinoX, DestinoY);
+}
+
 void Inimigo::Atirar(const Personagem &p, const go::GameObject &base) 
 {
 	if ( ProxTiro == 0 && Vida > 0) {
@@ -153,41 +149,36 @@ void Inimigo::Atirar(const Personagem &p, const go::GameObject &base)
 		Projeteis.Insert( 0, novo_projetil ); //insere Projetil no começo da lista
 		//zera a contagem dos intervalos
 		//+1 evita que ProxTiro = 0, o que faria que o inimigo parasse de atirar
-		ProxTiro = ( rand() % InterveloTiro ) + 1;
+		ProxTiro = ( rand() % IntervaloTiro ) + 1;
 	}
 	ProxTiro--; //subtrai a cada frame
 }
 
-void Inimigo::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY)
-{
-	GameObject::AtualizarDestino(DestinoX, DestinoY);
-}
 
-void Inimigo::Mover() { //sobrescreve operação de mover. Move tanto o player quanto suas balas
+
+void Inimigo::Mover() 
+{
 	Personagem::Mover(); //chama mover original
 }
 
-void Inimigo::Mover(Lista<Personagem*> &list_pers, Personagem* This){
+void Inimigo::Mover(Lista<Personagem*> &list_pers, Personagem* This)
+{
 	Personagem::Mover(list_pers, This);
 }
 
-void Inimigo::Mover(Player &p, Inimigo &ini){
+void Inimigo::Mover(Player &p, Inimigo &ini)
+{
 	if (Vida > 0) { //só move se ainda estiver vivo
 		if(VerificarColisaoInimigo(p, ini)){
 			std::cout<<"colidiu"<<std::endl;
 		}
 		GameObject::Mover(); //chama mover original
-	}/*
-	//chama mover para os projéteis
-	Projetil *temp; int i = 0;
-	while ( Projeteis.GetElem( i, temp ) ) {
-		temp->Mover();
-		i++;
-	}*/
+	}
 }
 
 
-int Inimigo::VerificarColisaoInimigo(Player &p, Inimigo &ini){
+int Inimigo::VerificarColisaoInimigo(Player &p, Inimigo &ini)
+{
 
 	int x_atual = ini.GetXAtual(), y_atual = ini.GetYAtual(); //evita erro de subtração
 	//coordenadas de obj
@@ -231,4 +222,10 @@ int Inimigo::VerificarColisaoInimigo(Player &p, Inimigo &ini){
 		}
 	}
 	return 0;
+}
+
+
+int Inimigo::Dropar()
+{
+	return Drop;
 }

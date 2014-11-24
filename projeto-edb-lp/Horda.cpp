@@ -21,7 +21,7 @@ Horda::Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, in
 	id = idHorda;
 	if (quantidade > 0) {
 		for (int i = 0; i < quantidade; ++i){
-			Inimigo *enemy = new Inimigo(velocidade, vida, raio, municao, intervalo_tiro,
+			Inimigo *enemy = new Inimigo(velocidade, vida, raio, intervalo_tiro,
 				primeiro_tiro, projetil_base, danoFisico);
 			listaInimigos.Insert(0, enemy);
 		}
