@@ -2,7 +2,7 @@
 
 #### Nome e Matrícula ####
 Gustavo 
-Hiago 
+Hiago Miguel da Silva Rodrigues - 2014000875
 Raí Vitor Morais da Silva - 2014000900
 
 #### Compilar ####
