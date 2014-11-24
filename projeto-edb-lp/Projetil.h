@@ -34,6 +34,7 @@ class Projetil : public go::GameObject {
 		* Inicializa "projétil vazio", já destruído
 		*/
 		Projetil();
+
 		/**
 		* Construtor de projétil padrão
 		* inicializa bala com velocidade e tamanho padrão
@@ -57,6 +58,7 @@ class Projetil : public go::GameObject {
 		*/
 		Projetil(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, unsigned int DestinoX,
 			unsigned int DestinoY, unsigned int Raio, unsigned int Dano);
+
 		/**
 		* Construtor de cópia
 		* Realiza cópia profunda do projétil enviada por referência
@@ -70,35 +72,42 @@ class Projetil : public go::GameObject {
 		* @param &GameObj GameObject enviado por referência, de onde serão copiados os valores
 		*/
 		void operator=(const GameObject &GameObj);
+
 		/**
 		* Sobrecarga de operador =
 		* Realiza cópia profunda do projétil enviada por referência
 		* @param &projetil projétil enviado por referência, de onde serão copiados os valores
 		*/
 		void operator=(const Projetil &proj);
+
 		/**
 		* Atualiza posição do projétil e altera o valor de Destruido para verdadeiro caso tenha
 		* atingido a borda da arena
 		*/
 		void Mover();
+
 		/**
 		* Altera o valor de Destruido para verdadeiro
 		*/
 		void Destruir();
+
 		/**
 		* Desenha o projétil na arena de acordo com a posição atual
 		*/
 		void Draw();
+
 		/**
 		* Retorna se o projétil atual foi destruído
 		* \return Retorna se o projétil atual foi destruído
 		*/
 		bool GetDesruido();
+
 		/**
 		* Retorna dano causado pelo projétil (atributo dano)
 		* \return Retorna dano causado pelo projétil (atributo dano)
 		*/
 		unsigned int GetDano();
+
 		/**
 		* Identifica colisão do projétil com o obj circular enviado por parâmetro. Geralmente do tipo Personagem.
 		* Retorna dano causado pelo projétil ao obj e destrói (altera valor do atributo "Destruido") projétil atual.
@@ -107,6 +116,7 @@ class Projetil : public go::GameObject {
 		* @param obj GameObject com o qual será verificada a colisão do projétil atual
 		*/
 		int VerificarColisao(const GameObject obj);
+
 		/**
 		* Identifica colisão do projétil com o obj quadrado enviado por parâmetro. Geralmente do tipo base.
 		* Retorna dano causado pelo projétil ao obj e destrói (altera valor do atributo "Destruido") projétil atual.
@@ -115,7 +125,6 @@ class Projetil : public go::GameObject {
 		* @param obj GameObject com o qual será verificada a colisão do projétil atual
 		*/
 		int VerificarColisaoQuadrada(const GameObject obj);
-
 };
 
 #endif

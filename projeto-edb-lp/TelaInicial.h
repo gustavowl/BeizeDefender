@@ -34,12 +34,9 @@ public:
 	* @param event_queue ponteiro que recebe a "fila do evento"
 	* @param ev objeto passado por referência para manter os dados de qualquer tipo de eventos
 	* @param display ponteiro que representa uma janela aberta. Recebido para que a tela de Menu seja desenhada
-
-   */
+    */
 
 	int Executar( ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev, ALLEGRO_DISPLAY *display);
-
-
 };
 
 
