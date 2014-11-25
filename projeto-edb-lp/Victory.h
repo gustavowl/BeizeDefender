@@ -22,7 +22,7 @@ public:
 	Victory();
 
 	/**
-	* Destrutor padrÃ£o
+	* Destrutor padrão
 	*
 	*/
 	~Victory();

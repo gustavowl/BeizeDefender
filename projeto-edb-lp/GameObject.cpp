@@ -1,7 +1,7 @@
 #include "GameObject.h"
 #include <cstdlib>
-#include <math.h>
-#include <time.h>
+#include <cmath>
+#include <ctime>
 
 using namespace go;
 
@@ -120,7 +120,7 @@ GameObject::GameObject(unsigned int PositionX, unsigned int PositionY, unsigned 
 }
 	
 GameObject::~GameObject() {
-	//what goes inside?
+	
 }
 
 void GameObject::Mover() {

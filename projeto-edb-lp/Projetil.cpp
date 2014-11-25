@@ -1,5 +1,5 @@
 #include "Projetil.h"
-#include <math.h>
+#include <cmath>
 #include <allegro5/allegro_primitives.h>
 
 Projetil::Projetil() {
@@ -59,7 +59,7 @@ void Projetil::operator=(const GameObject &GameObj) {
 	TipoMovimento = LINEAR;
 }
 
-void Projetil::operator=(const Projetil &proj) { //faz cópia profunda
+void Projetil::operator=(const Projetil &proj) { 
 	this->FrameAtual = proj.FrameAtual;
 	this->TotalFrames = proj.TotalFrames;
 	this->XOrigem = proj.XOrigem;
@@ -89,9 +89,7 @@ void Projetil::Destruir() {
 
 void Projetil::Draw() {
 	if ( !Destruido ) {
-		//Sprites.AvancarSprite(XAtual, YAtual);
 		GameObject::Draw();
-		//al_draw_filled_circle(XAtual, YAtual, Raio, al_map_rgb(0, 0, 0));
 	}
 }
 

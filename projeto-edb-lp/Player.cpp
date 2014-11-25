@@ -84,8 +84,6 @@ void Player::Draw() {
 	if ( Sprites.GetTempoProxSprite() == 0 && atirando )
 		atirando = false;
 	Personagem::Draw();
-	//GameObject::Draw();
-	//Sprites.AvancarSprite(XAtual, YAtual);
 }
 
 void Player::Regenerar(){

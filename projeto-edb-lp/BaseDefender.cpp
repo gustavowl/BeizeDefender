@@ -11,13 +11,13 @@
 #define MAX_ALTURA 640
 #define MAX_LARGURA 1024
 
-#define GAME_STATE_MENU		 0
-#define GAME_STATE_MAINGAME  1
-#define GAME_STATE_INSTRUCOES 2
-#define GAME_STATE_CREDITOS  3
-#define GAME_STATE_GAMEOVER  4
-#define GAME_STATE_VICTORY 5
-#define GAME_STATE_FINISH    6
+#define GAME_STATE_MENU		 	0
+#define GAME_STATE_MAINGAME  	1
+#define GAME_STATE_INSTRUCOES 	2
+#define GAME_STATE_CREDITOS  	3
+#define GAME_STATE_GAMEOVER  	4
+#define GAME_STATE_VICTORY 		5
+#define GAME_STATE_FINISH    	6
 
 int main()
 {
@@ -27,7 +27,6 @@ int main()
 	ALLEGRO_EVENT ev;
 
 	int fps = 30, gameState = GAME_STATE_MENU;
-
 
 	TelaInicial Menu;
 	GameManager Jogo;
@@ -39,8 +38,6 @@ int main()
 
 	if( !al_init() )
 		return -1;
-	//variaveis do allegro
-	
 	
 	timer = al_create_timer(1.0 / fps);
 	if (!timer)
@@ -52,7 +49,6 @@ int main()
 		al_destroy_timer(timer);
 		return -1;
 	}
-
 	
 	event_queue = al_create_event_queue();
 	if (!event_queue) {

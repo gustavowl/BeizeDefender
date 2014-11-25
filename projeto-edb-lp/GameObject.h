@@ -51,84 +51,112 @@ class GameObject {
 		* Essa função deve ser chamada a cada frame.
 		*/
 		virtual void Mover();
+
 		/**
 		* Atualiza os atributos XOrigem, YOrigem, XDestino e YDestino, FrameAtual e recalcula TotalFrames.
 		* @param DestinoX coordenada X de destino
 		* @param DestinoY coordenada Y de destino
 		*/
 		virtual void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);
+
 		/**
 		* Desenha objeto na posição atual, leva em conta imagens em SpManip::SpriteManip Sprites
 		*/
 		virtual void Draw();
+
 		/**
 		* Retorna largura da arena, é utilizado para verificação de valores válidos em classes filhas.
 		*/
 		unsigned int GetMaxX() const;
+
 		/**
 		* Retorna altura da arena, é utilizado para verificação de valores válidos em classes filhas.
 		*/
 		unsigned int GetMaxY() const;
+
 		/**
 		* Retorna coordenadas X e Y da posição atual. Utilizado para calcular colisão
 		* @param &x receberá a coordenada X da posição atual por referência
 		* @param &y receberá a coordenada y da posição atual por referência
 		*/
 		void GetPosicaoAtual(unsigned int &x, unsigned int &y) const;
+
 		/**
 		* Retorna coordenada X posição atual. Utilizado em construtores das classes filhas
 		*/
 		unsigned int GetXAtual() const;
+
 		/**
 		* Retorna coordenada Y posição atual. Utilizado em construtores das classes filhas
 		*/
 		unsigned int GetYAtual() const;
+
 		/**
 		* Retorna Frame atual. Utilizado em construtores das classes filhas
 		*/
 		unsigned int GetFrameAtual() const;
+
 		/**
 		* Retorna Total de frames. Utilizado em construtores das classes filhas
 		*/
 		unsigned int GetTotalFrames() const;
+
 		/**
 		* Retorna coordenada X de origem. Utilizado em construtores das classes filhas
 		*/
 		unsigned int GetXOrigem() const;
+
 		/**
 		* Retorna coordenada Y de origem. Utilizado em construtores das classes filhas
 		*/
 		unsigned int GetYOrigem() const;
+
 		/**
 		* Retorna coordenada X de Destino. Utilizado em construtores das classes filhas
 		*/
 		unsigned int GetXDestino() const;
+
 		/**
 		* Retorna coordenada Y de Destino. Utilizado em construtores das classes filhas
 		*/
 		unsigned int GetYDestino() const;
+
 		/**
 		* Retorna raio de colisão. Utilizado em construtores das classes filhas
 		*/
 		unsigned int GetRaio() const;
+
+		/**
+		* Retorna largura do objeto. Utilizado em construtores das classes filhas
+		*/
+		unsigned int GetLargura() const;
+
+		/**
+		* Retorna altura do objeto. Utilizado em construtores das classes filhas
+		*/
+		unsigned int GetAltura() const;
+
+
 		/**
 		* Retorna velocidade do objeto. Utilizado em construtores das classes filhas
 		*/
-		unsigned int GetLargura() const;
-		unsigned int GetAltura() const;
 		unsigned int GetVelocidade() const;
+
 		/**
 		* Retorna tipo do movimento do objeto. Utilizado em construtores das classes filhas
 		*/
 		WalkType GetTipoMovimento() const;
+
 		/**
 		* \return Retorna instância de objeto manipulador de sprites. Utilizado em construtores de classes filhas
 		*/
 		SpManip::SpriteManip GetSprites() const;
+
 		/**
 		* Construtor padrão. Cria "objeto vazio".
 		*/
 		GameObject();
+
 		/**
 		* Construtor que deve ser chamado antes da construção de qualquer outro GameObject.
 		* Inicializa as dimensões da arena. Só permite a inicialização, sem possibilidade de alteração.
@@ -136,6 +164,7 @@ class GameObject {
 		* @param MaximoY altura da arena
 		*/
 		GameObject(unsigned int MaximoX, unsigned int MaximoY);
+
 		/**
 		* Construtor utilizado pelos inimigos.
 		* Gera posição inicial aleatória nas bordas da arena e cria um objeto com os parâmetros enviados
@@ -144,6 +173,7 @@ class GameObject {
 		* @param TipoMov tipo de movimento que será feito pelo objeto
 		*/
 		GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov, SpManip::SpriteManip sprites);
+
 		/**
 		* Construtor utilizado pelo player.
 		* @param PositionX coordenada X de origem do objeto
@@ -154,6 +184,7 @@ class GameObject {
 		*/
 		GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, unsigned int Raio, WalkType TipoMov,
 			SpManip::SpriteManip sprites);
+
 		/**
 		* Construtor utilizado pelo projétil.
 		* @param PositionX coordenada X de origem do objeto
@@ -167,6 +198,7 @@ class GameObject {
 		GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, 
 			unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, WalkType TipoMov,
 			SpManip::SpriteManip sprites);
+
 		/**
 		* Destrutor
 		*/

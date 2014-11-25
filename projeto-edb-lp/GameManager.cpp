@@ -6,7 +6,7 @@
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 #include <cstdlib>
-#include <math.h>
+#include <cmath>
 #include <string>
 #include "GameObject.h"
 #include "ListaEncadeada/lista.h"

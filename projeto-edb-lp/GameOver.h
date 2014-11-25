@@ -15,24 +15,22 @@ class GameOver
 
 public:
 
-
 	/**
 	* Construtor padrão
 	* Chamado para gerar um objeto denominado "Fim" em BaseDefender.cpp
 	*/
-
 	GameOver();
 
+	/**
+	* Destrutor
+	*/
 	~GameOver();
 
 	/**
 	* Gera a tela de GameOver
 	* @param display ponteiro que representa uma janela aberta. Recebido para que a tela de GameOver seja desenhada
 	*/
-
 	int Executar( ALLEGRO_DISPLAY *display );
-
-
 };
 
 #endif

@@ -96,8 +96,6 @@ void Personagem::Mover(Lista<Personagem*> &list_pers, Personagem* This) {
 		prox_x = round( XDestino * t + XOrigem * (1 - t) );
 		prox_y = round( YDestino * t + YOrigem * (1 - t) );
 
-
-		//prox_x = XAtual; prox_y = YAtual;
 		float dist;
 		bool colindo = false;
 
@@ -196,7 +194,6 @@ Personagem::Personagem(int velocidade, int vida, int raio, WalkType walk_type, P
 		Vida = vida;
 		ProjetilBase = projetil_base;
 		atirando = false;
-		//spPlayer = sp_inim;
 	}	
 }
 
@@ -232,7 +229,7 @@ void Personagem::operator=(const GameObject &game_obj) {
 	atirando = false;
 }
 
-void Personagem::operator=(const Personagem &persona) {//faz cópia profunda
+void Personagem::operator=(const Personagem &persona) {
 	this->FrameAtual = persona.FrameAtual;
 	this->TotalFrames = persona.TotalFrames;
 	this->XOrigem = persona.XOrigem;

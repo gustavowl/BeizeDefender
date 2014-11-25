@@ -53,8 +53,6 @@ class Waves {
 
 		/**
 		* Destrutor padrão
-		*
-		*
 		*/
 		~Waves();
 
@@ -90,14 +88,11 @@ class Waves {
 
 		/**
 		* Desenha os inimigos da horda, caso haja alguma horda no campo de batalha
-		*
 		*/
 		void Draw();
 
 		/**
 		* Retorna o dano causado pelos projéteis dos inimigos com o objeto enviado por parâmetro
-		*
-		*
 		* @param obj objeto
 		*/
 		int VerificarColisaoProjInimObj(const go::GameObject obj);
@@ -112,10 +107,8 @@ class Waves {
 
 		/**
 		* Retorna o id da horda atual
-		*
 		*/
 		int GetIdHorda(); 
-
 };
 
 #endif
