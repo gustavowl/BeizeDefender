@@ -283,6 +283,27 @@ SpriteManip::~SpriteManip() {
 
 }
 
+void SpriteManip::Destruir() {
+	ALLEGRO_BITMAP *teste;
+
+	//FilaDupl<ALLEGRO_BITMAP*> lista_de_removidos;
+
+	for (int i = 0; i < QTD_DIRECOES; i++) {
+		for (int j = 0; j < Parado[i].Size(); j++ ) {
+			Parado[i].GetNextElem(teste);
+			al_destroy_bitmap(teste);
+		}
+		for (int j = 0; j < Andar[i].Size(); j++ ) {
+			Andar[i].GetNextElem(teste);
+			al_destroy_bitmap(teste);
+		}
+		for (int j = 0; j < Atirar[i].Size(); j++ ) {
+			Atirar[i].GetNextElem(teste);
+			al_destroy_bitmap(teste);
+		}
+	}
+}
+
 void SpriteManip::operator=(const SpriteManip &spm) {
 	DirecaoAlvo = spm.DirecaoAlvo;
 	AcaoAtual = spm.AcaoAtual;

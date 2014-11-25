@@ -66,6 +66,8 @@ namespace SpManip {
 		//sobrecarga de operador
 		void operator=(const SpriteManip &spm);
 
+		void Destruir();
+
 	};
 
 }

@@ -157,3 +157,20 @@ bool FilaDupl<type>::Remove(type &get) { //se usar referência e type = int vai 
 		get = first->val;
 	return Remove();
 }
+
+template <class type>
+int FilaDupl<type>::Search(type val) { //retorna posição da primeira instância de val
+	//-1: não existe elemento
+	if (tam > 0) {
+		node *temp = first;
+		int i = 0;
+		do {
+			if (temp->val == val)
+				return i;
+			i++;
+			temp = temp->next;
+		} while (temp != first);
+		return -1;
+	}
+	return -1;
+}

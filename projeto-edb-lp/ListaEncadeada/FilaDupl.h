@@ -91,6 +91,8 @@
 		* @param Recebe o valor removido por referência
 		*/
 		bool Remove(type &get);
+
+		int Search(type val); //retorna posição da primeira instância de val
 	};
 
 	#include "FilaDupl.inl"

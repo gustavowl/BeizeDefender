@@ -757,13 +757,21 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	al_destroy_bitmap(background2);
 	al_destroy_bitmap(background3);
 	al_destroy_bitmap(background4);
+	sp_player.Destruir();
+	//sp_proj.Destruir();
+	sp_inim.Destruir();
+	//sp_drop.Destruir();
+	al_destroy_bitmap(al_bmp_proj);
+	al_destroy_bitmap(al_bmp_drop);
+
+	 al_stop_samples();
 
 	al_destroy_audio_stream(trilha);
 	al_destroy_sample(tiro);
 	al_uninstall_audio();
-	al_shutdown_font_addon();
 	al_destroy_font(font);
 	al_shutdown_ttf_addon();
+	al_shutdown_font_addon();
 
 	//player venceu
 	if(wave.Destruida()) {
