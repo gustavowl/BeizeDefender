@@ -12,3 +12,5 @@ g++ -lallegro -lallegro_audio -lallegro_acodec -std=c++11 -g -O0 Victory.cpp Ins
 ./BaseDefender
 
 #### Indicações de eventuais limitações ou incompletudes do programa ####
+Na geração de inimigos, pode ser que sejam gerados dois inimigos se sobrepondo, e isso vai fazer com que eles não se movam devido ao algoritmo que impede movimentação de inimigos colidindo.
+Quando os sprites vão para o canto superior da tela eles desaparecem
