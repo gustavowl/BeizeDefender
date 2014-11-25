@@ -80,7 +80,9 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	//bitmap para carregar imagens de player
 	ALLEGRO_BITMAP *al_bmp_player = NULL;
 	ALLEGRO_BITMAP *al_bmp_inim = NULL;
-	ALLEGRO_BITMAP *al_bmp_proj = NULL;
+	ALLEGRO_BITMAP *al_bmp_proj1 = NULL;
+	ALLEGRO_BITMAP *al_bmp_proj2 = NULL;
+	ALLEGRO_BITMAP *al_bmp_proj3 = NULL;
 	ALLEGRO_BITMAP *al_bmp_drop = NULL;
 	//para iniciar sprite manip
 	FilaDupl<ALLEGRO_BITMAP*> player_parado[8];
@@ -89,7 +91,9 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	FilaDupl<ALLEGRO_BITMAP*> inim_parado[8];
 	FilaDupl<ALLEGRO_BITMAP*> inim_andar[8];
 	FilaDupl<ALLEGRO_BITMAP*> inim_atirar[8];
-	FilaDupl<ALLEGRO_BITMAP*> proj_andar[8];
+	FilaDupl<ALLEGRO_BITMAP*> proj_andar1[8];
+	FilaDupl<ALLEGRO_BITMAP*> proj_andar2[8];
+	FilaDupl<ALLEGRO_BITMAP*> proj_andar3[8];
 	FilaDupl<ALLEGRO_BITMAP*> drop_parado[8];
 	//FilaDupl<ALLEGRO_BITMAP*> player_morrer[8];
 	//CARREGA SPRITES
@@ -289,17 +293,31 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	/******************************
 	*****INICIALIZA SPRITES PROJÉTEIS PLAYER*********
 	*******************************/
-	al_bmp_proj = al_load_bitmap("Sprites/ProjAmarelo1Menor.png");
+	al_bmp_proj1 = al_load_bitmap("Sprites/Projeteis/ProjAmarelo.png");
 	for (int i = 0; i < 8; i++) {
-		proj_andar[i].Insert( al_bmp_proj );
+		proj_andar1[i].Insert( al_bmp_proj1 );
 	}
 
-	SpriteManip sp_proj(proj_andar, proj_andar, proj_andar);
+	SpriteManip sp_proj1(proj_andar1, proj_andar1, proj_andar1);
 
-	Projetil proj_player(0, 0, 20, 1, 1, 2, 5, sp_proj);
+	al_bmp_proj2 = al_load_bitmap("Sprites/Projeteis/ProjLaranja.png");
+	for (int i = 0; i < 8; i++) {
+		proj_andar2[i].Insert( al_bmp_proj2 );
+	}
+
+	SpriteManip sp_proj2(proj_andar2, proj_andar2, proj_andar2);
+
+	al_bmp_proj3 = al_load_bitmap("Sprites/Projeteis/ProjRoxo.png");
+	for (int i = 0; i < 8; i++) {
+		proj_andar3[i].Insert( al_bmp_proj3 );
+	}
+
+	SpriteManip sp_proj3(proj_andar3, proj_andar3, proj_andar3);
+
+	Projetil proj_player(0, 0, 20, 1, 1, 2, 5, sp_proj1);
 	//LEMBRAR DE DESALOCAR MANUALMENTE SP_PLAYER E SEUS VALORES
 	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 12, 100, 10, REGEM, proj_player, sp_player,
-		sp_proj, sp_proj, sp_proj);
+		sp_proj1, sp_proj2, sp_proj3);
 	/******************************
 	*****INICIALIZA SPRITES INIMIGO*********
 	*******************************/
@@ -496,7 +514,7 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	/******************************
 	*****INICIALIZA PROJÉTEIS INIMIGO*********
 	*******************************/
-	Projetil proj_inimigo(0, 0, 20, 1, 1, 2, 1, sp_proj);
+	Projetil proj_inimigo(0, 0, 20, 1, 1, 2, 1, sp_proj1);
 
 	/*Gera 3 "Fases" e 3 Boss*/
 	/*Também aumenta a vida dos Inimigo e dos Boss*/
@@ -743,7 +761,9 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	al_destroy_bitmap(background4);
 	sp_player.Destruir();
 	sp_inim.Destruir();
-	al_destroy_bitmap(al_bmp_proj);
+	al_destroy_bitmap(al_bmp_proj1);
+	al_destroy_bitmap(al_bmp_proj2);
+	al_destroy_bitmap(al_bmp_proj3);
 	al_destroy_bitmap(al_bmp_drop);
 
 	 al_stop_samples();
