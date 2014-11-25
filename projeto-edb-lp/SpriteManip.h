@@ -21,7 +21,7 @@ namespace SpManip {
 	*/
 
 	class SpriteManip {
-		//vetor com ponteiros de imagens nas 8 direções
+
 	private:
 		int TempoProxSprite; /**< Tempo (em frames) para desenhar o próximo sprite desejado */
 		DIRECAO DirecaoAlvo; /**< Armazena a direção a qual o objeto está apontando no momento*/
@@ -42,19 +42,15 @@ namespace SpManip {
 		* do objeto em questão quando está atirando
 		*/
 		FilaDupl<ALLEGRO_BITMAP*> Atirar[QTD_DIRECOES];
-		//sprites que serão movidos quando objeto estiver morrendo
-		//FilaDupl<ALLEGRO_BITMAP*> Morrer[QTD_DIRECOES];
+
 	public:
-		//COSTRUTORES
-		//Construtor vazio
+
 		/**
 		* Construtor padrão
 		* aponta o objeto para baixo, com ação parado e inicia as filas de sprites como vazias
 		*/
 		SpriteManip();
-		//construtores não recebem referência para não deletar ponteiros de onde foram chamados
-		//NECESSÁRIO DESTRUIR PONTEIROS DE ALLEGRO_BITMAP EM GM
-		//Construtor com Direções de destino e de alvo padrões
+
 		/**
 		* Construtor
 		* aponta o objeto para baixo, com ação parado e inicia filas com os valores enviados por parâmetro
@@ -67,9 +63,8 @@ namespace SpManip {
 		*/
 		SpriteManip( FilaDupl<ALLEGRO_BITMAP*> parado[QTD_DIRECOES], 
 			FilaDupl<ALLEGRO_BITMAP*> andar[QTD_DIRECOES], 
-			FilaDupl<ALLEGRO_BITMAP*> atirar[QTD_DIRECOES]/*, 
-			FilaDupl<ALLEGRO_BITMAP*> morrer[QTD_DIRECOES]*/ );
-		//Construtor com Direções de destino e de alvo enviados
+			FilaDupl<ALLEGRO_BITMAP*> atirar[QTD_DIRECOES] );
+
 		/**
 		* Construtor
 		* calcula a direção para qual o objeto apontará baseado, nos valores mandados por parâmetro
@@ -89,12 +84,14 @@ namespace SpManip {
 		SpriteManip( int x_atual, int y_atual, int x_alvo, int y_alvo,
 			FilaDupl<ALLEGRO_BITMAP*> parado[QTD_DIRECOES], 
 			FilaDupl<ALLEGRO_BITMAP*> andar[QTD_DIRECOES], 
-			FilaDupl<ALLEGRO_BITMAP*> atirar[QTD_DIRECOES]/*, 
-			FilaDupl<ALLEGRO_BITMAP*> morrer[QTD_DIRECOES]*/, ACAO nova_acao );
-		//DESTRUTOR
-		//destrutor não desaloca ponteiros de imagens
+			FilaDupl<ALLEGRO_BITMAP*> atirar[QTD_DIRECOES], 
+			ACAO nova_acao );
+
+		/**
+		* DESTRUTOR
+		*/
 		~SpriteManip();
-		//muda direção de destino
+
 		/**
 		* Utilizado quando o objeto mudar de alvo, calcula a nova direção pra onde apontará
 		* @param x_atual coordenada x da posição atual do objeto
@@ -103,9 +100,7 @@ namespace SpManip {
 		* @param y_alvo coordenada y da posição para qual objeto se direciona
 		*/
 		void MudarAlvo( int x_atual, int y_atual, int x_alvo, int y_alvo );
-		//recalcular direcao de destino e alvo
 
-		//chamar mudar ação antes de mudar destino para mudar o sprite instantaneamente
 		/**
 		* Muda a ação atual do objeto
 		* @param nova_acao recebe valor que será atribuido à AcaoAtual
@@ -116,14 +111,14 @@ namespace SpManip {
 		* \return Retorna o tempo (frames) restantes para próxima mudança de sprites
 		*/
 		int GetTempoProxSprite();
+
 		/**
 		* Altera o tempo (frames) até mudança do próximo sprite, não possui valor máximo
 		* @param novoTempo novo tempo (frames) que será aguardado até que possa mudar de sprites novamente
 		*/
 		void SetTempoProxSprite(int novoTempo);
 
-		//ao chamar MudarDestinoOuAlvo(), não precisa chamar AvancarSprite()
-		//avança sprite levando em conta alvo e destino, pode mudar o sentido de execução dependendo deles também
+
 		/**
 		* Diminui o tempo de espera para o próximo sprite, se for igual a 0, desenho o próximo sprite na fila,
 		* caso contrário, redesenha o atual.
@@ -145,6 +140,7 @@ namespace SpManip {
 		* @param &larg retorna, por referência, a altura do sprite atual
 		*/
 		bool RetrocederSprite(unsigned int x, unsigned int y, unsigned int &larg, unsigned int &alt);
+
 		/**
 		* Realiza cópia profunda do objeto enviado por parâmetro
 		* @param &spm conjunto de sprites a serem copiados
