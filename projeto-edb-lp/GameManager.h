@@ -25,6 +25,11 @@ public:
 	GameManager();
 
 	/**
+    * Destrutor
+    */
+	~GameManager();
+
+	/**
 	* Executa o Jogo
 	* @param event_queue ponteiro que recebe a "fila do evento"
 	* @param ev objeto passado por referência para manter os dados de qualquer tipo de eventos

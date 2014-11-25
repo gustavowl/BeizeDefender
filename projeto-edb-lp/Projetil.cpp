@@ -44,6 +44,9 @@ Projetil::Projetil(const Projetil &projetil) {
 	*this = projetil;
 }
 
+Projetil::~Projetil()
+{}
+
 void Projetil::operator=(const GameObject &GameObj) {
 	FrameAtual = GameObj.GetFrameAtual();
 	TotalFrames = GameObj.GetTotalFrames();

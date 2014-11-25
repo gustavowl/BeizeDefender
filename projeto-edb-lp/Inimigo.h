@@ -46,6 +46,11 @@ class Inimigo : public Personagem{
 			int primeiro_tiro, Projetil projetil_base, int danoFisico, SpManip::SpriteManip sp_inim);
 
 		/**
+		* Destrutor
+		*/
+		~Inimigo();
+
+		/**
 		* Calcula se é o Player o Base que está mais proximo, e se move nessa direção;
 		* @param p Player que será enviado
 		* @param base Base que será enviada

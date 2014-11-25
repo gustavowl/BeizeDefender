@@ -68,6 +68,11 @@ class Projetil : public go::GameObject {
 		Projetil(const Projetil &projetil);
 
 		/**
+		* Destrutor
+		*/
+		~Projetil();
+
+		/**
 		* Sobrecarga de operador =
 		* Realiza cópia profunda do GameObject enviado por referência
 		* @param &GameObj GameObject enviado por referência, de onde serão copiados os valores

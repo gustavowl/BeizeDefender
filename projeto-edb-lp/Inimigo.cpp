@@ -31,7 +31,8 @@ Inimigo::Inimigo(int velocidade, int vida, int raio, int intervaloTiro,
 	CalcularProxDest =  false;
 }
 
-
+Inimigo::~Inimigo()
+{}
 
 void Inimigo::Distancia(Personagem p, go::GameObject base)
 {
