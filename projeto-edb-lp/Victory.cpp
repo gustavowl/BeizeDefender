@@ -16,7 +16,7 @@ int Victory::Executar( ALLEGRO_DISPLAY *display )
 
 	al_flip_display();
 	al_clear_to_color(al_map_rgb(0,0,0));
-	victory = al_load_bitmap("Win.png");
+	victory = al_load_bitmap("Menu/Win.png");
 	al_draw_bitmap(victory, 0, 0, 0);
 	al_flip_display();
 	al_clear_to_color(al_map_rgb(0,0,0));
