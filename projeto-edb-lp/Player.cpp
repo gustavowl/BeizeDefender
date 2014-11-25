@@ -124,3 +124,10 @@ void Player::SalvarAtaques(SpriteManip sp_proj1, SpriteManip sp_proj2, SpriteMan
 int Player::GetEnergiaAtual() {
 	return EnergiaAtual;
 }
+
+Player::~Player() {
+	Projetil *temp;
+	while ( ataques.Remove(temp) ) {
+		delete temp;
+	}
+}

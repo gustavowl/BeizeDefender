@@ -97,6 +97,12 @@ public:
 	* Retorna EnergiaAtual, método chamado para mostrar na tela o valor da energia do Player
 	*/
 	int GetEnergiaAtual();
+
+	/**
+	* Destrutor
+	* Desaloca ponteiros para os projéteis que foram alocados dinamicamente
+	*/
+	~Player();
 };
 
 #endif

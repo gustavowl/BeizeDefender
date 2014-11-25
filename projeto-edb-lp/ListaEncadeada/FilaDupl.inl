@@ -153,6 +153,7 @@ bool FilaDupl<type>::Remove() {
 template <class type>
 bool FilaDupl<type>::Remove(type &get) { //se usar referência e type = int vai dar conflito com Remove(int pos)
 //salvar imediatamente conteúdo de get em outra variável caso seja ponteiro
-	get = first->val;
+	if (first != NULL)
+		get = first->val;
 	return Remove();
 }

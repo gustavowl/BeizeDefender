@@ -565,7 +565,8 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	SpriteManip sp_drop(drop_parado, drop_parado, drop_parado);
    
 	
-	checkExpression(!al_install_audio(), "Problemas ao iniciar o plugin de audio. Abortar!");
+	if ( !al_is_audio_installed() )
+		checkExpression(!al_install_audio(), "Problemas ao iniciar o plugin de audio. Abortar!");
 	al_reserve_samples(5);
 	checkExpression(!al_init_acodec_addon(), "Problemas ao iniciar o plugin adicional de audio. Abortar!");
 	checkExpression(!al_install_keyboard(), "Problema ao iniciar o teclado");
@@ -759,6 +760,7 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 
 	al_destroy_audio_stream(trilha);
 	al_destroy_sample(tiro);
+	al_uninstall_audio();
 	al_shutdown_font_addon();
 	al_destroy_font(font);
 	al_shutdown_ttf_addon();
