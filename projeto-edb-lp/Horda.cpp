@@ -20,11 +20,15 @@ Horda::Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, in
 	int primeiro_tiro, Projetil projetil_base, int danoFisico, SpManip::SpriteManip sp_inim) {
 	id = idHorda;
 	Inimigo *enemy;
+
+	Lista<go::GameObject*> temp;
+
 	if (quantidade > 0) {
 		for (int i = 0; i < quantidade; ++i){
 			 enemy = new Inimigo(velocidade, vida, raio, intervalo_tiro,
-				primeiro_tiro, projetil_base, danoFisico, sp_inim);
+				primeiro_tiro, projetil_base, danoFisico, sp_inim, temp);
 			listaInimigos.Insert(0, enemy);
+			temp.Insert(0, enemy);
 		}
 	}
 }
@@ -97,7 +101,7 @@ int Horda::VerificarColisaoProjInimObj(const go::GameObject obj) {
     return dano_total;
 }
 
-void Horda::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila_cafe,
+void Horda::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &lista_cafe,
 	SpManip::SpriteManip sp_drop) {
 
 	Inimigo *ini_temp;
@@ -115,7 +119,7 @@ void Horda::VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila
 			numero = (rand () % 3) + 1; // Retorna um numero aleatorio entre 1 e 3
 			if(numero == 1){ // Chance de 25% para realizar o drop
 				Drop *cafe_temp = new Drop(ini_temp->Dropar(), ini_temp->GetXAtual(), ini_temp->GetYAtual(), sp_drop);
-				fila_cafe.Insert(0, cafe_temp);	
+				lista_cafe.Insert(0, cafe_temp);	
 			}
 			listaInimigos.Remove(i);
 			delete ini_temp; //deleta instância de inimigo dinamicamente alocada

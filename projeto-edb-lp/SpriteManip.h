@@ -111,6 +111,15 @@ namespace SpManip {
 		* \return Retorna o tempo (frames) restantes para próxima mudança de sprites
 		*/
 		int GetTempoProxSprite();
+		/**
+		* Retorna as dimensões (largura e altura) do sprite atual. Se chamado assim que criado
+		* mostra as dimensões do primeiro sprite a ser desenhado, caso seja chamado em momentos posteriores
+		* mostra as dimensões do último sprite desenhado (AcaoAtual[DirecaoAtual].GetLastGet())
+		* \return Retorna se os valores alterados por referência são válidos 
+		* @param &larg retorna, por referência, a largura do sprite atual
+		* @param &alt retorna, por referência, a altura do sprite atual
+		*/
+		bool GetLastGetSpriteDimensao(unsigned int &larg, unsigned int &alt);
 
 		/**
 		* Altera o tempo (frames) até mudança do próximo sprite, não possui valor máximo
@@ -122,7 +131,7 @@ namespace SpManip {
 		/**
 		* Diminui o tempo de espera para o próximo sprite, se for igual a 0, desenho o próximo sprite na fila,
 		* caso contrário, redesenha o atual.
-		* \return Retorna se os valores retornados por referência são válidos
+		* \return Retorna se os valores alterados por referência são válidos 
 		* @param x posição x atual
 		* @param y posição y atual
 		* @param &larg retorna, por referência, a largura do sprite atual
@@ -133,7 +142,7 @@ namespace SpManip {
 		/**
 		* Diminui o tempo de espera para o próximo sprite, se for igual a 0, desenho o sprite anterior na fila,
 		* caso contrário, redesenha o atual.
-		* \return Retorna se os valores retornados por referência são válidos
+		* \return Retorna se os valores alterados por referência são válidos 
 		* @param x posição x atual
 		* @param y posição y atual
 		* @param &larg retorna, por referência, a largura do sprite atual

@@ -102,6 +102,7 @@ class Waves {
 		*
 		* @param persona "personagem"
 		* @param lista_cafe lista que contêm os drops dos inimigos
+		* @param sp_drop Recebe instância de classe que controlará sprites do objeto (drop)
 		*/
 		void VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &lista_cafe, SpManip::SpriteManip sp_drop);
 

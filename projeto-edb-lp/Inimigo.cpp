@@ -4,7 +4,8 @@
 
 Inimigo::Inimigo(int velocidade, int vida) { //gera posição inicial randômicamente (nas bordas)
 	SpManip::SpriteManip vazio;
-	*this = Personagem(velocidade, vida, 10, LINEAR, Projetil(0, 0, 1, 1), vazio); //cria projétil padrão 
+	Lista<go::GameObject*> list_inim;
+	*this = Personagem(velocidade, vida, 10, LINEAR, Projetil(0, 0, 1, 1), vazio, list_inim); //cria projétil padrão
 	Drop = 15;
 	danoFisico = 4;
 	CalcularProxDest =  false;
@@ -14,11 +15,12 @@ Inimigo::Inimigo(int velocidade, int vida) { //gera posição inicial randômica
 
  //gera posição inicial randômicamente (nas bordas)
 Inimigo::Inimigo(int velocidade, int vida, int raio, int intervaloTiro,
-	int primeiro_tiro, Projetil projetil_base, int danoFisico, SpManip::SpriteManip sp_inim) 
+	int primeiro_tiro, Projetil projetil_base, int danoFisico, SpManip::SpriteManip sp_inim,
+	Lista<go::GameObject*> &list_inim) 
 {
 	Drop = 15;
 	this->danoFisico = danoFisico;
-	*this = Personagem(velocidade, vida, raio, LINEAR, projetil_base, sp_inim);
+	*this = Personagem(velocidade, vida, raio, LINEAR, projetil_base, sp_inim, list_inim);
 	
 	if (intervaloTiro > 0)
 		IntervaloTiro = intervaloTiro;
@@ -129,11 +131,6 @@ void Inimigo::operator=(const Personagem &persona) {
 		this->Projeteis.Insert(i, to_add);//insere na última posição para preservar a ordem (apesar de não alterar nada)
 		i++;
 	}
-}
-
-void Inimigo::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY)
-{
-	GameObject::AtualizarDestino(DestinoX, DestinoY);
 }
 
 void Inimigo::Atirar(const Personagem &p, const go::GameObject &base) 

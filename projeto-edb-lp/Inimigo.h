@@ -41,9 +41,13 @@ class Inimigo : public Personagem{
 		* @param primeiro_tiro quantidade de frames até dar o primeiro disparo de energia
 		* @param projetil_base Tipo da energia disparada pelo Inimigo
 		* @param danoFisico Dano que será dado no Player caso se encostem
+		* @param sp_inim Recebe instância de classe que controlará sprites do objeto (inimigo)
+		* @param &list_inim recebe por referência lista de inimigos já criados. Possibilita que o novo inimigo
+		* não sobreponha nenhum deles ao ser criado
 		*/
 		Inimigo(int velocidade, int vida, int raio, int intervalo_tiro,
-			int primeiro_tiro, Projetil projetil_base, int danoFisico, SpManip::SpriteManip sp_inim);
+			int primeiro_tiro, Projetil projetil_base, int danoFisico, SpManip::SpriteManip sp_inim,
+			Lista<go::GameObject*> &list_inim);
 
 		/**
 		* Destrutor
@@ -73,7 +77,7 @@ class Inimigo : public Personagem{
 		* @param DestinoX ponto X que ele deve ir
 		* @param DestinoY ponto Y que ele deve ir
 		*/
-		void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);
+		//void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);
 
 		/**
 		* Realiza o disparo de energia do Inimigo

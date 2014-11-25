@@ -89,31 +89,6 @@ void Personagem::Mover() { //sobrescreve operação de mover. Move tanto o playe
 void Personagem::Mover(Lista<Personagem*> &list_pers, Personagem* This) {
 	if (Vida > 0) { //só move se ainda estiver vivo
 
-		int prox_x, prox_y, px_atual, py_atual;
-		float t = (float)(FrameAtual) / TotalFrames; //variável utilizada para calcular interpolação
-			//atualiza posição atual, leva em conta posição de origem e destino
-
-		prox_x = round( XDestino * t + XOrigem * (1 - t) );
-		prox_y = round( YDestino * t + YOrigem * (1 - t) );
-
-		float dist;
-		bool colindo = false;
-
-		int i = 0;
-		Personagem *temp;
-		while(list_pers.GetElem(i, temp) && !colindo) {
-			if (temp != This) {
-				px_atual = temp->GetXAtual();
-				py_atual = temp->GetYAtual();
-
-				dist = sqrt( pow( prox_x - px_atual, 2) + pow (prox_y - py_atual, 2) );
-				if (dist < ( This->GetRaio() + temp->GetRaio() ) ) {
-					colindo = true;
-				}
-			}
-			i++;
-		}
-		
 		if (!atirando) {
 			//detectar se está andando
 			if ( (XAtual != XOrigem || YAtual != YOrigem) && (XAtual != XDestino || YAtual != YDestino) ) {
@@ -128,7 +103,7 @@ void Personagem::Mover(Lista<Personagem*> &list_pers, Personagem* This) {
 			}
 		}
 
-		if (!colindo) {
+		if ( !VerificarColisaoFutura(list_pers, This) ) {
 			GameObject::Mover(); //chama mover original
 		}
 	}
@@ -139,6 +114,43 @@ void Personagem::Mover(Lista<Personagem*> &list_pers, Personagem* This) {
 		i++;
 	}
 }
+
+bool Personagem::VerificarColisaoFutura(Lista<Personagem*> &list_pers, Personagem* This) {
+	int prox_x, prox_y, px_atual, py_atual;
+	float t = (float)(FrameAtual) / TotalFrames; //variável utilizada para calcular interpolação
+		//atualiza posição atual, leva em conta posição de origem e destino
+
+	prox_x = round( XDestino * t + XOrigem * (1 - t) );
+	prox_y = round( YDestino * t + YOrigem * (1 - t) );
+
+	float dist;
+
+	int i = 0;
+	Personagem *temp;
+	while( list_pers.GetElem(i, temp) ) {
+		if (temp != This) {
+			px_atual = temp->GetXAtual();
+			py_atual = temp->GetYAtual();
+			//verifica sobreposição futura de inimigos e impede
+			dist = sqrt( pow( prox_x - px_atual, 2) + pow (prox_y - py_atual, 2) );
+			if (dist < ( This->GetRaio() * 1.5 + temp->GetRaio() * 1.5 ) ) {
+				return true;
+			}
+		}
+		i++;
+	}
+	return false;
+}
+
+void Personagem::AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY) {
+	//margem de segurança superior para sprite não sumir
+	if (DestinoX < Largura * 1.10)
+		DestinoX = Largura * 1.10;
+	if (DestinoY < Altura * 0.85)
+		DestinoY = Altura * 0.85;
+	GameObject::AtualizarDestino(DestinoX, DestinoY);
+}
+
 
 void Personagem::SetProjetilBase(const Projetil &novo_projetil) { //utilizado para mudar tipo do projétil
 	ProjetilBase = novo_projetil;
@@ -188,9 +200,10 @@ Personagem::Personagem(unsigned int posicao_x, unsigned int posicao_y, WalkType 
 
  //gera posição inicial randômicamente (nas bordas)
 Personagem::Personagem(int velocidade, int vida, int raio, WalkType walk_type, Projetil projetil_base,
-		SpriteManip sp_inim) {
+		SpriteManip sp_inim, Lista<go::GameObject*> &list_inim) {
+
 	if (vida > 0 && velocidade > 0 && raio > 0) { // verificar se sp_inim válido?
-		*this = GameObject(velocidade, raio, walk_type, sp_inim);
+		*this = GameObject(velocidade, raio, walk_type, sp_inim, list_inim);
 		Vida = vida;
 		ProjetilBase = projetil_base;
 		atirando = false;

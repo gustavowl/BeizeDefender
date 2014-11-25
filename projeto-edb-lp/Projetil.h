@@ -56,6 +56,7 @@ class Projetil : public go::GameObject {
 		* @param DestinoY coordenaada Y de destino do projétil
 		* @param Raio raio utilizado para detecção de colisão
 		* @param Dano dano que será causado pelo projétil
+		* @param sprites Recebe instância de classe que controlará sprites do objeto
 		*/
 		Projetil(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, unsigned int DestinoX,
 			unsigned int DestinoY, unsigned int Raio, unsigned int Dano, SpManip::SpriteManip sp_proj);

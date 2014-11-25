@@ -36,6 +36,7 @@ class Horda {
 
 		/**
 		* Construtor que gera umaa horda com uma quantidade específica de inimigos e com atributos "padrão"
+		* @param quantidade quantia de inimigos a serem criados
 		*/
 		Horda(int quantidade);
 
@@ -51,6 +52,8 @@ class Horda {
 		* @param primeiro_tiro intervalo de tempo para o primeiro disparo
 		* @param projetil_base projetil a ser disparado pelo inimigo
 		* @param danoFisico  dano físico de cada disparo
+		* @param sp_inim Recebe instância de classe que controlará sprites do objeto (inimigo)
+		* @param &list_inim recebe por referência lista de inimigos já criados. Possibilita que o novo inimigo
 		*/
 		Horda(int idHorda, int quantidade, int velocidade, int vida, int raio, int intervalo_tiro,
 			int primeiro_tiro, Projetil projetil_base, int danoFisico, SpManip::SpriteManip sp_inim);
@@ -92,12 +95,15 @@ class Horda {
 
 		/**
 		* Faz a colisão entre os projéteis do Player com os Inimigos, 
-		* além de calcular o dano, e remover os inimigos derrotados
+		* calcula o dano, remove os inimigos derrotados e, se for o caso,
+		* adiciona o drop à lista_cafe
 		*
-		* @param obj personagem
-		* @param base base do jogo
+		* @param persona personagem cujo haverá verificação de colisão com seus projéteis (player)
+		* @param &lista_cafe lista simplesmente encadeada enviada por referência. Novo drop poderá ser
+		* adicionado a ela
+		* @param sp_drop Recebe instância de classe que controlará sprites do objeto (drop)
 		*/
-		void VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &fila_cafe,
+		void VerificarColisaoProjPersInim(Personagem &persona, Lista<Drop*> &lista_cafe,
 			SpManip::SpriteManip sp_drop);
 
 		/**

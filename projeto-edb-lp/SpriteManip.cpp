@@ -320,6 +320,35 @@ int SpriteManip::GetTempoProxSprite() {
 	return TempoProxSprite;
 }
 
+bool SpriteManip::GetLastGetSpriteDimensao(unsigned int &larg, unsigned int &alt) {
+	ALLEGRO_BITMAP *teste;
+	if ( AcaoAtual == PARADO ) {
+		Parado[DirecaoAlvo].GetLastGetElem(teste);
+		if (teste != NULL) {
+			larg = al_get_bitmap_width(teste);
+			alt = al_get_bitmap_height(teste);
+			return true;
+		}
+	}
+	else if ( AcaoAtual == ANDAR ) {
+		Andar[DirecaoAlvo].GetLastGetElem(teste);
+		if (teste != NULL) {
+			larg = al_get_bitmap_width(teste);
+			alt = al_get_bitmap_height(teste);
+			return true;
+		}
+	}
+	else { //AcaoAtual == ATIRAR
+		Atirar[DirecaoAlvo].GetLastGetElem(teste);
+		if (teste != NULL) {
+			larg = al_get_bitmap_width(teste);
+			alt = al_get_bitmap_height(teste);
+			return true;
+		}
+	}
+	return false;
+}
+
 void SpriteManip::SetTempoProxSprite(int novoTempo) {
 	//não verifica se eh < que o intervalo propositalmente (por causa do tiro)
 	if (novoTempo >= 0)

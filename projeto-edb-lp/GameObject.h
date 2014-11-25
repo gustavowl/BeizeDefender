@@ -2,6 +2,7 @@
 #define _GAMEOBJECT_H_
 
 #include "SpriteManip.h"
+#include "ListaEncadeada/lista.h"
 /**
 Enum que amazena os 3 tipos de movimentos: estático, linear ou smoothstep
 */
@@ -39,7 +40,7 @@ class GameObject {
 		unsigned int Largura; /**< Largura do sprite atual. É utilizado para detectar colisões */
 		unsigned int Altura; /**< Largura do sprite atual. É utilizado para detectar colisões */
 		unsigned int Velocidade; /**<  Velocidade do objeto. A quantidade Total de frames da interpolação será calculada pela
-		distância entre o ponto de origem ao ponto de destino dividido pela Velocidade */
+		* distância entre o ponto de origem ao ponto de destino dividido pela Velocidade */
 
 		WalkType TipoMovimento; /**< Armazena o tipo de movimento do objeto. Os 3 tipos de movimentos estão presentes no enum*/
 		SpManip::SpriteManip Sprites; /**< Armazena ponteiros para as imagens (sprites) do objeto*/
@@ -60,7 +61,8 @@ class GameObject {
 		virtual void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);
 
 		/**
-		* Desenha objeto na posição atual, leva em conta imagens em SpManip::SpriteManip Sprites
+		* Desenha objeto na posição atual, leva em conta imagens em SpManip::SpriteManip Sprites.
+		* Avança sprite e o tempo de espera para desenhar próximo sprite
 		*/
 		virtual void Draw();
 
@@ -167,12 +169,18 @@ class GameObject {
 
 		/**
 		* Construtor utilizado pelos inimigos.
-		* Gera posição inicial aleatória nas bordas da arena e cria um objeto com os parâmetros enviados
+		* Gera posição inicial aleatória nas bordas da arena e cria um objeto com os parâmetros enviados.
+		* A posição será gerada de maneira que o novo inimigo não sobreponha nenhum dos objetos criados
+		* anteriormente (enviados por parâmetro)
 		* @param Velocidade velocidade do objeto
 		* @param Raio raio utilizado para detecção de colisão
 		* @param TipoMov tipo de movimento que será feito pelo objeto
+		* @param sprites Recebe instância de classe que controlará sprites do objeto
+		* @param &list_inim recebe por referência lista de inimigos já criados. Possibilita que o novo inimigo
+		* não sobreponha nenhum deles ao ser criado
 		*/
-		GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov, SpManip::SpriteManip sprites);
+		GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov, SpManip::SpriteManip sprites,
+			Lista<GameObject*> &list_inim);
 
 		/**
 		* Construtor utilizado pelo player.
@@ -181,6 +189,7 @@ class GameObject {
 		* @param Velocidade velocidade do objeto
 		* @param Raio raio utilizado para detecção de colisão
 		* @param TipoMov tipo de movimento que será feito pelo objeto
+		* @param sprites Recebe instância de classe que controlará sprites do objeto
 		*/
 		GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, unsigned int Raio, WalkType TipoMov,
 			SpManip::SpriteManip sprites);
@@ -194,6 +203,7 @@ class GameObject {
 		* @param DestinoY coordenada Y do destino do objeto
 		* @param Raio raio utilizado para detecção de colisão
 		* @param TipoMov tipo de movimento que será feito pelo objeto
+		* @param sprites Recebe instância de classe que controlará sprites do objeto
 		*/
 		GameObject(unsigned int PositionX, unsigned int PositionY, unsigned int Velocidade, 
 			unsigned int DestinoX, unsigned int DestinoY, unsigned int Raio, WalkType TipoMov,

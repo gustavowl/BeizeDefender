@@ -42,6 +42,10 @@ public:
 	* @param raio raio do player
 	* @param regem taxa de regem que o player terá
 	* @param projetil_base é o primeiro tipo de projetil que o player terá
+	* @param sp_player Recebe instância de classe que controlará sprites do player
+	* @param sp_proj1 Recebe instância de classe que controlará sprites do primeiro projétil do player
+	* @param sp_proj2 Recebe instância de classe que controlará sprites do segundo projétil do player
+	* @param sp_proj3 Recebe instância de classe que controlará sprites do terceiro projétil do player
 	*/
 	Player(unsigned int posicao_x, unsigned int posicao_y, int max_energia, int energia_atual, 
 		int velocidade, int vida, int raio, int regem, Projetil projetil_base, SpriteManip sp_player,
@@ -49,7 +53,7 @@ public:
 
 	/**
 	* Sobrecarga de operador, copia os dados de persona para ele mesmo
-	* @param persona Objeto a ser copiado
+	* @param &persona Objeto a ser copiado
 	*/
 	void operator=(const Personagem &persona);
 

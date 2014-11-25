@@ -29,39 +29,73 @@ GameObject::GameObject(unsigned int MaximoX, unsigned int MaximoY) { //inicializ
 
 //gera posição inicial randômica nas bordas
 GameObject::GameObject(unsigned int Velocidade, unsigned int Raio, WalkType TipoMov, 
-	SpManip::SpriteManip sprites) {
+	SpManip::SpriteManip sprites, Lista<GameObject*> &list_inim) {
 
 	if (MaxX > 0 && MaxY > 0 && Raio > 0) {
 		//0: borda sup | 1: borda dir | 2: borda inf | 3: borda esq
-		 
-		srand(time(NULL) * rand());
 
-		int r =  rand() % 4;
-		switch (r) {
-			case 0:  //posição aleatória na borda superior
-				YOrigem = 0;
-				XOrigem = rand() % (MaxX + 1);
-				break;
-			case 1: //posição aleatória na borda da direita
-				XOrigem = MaxX;
-				YOrigem = rand() % (MaxY + 1);
-				break;
-			case 2: //posição aleatória na borda inferior
-				XOrigem = rand() % (MaxX + 1);
-				YOrigem = MaxY;
-				break;
-			case 3: //posição aleatória na borda da esquerda
-				XOrigem = 0;
-				YOrigem = rand() % (MaxY + 1);
-				break;
-		}
+		bool colidindo;
+		float dist;
+		int inim_x, inim_y;
+		srand(time(NULL) * rand());
+		GameObject *temp;
+		int r, i, x_or, y_or;
+
+		do {
+			colidindo = false;
+			i = 0;
+			//gera posição aleatória
+			r =  rand() % 4;
+			switch (r) {
+				case 0:  //posição aleatória na borda superior
+					YOrigem = 0;
+					XOrigem = rand() % (MaxX + 1);
+					break;
+				case 1: //posição aleatória na borda da direita
+					XOrigem = MaxX;
+					YOrigem = rand() % (MaxY + 1);
+					break;
+				case 2: //posição aleatória na borda inferior
+					XOrigem = rand() % (MaxX + 1);
+					YOrigem = MaxY;
+					break;
+				case 3: //posição aleatória na borda da esquerda
+					XOrigem = 0;
+					YOrigem = rand() % (MaxY + 1);
+					break;
+			}
+			//verifica sobreposição
+			while( list_inim.GetElem(i, temp) && !colidindo ) {
+				inim_x = temp->GetXOrigem();
+				inim_y = temp->GetYOrigem();
+				//verifica sobreposição futura de inimigos e impede
+				x_or = XOrigem;
+				y_or = YOrigem;
+				dist = sqrt( pow( x_or - inim_x, 2) + pow (y_or - inim_y, 2) );
+				//considera 2 como espaço mínimo de criação, * 2 por considerar o raio
+				//do objeto atual e do a ser criado. Considera que terão a mesma imagem
+				//inicial
+				if (dist < ( temp->GetRaio() * 1.5 * 2 ) ) {
+					colidindo = true;
+				}
+				i++;
+			}
+		//gera nova posição aleatória caso esteja algum objeto da lista
+		} while ( colidindo );
+
+
+
 		//atualiza restante dos dados
 		this->Velocidade = Velocidade;
 		XDestino = XOrigem;
 		YDestino = YOrigem;
 		XAtual = XOrigem;
 		YAtual = YOrigem;
-		this->Raio = Raio;
+		if ( sprites.GetLastGetSpriteDimensao( Largura, Altura ) )
+			//média do "raio" da largura e do "raio" da altura
+			this->Raio = (Largura / 2 + Altura / 2) / 2;
+		else
+			this->Raio = Raio;
 		TipoMovimento = TipoMov;
 		FrameAtual = TotalFrames = 0;
 		Sprites = sprites;

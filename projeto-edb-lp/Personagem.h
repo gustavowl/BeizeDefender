@@ -34,6 +34,7 @@ public:
 	/**
 	* Faz com que o personagem leve o dano especificado
 	* \return Retorna se personagem morreu ou não (Vida atingiu 0)
+	* @param dano Dano que será recebido
 	*/
 	bool LevarDano(unsigned int dano);
 
@@ -73,7 +74,26 @@ public:
 	* @param &list_pers Lista simplesmente encadeada dos personagens a se verificar colisão futura
 	* @param *This ponteiro do personagem atual presente em &list_pers
 	*/
-	void Mover(Lista<Personagem*> &list_pers, Personagem* This); 
+	void Mover(Lista<Personagem*> &list_pers, Personagem* This);
+
+	/**
+	* Verifica se o personagem This pode se mover sem sobrepor os personagens enviados pela lista
+	* \return Retorna se personagem This irá sobrepor (true) ou não (false) algum personagem da lista
+	* @param &list_pers lista de personagens a ser detectada colisão com This
+	* @param *This ponteiro de personagem que irá simular movimento futuro
+	*
+	*/
+	bool VerificarColisaoFutura(Lista<Personagem*> &list_pers, Personagem* This);
+
+	/**
+	* Sobrecarrega função da classe pai. Se necessário, alterará os valores de destinos enviados
+	* impedindo que o personagem se mova muito para cima ou muito para esquerda, o que faria com
+	* que ele ficasse "invisível"
+	* @param DestinoX coordenada X de destino
+	* @param DestinoY coordenada Y de destino
+	*/
+
+	void AtualizarDestino(unsigned int DestinoX, unsigned int DestinoY);
 
 	/**
 	* Utilizado para mudar o Projétil base
@@ -120,7 +140,7 @@ public:
 	* os mesmos parâmetros, com excessão do raio e da velocidade.
 	* @param posicao_x coordenada X de origem do personagem
 	* @param posicao_y coordenada X de origem do personagem
-	* @param TipoMov tipo de movimento que será feito pelo personagem
+	* @param walk_type tipo de movimento que será feito pelo personagem
 	*/
 	Personagem(unsigned int posicao_x, unsigned int posicao_y, WalkType walk_type);
 
@@ -133,9 +153,12 @@ public:
 	* @param raio raio utilizado para detecção de colisão
 	* @param walk_type tipo de movimento que será feito pelo personagem
 	* @param projetil_base Projétil que será atirado pelo personagem
+	* @param sp_inim Recebe instância de classe que controlará sprites do objeto (inimigo)
+	* @param &list_inim recebe por referência lista de inimigos já criados. Possibilita que o novo inimigo
+	* não sobreponha nenhum deles ao ser criado
 	*/
 	Personagem(int velocidade, int vida, int raio, WalkType walk_type, Projetil projetil_base,
-		SpriteManip sp_inim);
+		SpriteManip sp_inim, Lista<go::GameObject*> &list_inim);
 
 	/**
 	* Construtor utilizado pelo Player
@@ -147,6 +170,7 @@ public:
 	* @param raio raio utilizado para detecção de colisão
 	* @param walk_type tipo de movimento que será feito pelo personagem
 	* @param projetil_base Projétil que será atirado pelo personagem
+	* @param sp_player Recebe instância de classe que controlará sprites do objeto (player)
 	*/
 	Personagem(unsigned int posicao_x, unsigned int posicao_y, int velocidade, int vida, int raio,
 		WalkType walk_type, Projetil projetil_base, SpriteManip sp_player);

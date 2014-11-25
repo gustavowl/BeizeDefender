@@ -80,9 +80,16 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	//bitmap para carregar imagens de player
 	ALLEGRO_BITMAP *al_bmp_player = NULL;
 	ALLEGRO_BITMAP *al_bmp_inim = NULL;
-	ALLEGRO_BITMAP *al_bmp_proj1 = NULL;
-	ALLEGRO_BITMAP *al_bmp_proj2 = NULL;
-	ALLEGRO_BITMAP *al_bmp_proj3 = NULL;
+	ALLEGRO_BITMAP *al_bmp_proj_player1 = NULL;
+	ALLEGRO_BITMAP *al_bmp_proj_player2_0 = NULL;
+	ALLEGRO_BITMAP *al_bmp_proj_player2_1 = NULL;
+	ALLEGRO_BITMAP *al_bmp_proj_player2_2 = NULL;
+	ALLEGRO_BITMAP *al_bmp_proj_player2_3 = NULL;
+	ALLEGRO_BITMAP *al_bmp_proj_player3_0 = NULL;
+	ALLEGRO_BITMAP *al_bmp_proj_player3_1 = NULL;
+	ALLEGRO_BITMAP *al_bmp_proj_player3_2 = NULL;
+	ALLEGRO_BITMAP *al_bmp_proj_player3_3 = NULL;
+	ALLEGRO_BITMAP *al_bmp_proj_inim = NULL;
 	ALLEGRO_BITMAP *al_bmp_drop = NULL;
 	//para iniciar sprite manip
 	FilaDupl<ALLEGRO_BITMAP*> player_parado[8];
@@ -91,10 +98,12 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	FilaDupl<ALLEGRO_BITMAP*> inim_parado[8];
 	FilaDupl<ALLEGRO_BITMAP*> inim_andar[8];
 	FilaDupl<ALLEGRO_BITMAP*> inim_atirar[8];
-	FilaDupl<ALLEGRO_BITMAP*> proj_andar1[8];
-	FilaDupl<ALLEGRO_BITMAP*> proj_andar2[8];
-	FilaDupl<ALLEGRO_BITMAP*> proj_andar3[8];
+	FilaDupl<ALLEGRO_BITMAP*> proj_player1_andar[8];
+	FilaDupl<ALLEGRO_BITMAP*> proj_player2_andar[8];
+	FilaDupl<ALLEGRO_BITMAP*> proj_player3_andar[8];
+	FilaDupl<ALLEGRO_BITMAP*> proj_inim_andar[8];
 	FilaDupl<ALLEGRO_BITMAP*> drop_parado[8];
+	FilaDupl<ALLEGRO_BITMAP*> vazio[8];
 	//FilaDupl<ALLEGRO_BITMAP*> player_morrer[8];
 	//CARREGA SPRITES
 	//PARADO
@@ -293,31 +302,43 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	/******************************
 	*****INICIALIZA SPRITES PROJÉTEIS PLAYER*********
 	*******************************/
-	al_bmp_proj1 = al_load_bitmap("Sprites/Projeteis/ProjAmarelo.png");
+	al_bmp_proj_player1 = al_load_bitmap("Sprites/Projeteis/Amarelo/0.png");
 	for (int i = 0; i < 8; i++) {
-		proj_andar1[i].Insert( al_bmp_proj1 );
+		proj_player1_andar[i].Insert( al_bmp_proj_player1 );
 	}
 
-	SpriteManip sp_proj1(proj_andar1, proj_andar1, proj_andar1);
+	SpriteManip sp_proj_player1(vazio, proj_player1_andar, vazio);
 
-	al_bmp_proj2 = al_load_bitmap("Sprites/Projeteis/ProjLaranja.png");
+	al_bmp_proj_player2_0 = al_load_bitmap("Sprites/Projeteis/Roxo/0.png");
+	al_bmp_proj_player2_1 = al_load_bitmap("Sprites/Projeteis/Roxo/1.png");
+	al_bmp_proj_player2_2 = al_load_bitmap("Sprites/Projeteis/Roxo/2.png");
+	al_bmp_proj_player2_3 = al_load_bitmap("Sprites/Projeteis/Roxo/3.png");
 	for (int i = 0; i < 8; i++) {
-		proj_andar2[i].Insert( al_bmp_proj2 );
+		proj_player2_andar[i].Insert( al_bmp_proj_player2_0 );
+		proj_player2_andar[i].Insert( al_bmp_proj_player2_1 );
+		proj_player2_andar[i].Insert( al_bmp_proj_player2_2 );
+		proj_player2_andar[i].Insert( al_bmp_proj_player2_3 );
 	}
 
-	SpriteManip sp_proj2(proj_andar2, proj_andar2, proj_andar2);
+	SpriteManip sp_proj_player2(vazio, proj_player2_andar, vazio);
 
-	al_bmp_proj3 = al_load_bitmap("Sprites/Projeteis/ProjRoxo.png");
+	al_bmp_proj_player3_0 = al_load_bitmap("Sprites/Projeteis/Laranja/0.png");
+	al_bmp_proj_player3_1 = al_load_bitmap("Sprites/Projeteis/Laranja/1.png");
+	al_bmp_proj_player3_2 = al_load_bitmap("Sprites/Projeteis/Laranja/2.png");
+	al_bmp_proj_player3_3 = al_load_bitmap("Sprites/Projeteis/Laranja/3.png");
 	for (int i = 0; i < 8; i++) {
-		proj_andar3[i].Insert( al_bmp_proj3 );
+		proj_player3_andar[i].Insert( al_bmp_proj_player3_0 );
+		proj_player3_andar[i].Insert( al_bmp_proj_player3_1 );
+		proj_player3_andar[i].Insert( al_bmp_proj_player3_2 );
+		proj_player3_andar[i].Insert( al_bmp_proj_player3_3 );
 	}
 
-	SpriteManip sp_proj3(proj_andar3, proj_andar3, proj_andar3);
+	SpriteManip sp_proj_player3(vazio, proj_player3_andar, vazio);
 
-	Projetil proj_player(0, 0, 20, 1, 1, 2, 5, sp_proj1);
+	Projetil proj_player(0, 0, 20, 1, 1, 2, 5, sp_proj_player1);
 	//LEMBRAR DE DESALOCAR MANUALMENTE SP_PLAYER E SEUS VALORES
-	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 12, 100, 10, REGEM, proj_player, sp_player,
-		sp_proj1, sp_proj2, sp_proj3);
+	Player player(base.GetXAtual() , base.GetYAtual() , 50, 50, 10, 100, 10, REGEM, proj_player, sp_player,
+		sp_proj_player1, sp_proj_player2, sp_proj_player3);
 	/******************************
 	*****INICIALIZA SPRITES INIMIGO*********
 	*******************************/
@@ -514,7 +535,14 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	/******************************
 	*****INICIALIZA PROJÉTEIS INIMIGO*********
 	*******************************/
-	Projetil proj_inimigo(0, 0, 20, 1, 1, 2, 1, sp_proj1);
+	al_bmp_proj_inim = al_load_bitmap("Sprites/Projeteis/Verde/Pequeno/0.png");
+	for (int i = 0; i < 8; i++) {
+		proj_inim_andar[i].Insert( al_bmp_proj_inim );
+	}
+
+	SpriteManip sp_proj_inim(vazio, proj_inim_andar, vazio);
+
+	Projetil proj_inimigo(0, 0, 20, 1, 1, 2, 1, sp_proj_inim);
 
 	/*Gera 3 "Fases" e 3 Boss*/
 	/*Também aumenta a vida dos Inimigo e dos Boss*/
@@ -522,7 +550,8 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	{
 		//gera horda para wave
 		for (int i = 2; i <= 8; i+=2) {
-			Horda* nova_horda = new Horda(idHorda, i, 2, 1*j, 10, 35, 60, proj_inimigo, 5, sp_inim);
+			//vidas: 1, 3, 5
+			Horda* nova_horda = new Horda(idHorda, i, 2, 2*j - 1, 10, 35, 60, proj_inimigo, 5, sp_inim);
 			fila_horda.Insert( nova_horda );
 			fila_tempo_espera.Insert( i * 15 ); //espera 1, 2 e 3 segundos
 			idHorda++;
@@ -537,7 +566,7 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 				boss = new Horda(idHorda, 1, 3, 40*j, 10, 25, 15, proj_inimigo, 100, sp_inim);
 				break;
 			case 3: 
-				boss = new Horda(idHorda, 1, 3, 30*j, 10, 25, 15, proj_inimigo, 100, sp_inim);
+				boss = new Horda(idHorda, 1, 3, 50*j, 10, 25, 15, proj_inimigo, 100, sp_inim);
 				break;
 		}
 		fila_horda.Insert(boss);
@@ -761,9 +790,16 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 	al_destroy_bitmap(background4);
 	sp_player.Destruir();
 	sp_inim.Destruir();
-	al_destroy_bitmap(al_bmp_proj1);
-	al_destroy_bitmap(al_bmp_proj2);
-	al_destroy_bitmap(al_bmp_proj3);
+	al_destroy_bitmap(al_bmp_proj_player1);
+	al_destroy_bitmap(al_bmp_proj_player2_0);
+	al_destroy_bitmap(al_bmp_proj_player2_1);
+	al_destroy_bitmap(al_bmp_proj_player2_2);
+	al_destroy_bitmap(al_bmp_proj_player2_3);
+	al_destroy_bitmap(al_bmp_proj_player3_0);
+	al_destroy_bitmap(al_bmp_proj_player3_1);
+	al_destroy_bitmap(al_bmp_proj_player3_2);
+	al_destroy_bitmap(al_bmp_proj_player3_3);
+	al_destroy_bitmap(al_bmp_proj_inim);
 	al_destroy_bitmap(al_bmp_drop);
 
 	 al_stop_samples();
