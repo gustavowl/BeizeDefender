@@ -1,7 +1,7 @@
 # README #
 
 #### Nome e Matrícula ####
-Gustavo 
+Gustavo Alvez Bezerra - 2014026460
 Hiago Miguel da Silva Rodrigues - 2014000875
 Raí Vitor Morais da Silva - 2014000900
 
@@ -11,4 +11,4 @@ g++ -lallegro -lallegro_audio -lallegro_acodec -std=c++11 -g -O0 Victory.cpp Ins
 #### Como Executar o programa ####
 ./BaseDefender
 
-#### Indicações de eventuais limitações ou incompletudes do programa. ####
+#### Indicações de eventuais limitações ou incompletudes do programa ####
