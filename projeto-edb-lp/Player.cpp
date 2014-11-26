@@ -66,7 +66,7 @@ void Player::AdicionarEnergia(unsigned int qtd) {
 		EnergiaAtual = MaxEnergia;
 }
 
-void Player::Atirar(unsigned int destino_x, unsigned int destino_y) {
+void Player::Atirar(unsigned int destino_x, unsigned int destino_y, bool &atirou) {
 	if ( EnergiaAtual > 0 ) { //verifica se tem munição
 		Projetil *novo_projetil = new Projetil(XAtual, YAtual, ProjetilBase.GetVelocidade(),
 			destino_x, destino_y, ProjetilBase.GetRaio(), ProjetilBase.GetDano(), ProjetilBase.GetSprites() );
@@ -76,7 +76,10 @@ void Player::Atirar(unsigned int destino_x, unsigned int destino_y) {
 		Sprites.SetTempoProxSprite(INTERVALO_ENTRE_SPRITES * 3);
 		atirando = true;
 		EnergiaAtual--; //decrementa da munição
+		atirou = true;
 	}
+	else
+		atirou = false;
 }
 
 void Player::Draw() {

@@ -70,7 +70,7 @@ public:
 	* @param destino_x posição X do mouse
 	* @param destino_y posição Y do mouse
 	*/
-	void Atirar(unsigned int destino_x, unsigned int destino_y);
+	void Atirar(unsigned int destino_x, unsigned int destino_y, bool &atirou);
 
 	/**
 	* Desenha o player, chama o metodo Draw de Personagem

@@ -686,8 +686,10 @@ int GameManager::Executar(ALLEGRO_EVENT_QUEUE * event_queue,  ALLEGRO_EVENT &ev,
 
 						else if(ev.mouse.button & 1)
 						{
-		          			player.Atirar(ev.mouse.x, ev.mouse.y); //oks
-		          			al_play_sample(tiro, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+							bool atirou;
+		          			player.Atirar(ev.mouse.x, ev.mouse.y, atirou); //oks
+		          			if (atirou)
+		          				al_play_sample(tiro, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
 						}
 				}
